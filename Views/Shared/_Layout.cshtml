@@ -7,58 +7,16 @@
   <title>@ViewData["Title"] - SakuK</title>
   <link rel="icon" type="image/svg+xml" href="~/favicon.svg" />
   <!-- Todo: Add SEO tags -->
-  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/tailwind.css" asp-append-version="true" />
   <link rel="stylesheet" href="~/fullstack_portfolio.styles.css" asp-append-version="true" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          maxWidth: {
-            'content': '100rem',
-          },
-          gridTemplateColumns: {
-            fluid: "repeat(auto-fit, minmax(20rem, 1fr))",
-          },
-          colors: {
-            'primary': {
-              '50': '#f7f6f9',
-              '100': '#efedf1',
-              '200': '#dad7e0',
-              '300': '#b9b4c5',
-              '400': '#928ba5',
-              '500': '#756d8a',
-              '600': '#5f5772',
-              '700': '#4e475d',
-              '800': '#433e4e',
-              '900': '#3b3644',
-              '950': '#242129',
-              DEFAULT: '#242129',
-            },
-          },
-          fontFamily: {
-            'sans': ['Montserrat', 'sans-serif'],
-            'mono': ['"Fira Code"', 'monospace'],
-          },
-          fontSize: {
-            'header': ['clamp(3rem, 10vw, 5.5rem)', {
-              lineHeight: '1',
-            }],
-            'subheader': ['clamp(2.5rem, 8vw, 3rem)', {
-              lineHeight: '1',
-            }]
-          },
-        }
-      }
-    }
-  </script>
 </head>
 
 <body class="text-primary-100 bg-primary text-lg font-mono leading-relaxed min-w-[356px]">
-  <nav class="py-2 px-4 max-w-5xl mx-auto">
-    <ul class="flex gap-4">
-      <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-      <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+  <nav class="py-4 px-5 fixed top-0 left-0 w-full z-20 sm:px-10">
+    <ul class="flex gap-4 max-w-5xl mx-auto">
+      <li>&lt; &gt;</li>
+      <li><a asp-controller="Home" asp-action="Index" class="no-underline">Home</a></li>
+      <li><a asp-controller="Home" asp-action="Privacy" class="no-underline">Privacy</a></li>
     </ul>
   </nav>
   <main role="main" class="pb-10 min-h-[90svh]">
@@ -66,7 +24,7 @@
   </main>
 
   <footer>
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-5xl mx-auto px-5 sm:px-10">
       &copy; 2024 Saku Karttunen - <a asp-area="" asp-controller="Home" asp-action="Index">Home</a> - <a asp-area=""
         asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
