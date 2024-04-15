@@ -1,0 +1,53 @@
+{
+  "Files": [
+    {
+      "Id": "/home/sakuk/code/fullstack-portfolio/obj/Debug/net8.0/scopedcss/projectbundle/fullstack-portfolio.bundle.scp.css",
+      "PackagePath": "staticwebassets/fullstack-portfolio.bundle.scp.css"
+    },
+    {
+      "Id": "/home/sakuk/code/fullstack-portfolio/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "/home/sakuk/code/fullstack-portfolio/wwwroot/favicon.ico",
+      "PackagePath": "staticwebassets/favicon.ico"
+    },
+    {
+      "Id": "/home/sakuk/code/fullstack-portfolio/wwwroot/favicon.svg",
+      "PackagePath": "staticwebassets/favicon.svg"
+    },
+    {
+      "Id": "/home/sakuk/code/fullstack-portfolio/wwwroot/fonts/firacode_variable.ttf",
+      "PackagePath": "staticwebassets/fonts/firacode_variable.ttf"
+    },
+    {
+      "Id": "/home/sakuk/code/fullstack-portfolio/wwwroot/fonts/montserrat_italic_variable.ttf",
+      "PackagePath": "staticwebassets/fonts/montserrat_italic_variable.ttf"
+    },
+    {
+      "Id": "/home/sakuk/code/fullstack-portfolio/wwwroot/fonts/montserrat_variable.ttf",
+      "PackagePath": "staticwebassets/fonts/montserrat_variable.ttf"
+    },
+    {
+      "Id": "/home/sakuk/code/fullstack-portfolio/wwwroot/js/site.js",
+      "PackagePath": "staticwebassets/js/site.js"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.fullstack-portfolio.props",
+      "PackagePath": "build\\fullstack-portfolio.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.fullstack-portfolio.props",
+      "PackagePath": "buildMultiTargeting\\fullstack-portfolio.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.fullstack-portfolio.props",
+      "PackagePath": "buildTransitive\\fullstack-portfolio.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.fullstack-portfolio.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
