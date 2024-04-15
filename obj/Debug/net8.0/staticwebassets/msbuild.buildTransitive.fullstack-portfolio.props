@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../buildMultiTargeting/fullstack-portfolio.props" />
-</Project>
