@@ -1,4 +1,3 @@
-import defaultTheme from "tailwindcss/defaultTheme";
 import colors from "tailwindcss/colors";
 
 const secondary = colors.violet;

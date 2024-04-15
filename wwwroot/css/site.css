@@ -21,7 +21,7 @@ html {
 }
 
 body > main > *:not(.no-padding) {
-  @apply px-5 py-16 sm:px-10
+  @apply px-5 py-20 sm:px-10
 }
 
 /* import fonts from the wwwroot/fonts/ folder */
@@ -37,11 +37,6 @@ body > main > *:not(.no-padding) {
   src: url("/fonts/firacode_variable.ttf") format("truetype");
   font-weight: 300 700;
   font-style: monospace;
-}
-
-#hero {
-  background: url("/images/floating-cubes.jpg") no-repeat center center;
-  background-size: cover;
 }
 
 .subheader > h2 {
@@ -60,6 +55,11 @@ a:not(.btn):not(.no-underline) {
   text-decoration-thickness: 0.2rem;
   text-underline-offset: 0.3rem;
   text-decoration-color: theme("colors.secondary.400");
+  @apply motion-safe:transition-all;
+}
+
+a:not(.btn):not(.no-underline):hover {
+  text-decoration-color: theme("colors.secondary.700");
 }
 
 .btn {
@@ -67,4 +67,5 @@ a:not(.btn):not(.no-underline) {
   font-weight: 600;
   display: block;
   width: max-content;
+  @apply motion-safe:transition-all;
 }
