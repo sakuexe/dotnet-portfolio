@@ -1,3 +1,11 @@
+@using fullstack_portfolio.Models.ViewModels
+@model DashboardViewModel
 <section>
   <h1>Admin Dashboard</h1>
+  <p>Welcome to the admin dashboard. Here you can manage your portfolio.</p>
+
+  @foreach (var collection in Model.Collections)
+  {
+    <p><a asp-action="@collection">@collection</a></p>
+  }
 </section>

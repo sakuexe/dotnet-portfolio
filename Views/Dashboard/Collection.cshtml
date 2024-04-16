@@ -1,0 +1,18 @@
+@model dynamic
+
+@{
+  var collection = ViewData["Collection"];
+}
+
+<section>
+  <h1>Collection</h1>
+  <p>@collection</p>
+
+  @foreach (var item in Model)
+  {
+    @foreach (var prop in item.GetType().GetProperties())
+    {
+      <p>@prop.Name: @prop.GetValue(item)</p>
+    }
+  }
+</section>

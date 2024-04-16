@@ -56,7 +56,7 @@ public class MongoContext
         return record;
     }
 
-    public static List<T> GetAll<T>() where T : IMongoModel
+    public static List<T> GetAll<T>(string? collectionName) where T : IMongoModel
     {
         var table = typeof(T).Name.ToLower();
         try
@@ -69,5 +69,10 @@ public class MongoContext
             Debug.WriteLine(e.Message);
             return new List<T>();
         }
+    }
+
+    public static List<string> GetCollectionNames()
+    {
+        return Database?.ListCollectionNames().ToList() ?? new List<string>();
     }
 }
