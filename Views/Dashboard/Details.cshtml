@@ -1,0 +1,22 @@
+@model dynamic
+
+@{
+var id = @Model.GetType().GetProperty("_id").GetValue(Model);
+var collection = Context.Request.Path.Value.Split("/")[2];
+}
+
+
+<section>
+  <form action="/dashboard/@collection/@id/save" method="post" class="grid">
+    @foreach (var field in Model.GetType().GetProperties())
+    {
+    <div class="flex flex-col">
+      <label for="@field.Name">@field.Name</label>
+      <input asp-for="@field" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name"
+        class="bg-transparent border-2 border-primary-700" />
+      <span data-valmsg-for="@field.Name" data-valmsg-replace="true" class="text-red-500 field-validation-valid"></span>
+    </div>
+    }
+    <button type="submit">Send</button>
+  </form>
+</section>

@@ -2,6 +2,7 @@
 
 @{
   var collection = ViewData["Collection"];
+  int index = -1;
 }
 
 <section>
@@ -12,7 +13,13 @@
   {
     @foreach (var prop in item.GetType().GetProperties())
     {
+      @if (prop.Name == "_id")
+      {
+        <a asp-action="@collection" asp-route-id="@prop.GetValue(item)">@prop.Name: @prop.GetValue(item)</a>
+        continue;
+      }
       <p>@prop.Name: @prop.GetValue(item)</p>
     }
+    <hr>
   }
 </section>

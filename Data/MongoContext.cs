@@ -56,6 +56,22 @@ public class MongoContext
         return record;
     }
 
+    public static T? Get<T>(string? id) where T : IMongoModel
+    {
+        var table = typeof(T).Name.ToLower();
+        try
+        {
+            var mongoCollection = Database?.GetCollection<T>(table);
+            var filter = Builders<T>.Filter.Eq("_id", ObjectId.Parse(id));
+            return mongoCollection.Find(filter).FirstOrDefault();
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e.Message);
+            return default;
+        }
+    }
+
     public static List<T> GetAll<T>(string? collectionName) where T : IMongoModel
     {
         var table = typeof(T).Name.ToLower();
