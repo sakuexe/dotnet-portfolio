@@ -29,9 +29,10 @@ public class DashboardController : Controller
     }
 
     // dynamic route, to look for a collection by name
-    [HttpGet("[controller]/{collection}")]
-    public ActionResult Collection(string collection)
+    [HttpGet("[controller]/{collection:alpha}")]
+    public IActionResult Collection(string collection)
     {
+        Console.WriteLine($"Collection: {collection}");
         ViewData["Collection"] = collection;
         var className = $"fullstack_portfolio.Models.{Capitalize(collection)}";
         Type? type = Type.GetType(className);
@@ -46,9 +47,9 @@ public class DashboardController : Controller
 
         return View(mongoCollection);
     }
-    
-    [HttpGet("[controller]/{collection}/{id}")]
-    public ActionResult Details(string collection, string id)
+
+    [HttpGet("[controller]/{collection:alpha}/{id}")]
+    public IActionResult Details(string collection, string id)
     {
         Console.WriteLine($"Collection: {collection}, ID: {id}");
         // the Collection gets parsed in the view from the URL path
@@ -69,7 +70,7 @@ public class DashboardController : Controller
 
     // Save changes to expertise items
     [HttpPost("[controller]/expertise/{id}/save")]
-    public ActionResult Save(Expertise expertise)
+    public IActionResult Save(Expertise expertise)
     {
         Console.WriteLine("Saving expertise");
         if (!ModelState.IsValid)

@@ -3,8 +3,8 @@ using fullstack_portfolio.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
 builder.Services.AddServerSideBlazor(); // Blazor
+builder.Services.AddControllersWithViews();
 
 // Add the database context
 builder.Services.AddSingleton<MongoContext>();
