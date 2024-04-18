@@ -78,6 +78,11 @@ public class MongoContext
         try
         {
             var mongoCollection = Database?.GetCollection<T>(table);
+            var resultsList = mongoCollection!.Find(new BsonDocument()).ToList();
+            if (!mongoCollection.AsQueryable().Any())
+            {
+                Console.WriteLine("No results found");
+            }
             return mongoCollection?.Find(new BsonDocument()).ToList() ?? new List<T>();
         }
         catch (Exception e)

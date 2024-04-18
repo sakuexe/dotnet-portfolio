@@ -1,4 +1,4 @@
-@using fullstack_portfolio.Components
+@using System.ComponentModel.DataAnnotations;
 @model dynamic
 
 @{
@@ -11,14 +11,26 @@
   <form action="/dashboard/@collection/@id/save" method="post" class="grid">
     @foreach (var field in Model.GetType().GetProperties())
     {
+      if (field.Name == "_id")
+      {
+        <input asp-for="@field" name="@field.Name" value="@id" hidden aria-hidden="true" />
+        continue;
+      }
       <div class="flex flex-col">
         <label for="@field.Name">@field.Name</label>
-        <input asp-for="@field" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name"
-          class="bg-transparent border-2 border-primary-700" />
+        @if (field.PropertyType.IsEnum)
+        {
+          @Html.DropDownList(field.Name, new SelectList(Enum.GetValues(field.PropertyType)),
+                 "Select " + field.Name, new { @class = "bg-primary border-2 border-primary-700" })
+        }
+        else
+        {
+          <input asp-for="@field" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name"
+            class="bg-transparent border-2 border-primary-700" />
+        }
         <span data-valmsg-for="@field.Name" data-valmsg-replace="true" class="text-red-500 field-validation-valid"></span>
       </div>
     }
     <button type="submit">Send</button>
   </form>
 </section>
-<component type="typeof(EditForm)" render-mode="Server" param-Model="@Model" />

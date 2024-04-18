@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json;
 using fullstack_portfolio.Data;
 using fullstack_portfolio.Models;
 using fullstack_portfolio.Models.ViewModels;
@@ -32,7 +33,6 @@ public class DashboardController : Controller
     [HttpGet("[controller]/{collection:alpha}")]
     public IActionResult Collection(string collection)
     {
-        Console.WriteLine($"Collection: {collection}");
         ViewData["Collection"] = collection;
         var className = $"fullstack_portfolio.Models.{Capitalize(collection)}";
         Type? type = Type.GetType(className);
@@ -51,7 +51,6 @@ public class DashboardController : Controller
     [HttpGet("[controller]/{collection:alpha}/{id}")]
     public IActionResult Details(string collection, string id)
     {
-        Console.WriteLine($"Collection: {collection}, ID: {id}");
         // the Collection gets parsed in the view from the URL path
         var className = $"fullstack_portfolio.Models.{Capitalize(collection)}";
         Type? type = Type.GetType(className);
@@ -66,20 +65,5 @@ public class DashboardController : Controller
             return NotFound();
 
         return View(mongoItem);
-    }
-
-    // Save changes to expertise items
-    [HttpPost("[controller]/expertise/{id}/save")]
-    public IActionResult Save(Expertise expertise)
-    {
-        Console.WriteLine("Saving expertise");
-        if (!ModelState.IsValid)
-        {
-            Console.WriteLine("Model is not valid");
-            return View("Details", expertise);
-        }
-
-        MongoContext.Save(expertise);
-        return RedirectToAction("Index");
     }
 }
