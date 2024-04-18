@@ -10,21 +10,24 @@ public class Expertise : IMongoModel
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public ObjectId _id { get; set; } = ObjectId.GenerateNewId();
-    [MaxLength(50)]
     [Required]
+    [MaxLength(50)]
     [DataType(DataType.Text)]
-    public string title { get; set; }
-    [MaxLength(255)]
+    [BsonElement("title")]
+    public string Title { get; set; }
     [Required]
+    [MaxLength(255)]
     [DataType(DataType.MultilineText)]
-    public string description { get; set; }
+    [BsonElement("description")]
+    public string Description { get; set; }
     [MaxLength(50)]
-    public string icon { get; set; }
+    [BsonElement("icon")]
+    public string Icon { get; set; }
 
     public Expertise()
     {
-        this.title = String.Empty;
-        this.description = String.Empty;
-        this.icon = String.Empty;
+        this.Title = String.Empty;
+        this.Description = String.Empty;
+        this.Icon = String.Empty;
     }
 }

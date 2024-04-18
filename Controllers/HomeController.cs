@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using fullstack_portfolio.Models;
+using fullstack_portfolio.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fullstack_portfolio.Controllers;
@@ -16,7 +17,8 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         ViewData["Title"] = "Home";
-        return View();
+        HomeViewModel model = new();
+        return View(model);
     }
 
     public IActionResult Privacy()

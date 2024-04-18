@@ -1,3 +1,6 @@
+@using fullstack_portfolio.Models
+@model IEnumerable<Expertise>
+
 <section id="expertise">
   <div class="subheader text-center mb-8">
     <p><span>// 02</span> Expertise</p>
@@ -5,14 +8,16 @@
   </div>
   <div class="flex flex-wrap gap-4 justify-center">
 
+    @foreach (var expertise in Model)
+    {
     <!-- TODO: Fetch experiences from the database -->
     <div class="flex flex-col justify-center outline outline-2 outline-primary-300 
       max-w-md p-6 space-y-3 drop-shadow-lg backdrop-brightness-90 backdrop-blur-sm">
       <!-- card header -->
       <div class="flex items-center gap-x-5">
-        <img src="" alt="FS-Icon" class="w-16 aspect-square border">
+        <img src="~/icons/@expertise.Icon" alt="@expertise.Title -icon" class="w-16 aspect-square border">
         <h3 class="text-3xl font-bold">
-          Fullstack Web Development
+          @expertise.Title
         </h3>
       </div>
       <div class="flex gap-x-3">
@@ -23,12 +28,12 @@
           <pre>&lt;/p&gt;</pre>
         </div>
         <!-- card description -->
-        <p class="py-6">
-          Passion towards Web Development and love to work on both Frontend and Backend.
-          Experience working with many different frameworks and languages.
+        <p class="py-6 w-full">
+          @expertise.Description
         </p>
       </div>
     </div>
+    }
 
   </div>
   <div class="absolute top-0 left-0 w-full h-full -z-10 bg-primary opacity-75 mix-blend-darken"></div>

@@ -72,7 +72,7 @@ public class MongoContext
         }
     }
 
-    public static List<T> GetAll<T>(string? collectionName) where T : IMongoModel
+    public static List<T> GetAll<T>(string? collectionName = null) where T : IMongoModel
     {
         var table = typeof(T).Name.ToLower();
         try

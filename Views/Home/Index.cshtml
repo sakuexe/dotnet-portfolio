@@ -1,3 +1,6 @@
-﻿<partial name="_Hero.cshtml"></partial>
+﻿@using fullstack_portfolio.Models.ViewModels
+@model HomeViewModel
+
+<partial name="_Hero.cshtml"></partial>
 <partial name="_AboutMe.cshtml"></partial>
-<partial name="_Expertise.cshtml"></partial>
+<partial name="_Expertise.cshtml" model="@Model.Expertises"></partial>

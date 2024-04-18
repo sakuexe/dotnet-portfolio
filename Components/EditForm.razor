@@ -5,12 +5,9 @@
 	<h1>Counter</h1>
 	<p>Current count: @counter</p>
 	<button @onclick="IncrementCount">Increment</button>
-	<p>@Model.title</p>
 </section>
 
 @code {
-	[Parameter]
-	public Expertise Model { get; set; }
 	private int counter = 0;
 
 	private void IncrementCount()
