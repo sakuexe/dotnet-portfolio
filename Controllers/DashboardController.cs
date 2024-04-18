@@ -1,7 +1,5 @@
 using System.Reflection;
-using System.Text.Json;
 using fullstack_portfolio.Data;
-using fullstack_portfolio.Models;
 using fullstack_portfolio.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +24,7 @@ public class DashboardController : Controller
     public IActionResult Index()
     {
         DashboardViewModel model = new();
+        // order the models to be in the same order as they are in the database
         return View(model);
     }
 
@@ -48,8 +47,21 @@ public class DashboardController : Controller
         return View(mongoCollection);
     }
 
+    // dynamic route for creating a new item in the collection
+    [HttpGet("[controller]/{collection:alpha}/new")]
+    public IActionResult New(string collection)
+    {
+        var className = $"fullstack_portfolio.Models.{Capitalize(collection)}";
+        Type? type = Type.GetType(className);
+        if (type == null)
+            return NotFound();
+        var model = Activator.CreateInstance(type);
+        return View("Edit", model);
+    }
+
+    // dynamic route for editing an item in the collection
     [HttpGet("[controller]/{collection:alpha}/{id}")]
-    public IActionResult Details(string collection, string id)
+    public IActionResult Edit(string collection, string id)
     {
         // the Collection gets parsed in the view from the URL path
         var className = $"fullstack_portfolio.Models.{Capitalize(collection)}";

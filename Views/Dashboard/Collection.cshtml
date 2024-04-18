@@ -1,25 +1,30 @@
 @model dynamic
 
 @{
-  var collection = ViewData["Collection"];
-  int index = -1;
+var collection = ViewData["Collection"];
+int index = -1;
 }
 
 <section>
-  <h1>Collection</h1>
-  <p>@collection</p>
+  <div class="flex gap-4">
+    <div>
+      <h1>Collection</h1>
+      <b>@collection</b>
+    </div>
+    <a href="/dashboard/@collection/new" class="btn border-2 border-primary-500 my-auto">Add a new @collection</a>
+  </div>
 
   @foreach (var item in Model)
   {
-    @foreach (var prop in item.GetType().GetProperties())
-    {
-      @if (prop.Name == "_id")
-      {
-        <a asp-action="@collection" asp-route-id="@prop.GetValue(item)">@prop.Name: @prop.GetValue(item)</a>
-        continue;
-      }
-      <p>@prop.Name: @prop.GetValue(item)</p>
-    }
-    <hr>
+  @foreach (var prop in item.GetType().GetProperties())
+  {
+  @if (prop.Name == "_id")
+  {
+  <a asp-action="@collection" asp-route-id="@prop.GetValue(item)">@prop.Name: @prop.GetValue(item)</a>
+  continue;
+  }
+  <p>@prop.Name: @prop.GetValue(item)</p>
+  }
+  <hr>
   }
 </section>

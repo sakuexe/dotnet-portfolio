@@ -94,6 +94,10 @@ public class MongoContext
 
     public static List<string> GetCollectionNames()
     {
-        return Database?.ListCollectionNames().ToList() ?? new List<string>();
+        var collections = Database?.ListCollectionNames().ToList();
+        // reverse the order, so that it will be in the order of appearance
+        // in the database
+        collections?.Reverse();
+        return collections ?? new List<string>();
     }
 }
