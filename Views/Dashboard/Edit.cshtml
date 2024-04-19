@@ -8,7 +8,7 @@
 
 
 <section>
-  <form action="/dashboard/@collection/@id/save" method="post" class="grid">
+  <form id="edit" action="/dashboard/@collection/@id/save" method="post" class="grid">
     @foreach (var field in Model.GetType().GetProperties())
     {
       if (field.Name == "_id")
@@ -33,5 +33,10 @@
     }
     <button type="submit">Save</button>
     <button type="submit">Remove (todo)</button>
+    <span id="general-error" class="text-red-500"></span>
   </form>
 </section>
+
+@section Scripts {
+<script src="~/js/savechanges.js" defer></script>
+}
