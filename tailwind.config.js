@@ -1,4 +1,5 @@
 import colors from "tailwindcss/colors";
+// The reason that tailwind lsp is not working is this line
 
 const secondary = colors.violet;
 

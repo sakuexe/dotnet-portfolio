@@ -20,6 +20,7 @@ public class DashboardController : Controller
 
     public IActionResult Index()
     {
+        ViewBag.Title = "Dashboard";
         DashboardViewModel model = new();
         // order the models to be in the same order as they are in the database
         return View(model);

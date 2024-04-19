@@ -1,5 +1,5 @@
 /** @type {HTMLFormElement | null} */
-const editForm = document.querySelector("form#edit");
+const editForm =  document.querySelector("form#edit");
 
 /**
  * @param {string} url
@@ -7,12 +7,12 @@ const editForm = document.querySelector("form#edit");
  */
 async function saveChanges(url) {
   /** 
-   * @typedef {Object} Errors
+   * @typedef {Object} Error
    * @property {string} Field
    * @property {string[]} Messages
    */
 
-  /** @type {Errors[]} */
+  /** @type {Error[]} */
   let data;
   if (!editForm) {
     console.warn("Form not found, stupid");
@@ -24,10 +24,13 @@ async function saveChanges(url) {
       method: "POST",
       body: formData
     });
+
     if (response.ok) return true;
     data = await response.json();
+
   } catch (error) {
     console.error(error.message);
+
     const generalError = editForm.querySelector("span#general-error");
     if (!generalError) {
       console.warn("no span#general-error found");

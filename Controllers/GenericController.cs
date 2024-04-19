@@ -7,6 +7,7 @@ namespace fullstack_portfolio.Controllers;
 [Route("Dashboard/[controller]")]
 public class GenericController<T> : Controller where T : IMongoModel
 {
+    // I tried using a struct, but when I do, the result is always empty
     private class Error {
         public string Field { get; set; } = string.Empty;
         public string[] Messages { get; set; } = Array.Empty<string>();
@@ -14,6 +15,9 @@ public class GenericController<T> : Controller where T : IMongoModel
 
     private Error[] GetErrors()
     {
+        // get all errors and group them by input field, 
+        // for ease of use in the frontend. like this:
+        // { "Title": ["Title is required", "Title must be at least 3 characters long"] }
         return ModelState
             .Where(s => s.Value?.Errors.Count() > 0)
             .Select(s => new Error
@@ -23,9 +27,12 @@ public class GenericController<T> : Controller where T : IMongoModel
             }).ToArray();
     }
 
+    [HttpGet]
     public IActionResult Index()
     {
+        // List all the items in a collection
         ViewBag.Collection = typeof(T).Name;
+        ViewBag.Title = $"{typeof(T).Name}s";
         List<T> models = MongoContext.GetAll<T>();
         return View("Views/Dashboard/Collection.cshtml", models);
     }
@@ -33,22 +40,26 @@ public class GenericController<T> : Controller where T : IMongoModel
     [HttpGet("new")]
     public IActionResult New()
     {
+        ViewBag.Title = $"New {typeof(T).Name}";
+        // create a new item, initialize it with a new instance
         return View("Views/Dashboard/Edit.cshtml", Activator.CreateInstance<T>());
     }
 
     [HttpGet("{id}")]
     public IActionResult Edit(string id)
     {
+        // get the edit page for an item and fill it with the data
         T? model = MongoContext.Get<T>(id);
         if (model == null)
             return NotFound();
+        ViewBag.Title = model._id.ToString().Substring(0, 8) + "...";
         return View("Views/Dashboard/Edit.cshtml", model);
     }
 
-    // generic controller for saving changes to any item specified in the program.cs
     [HttpPost("{id}/save")]
     public IActionResult Save(T model)
     {
+        // save the item to the database
         if (!ModelState.IsValid)
         {
             var errors = GetErrors();
