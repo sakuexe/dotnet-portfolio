@@ -15,7 +15,7 @@ async function saveChanges(url) {
   /** @type {Errors[]} */
   let data;
   if (!editForm) {
-    console.error("Form not found");
+    console.warn("Form not found, stupid");
     return false;
   }
   const formData = new FormData(editForm);
@@ -26,15 +26,14 @@ async function saveChanges(url) {
     });
     if (response.ok) return true;
     data = await response.json();
-    console.log(data);
   } catch (error) {
+    console.error(error.message);
     const generalError = editForm.querySelector("span#general-error");
     if (!generalError) {
-      console.error(error.message);
+      console.warn("no span#general-error found");
       return false;
     }
     generalError.textContent = "An unknown error occurred while saving the changes.";
-    generalError.textContent += error.message;
     return false;
   }
 
@@ -51,11 +50,23 @@ async function saveChanges(url) {
 
 editForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
+  // reset the errors on submit
   editForm.querySelectorAll("span").forEach(span => span.textContent = "");
+
   const success = await saveChanges(editForm.action);
-  if (!success) {
-    console.error("Failed to save changes");
-    return;
-  }
-  console.log("Changes saved successfully");
+  if (!success) return;
+
+  // on a successful save, show a confirmation message
+  const successMessage = document.createElement("div");
+  successMessage.id = "success-message";
+  successMessage.textContent = "Changes saved successfully";
+  successMessage.classList.add("text-center", "w-full", "opacity-75", "italic");
+  editForm.appendChild(successMessage);
 })
+
+editForm?.addEventListener("change", () => {
+  /** @type {Node | null} */
+  const successMessge = editForm.querySelector("#success-message");
+  if (!successMessge) return
+  editForm.removeChild(successMessge)
+});

@@ -18,7 +18,6 @@ public class DashboardController : Controller
         _logger = logger;
     }
 
-    [HttpGet("[controller]/")]
     public IActionResult Index()
     {
         DashboardViewModel model = new();
