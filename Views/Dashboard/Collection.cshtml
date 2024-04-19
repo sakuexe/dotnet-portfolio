@@ -1,7 +1,7 @@
 @model dynamic
 
 @{
-var collection = ViewData["Collection"];
+var collection = ViewBag.Collection;
 int index = -1;
 }
 
@@ -20,7 +20,7 @@ int index = -1;
   {
   @if (prop.Name == "_id")
   {
-  <a asp-action="@collection" asp-route-id="@prop.GetValue(item)">@prop.Name: @prop.GetValue(item)</a>
+  <a asp-action="Edit" asp-route-id="@prop.GetValue(item)">@prop.Name: @prop.GetValue(item)</a>
   continue;
   }
   <p>@prop.Name: @prop.GetValue(item)</p>

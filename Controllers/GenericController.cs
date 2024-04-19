@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace fullstack_portfolio.Controllers;
 
+[Route("Dashboard/[controller]")]
 public class GenericController<T> : Controller where T : IMongoModel
 {
     private class Error {
@@ -22,10 +23,26 @@ public class GenericController<T> : Controller where T : IMongoModel
             }).ToArray();
     }
 
-    [HttpGet("save/")]
-    public IActionResult Save()
+    public IActionResult Index()
     {
-        return Content("This is a generic controller for saving changes to any item specified in the program.cs");
+        ViewBag.Collection = typeof(T).Name;
+        List<T> models = MongoContext.GetAll<T>();
+        return View("Views/Dashboard/Collection.cshtml", models);
+    }
+
+    [HttpGet("new")]
+    public IActionResult New()
+    {
+        return View("Views/Dashboard/Edit.cshtml", Activator.CreateInstance<T>());
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult Edit(string id)
+    {
+        T? model = MongoContext.Get<T>(id);
+        if (model == null)
+            return NotFound();
+        return View("Views/Dashboard/Edit.cshtml", model);
     }
 
     // generic controller for saving changes to any item specified in the program.cs
