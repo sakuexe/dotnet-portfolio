@@ -27,6 +27,7 @@ _UpgradeReport_Files/
 bin/
 obj/
 TestResults/
+node_modules/
 # Web publish log #
 *.Publish.xml
 # Resharper #
