@@ -3,8 +3,8 @@
 @model IMongoModel
 
 @{
-  var id = @Model.GetType().GetProperty("_id").GetValue(Model);
-  var collection = Context.Request.Path.Value.Split("/")[2];
+  var id = @Model.GetType().GetProperty("_id")?.GetValue(Model);
+  var collection = Context.Request.Path.Value?.Split("/")[2];
 }
 
 
@@ -39,5 +39,5 @@
 </section>
 
 @section Scripts {
-<script src="~/js/savechanges.js" defer></script>
+  <script src="~/js/savechanges.js" defer></script>
 }
