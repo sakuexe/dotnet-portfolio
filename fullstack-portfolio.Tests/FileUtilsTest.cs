@@ -1,6 +1,7 @@
 using System.Text;
 using fullstack_portfolio.Utils;
 using Microsoft.AspNetCore.Http;
+using SixLabors.ImageSharp;
 
 namespace fullstack_portfolio.Tests;
 

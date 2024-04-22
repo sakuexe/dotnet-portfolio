@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using fullstack_portfolio.Data;
 using fullstack_portfolio.Models;
@@ -29,7 +30,11 @@ public class ExpertiseController : GenericController<Expertise>
             return BadRequest(JsonSerializer.Serialize(errors));
         }
 
-        Console.WriteLine($"Saved file to {savedPath}");
+        string filetype = Path.GetExtension(savedPath).Replace(".", "");
+        // resize the image to 128 px wide
+        // not passing the height will maintain the aspect ratio
+        if (filetype == "svg" || !FileUtils.ResizeImage(savedPath, 128))
+            Debug.WriteLine("Couldn't resize the image");
 
         string? currentIcon = MongoContext.Get<Expertise>(model._id.ToString())?.Icon;
         // fetch all the expertise items that have the same icon
