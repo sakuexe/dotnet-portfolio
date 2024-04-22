@@ -26,6 +26,13 @@
     }
     return path;
   }
+
+  bool IsTextArea(PropertyInfo property)
+  {
+    var dataTypeAttribute = property.GetCustomAttribute<DataTypeAttribute>();
+    if (dataTypeAttribute == null)
+      return false;
+    return dataTypeAttribute.DataType == DataType.MultilineText;
 }
 
 
@@ -45,6 +52,12 @@
           <label for="@field.Name">@field.Name</label>
           @Html.DropDownList(field.Name, new SelectList(Enum.GetValues(field.PropertyType)),
                  "Select " + field.Name, new { @class = "bg-primary border-2 border-primary-700" })
+        }
+
+        else if (IsTextArea(field))
+        {
+          <label for="@field.Name">@field.Name</label>
+          @Html.TextArea(field.Name, field.GetValue(Model).ToString(), new { @class = "bg-transparent border-2 border-primary-700", @rows = 5})
         }
 
         else if (IsFile(field))

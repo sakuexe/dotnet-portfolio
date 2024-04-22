@@ -1,9 +1,15 @@
 @using fullstack_portfolio.Models
 @model IEnumerable<Expertise>
 
-  @{
-  string defaultIcon = "default.svg";
+@{
+  string GetIcon(string iconUrl)
+  {
+    // check if the file exists
+    if (System.IO.File.Exists(iconUrl))
+      return iconUrl.Split("wwwroot")[1];
+    return "icons/default.svg";
   }
+}
 
   <section id="expertise">
     <div class="subheader text-center mb-8">
@@ -19,8 +25,7 @@
       max-w-md p-6 space-y-3 drop-shadow-lg backdrop-brightness-90 backdrop-blur-sm">
         <!-- card header -->
         <div class="flex items-center gap-x-5">
-          <img src="~/icons/@expertise.Icon" alt="@expertise.Title -icon" class="w-16 aspect-square border"
-            onerror="this.src = '/icons/@defaultIcon';">
+          <img src="@GetIcon(expertise.Icon)" alt="@expertise.Title -icon" class="w-16 aspect-square" >
           <h3 class="text-3xl font-bold">
             @expertise.Title
           </h3>

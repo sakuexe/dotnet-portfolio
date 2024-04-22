@@ -15,8 +15,6 @@ public static class FileUtils
         if (path == null)
             path = Path.Combine(DefaultPath, file.FileName);
 
-        path = Path.Combine(Directory.GetCurrentDirectory(), path);
-
         // check if path exists and create it if it doesn't
         var directory = Path.GetDirectoryName(path);
         if (directory == null)

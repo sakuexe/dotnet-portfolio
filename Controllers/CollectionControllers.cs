@@ -29,6 +29,8 @@ public class ExpertiseController : GenericController<Expertise>
             return BadRequest(JsonSerializer.Serialize(errors));
         }
 
+        Console.WriteLine($"Saved file to {savedPath}");
+
         string? currentIcon = MongoContext.Get<Expertise>(model._id.ToString())?.Icon;
         // fetch all the expertise items that have the same icon
         List<Expertise> records = await MongoContext.Filter<Expertise>("icon", currentIcon ?? "");
