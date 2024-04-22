@@ -1,6 +1,8 @@
 # gitignore from https://gist.github.com/indyfromoz/4109296
 # Compiled tailwindcss files
 tailwind.css
+# uploaded files
+wwwroot/uploads/
 # secrets in the appsettings.json file
 appsettings.json
 appsettings.Development.json

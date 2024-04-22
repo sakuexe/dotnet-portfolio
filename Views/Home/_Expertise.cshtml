@@ -5,9 +5,9 @@
   string GetIcon(string iconUrl)
   {
     // check if the file exists
-    if (System.IO.File.Exists(iconUrl))
-      return iconUrl.Split("wwwroot")[1];
-    return "icons/default.svg";
+    if (!System.IO.File.Exists(iconUrl))
+      return "icons/default.svg";
+    return iconUrl.Split("wwwroot")[1];
   }
 }
 
@@ -21,11 +21,11 @@
       @foreach (var expertise in Model)
       {
       <!-- TODO: Fetch experiences from the database -->
-      <div class="flex flex-col justify-center outline outline-2 outline-primary-300 
+      <div class="flex flex-col outline outline-2 outline-primary-300 
       max-w-md p-6 space-y-3 drop-shadow-lg backdrop-brightness-90 backdrop-blur-sm">
         <!-- card header -->
         <div class="flex items-center gap-x-5">
-          <img src="@GetIcon(expertise.Icon)" alt="@expertise.Title -icon" class="w-16 aspect-square" >
+          <img src="@GetIcon(expertise.Icon)" alt="@expertise.Title -icon" class="w-16" >
           <h3 class="text-3xl font-bold">
             @expertise.Title
           </h3>
