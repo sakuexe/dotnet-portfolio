@@ -34,7 +34,7 @@ public class MongoContext
         Database = Client.GetDatabase(DATABASE_NAME);
     }
 
-    public static T Save<T>(T record) where T : IMongoModel
+    public static async Task<T> Save<T>(T record) where T : IMongoModel
     {
         // use the classname of the passed object as the table name
         // fullstack_portfolio.Models.User -> user
@@ -46,7 +46,7 @@ public class MongoContext
             // use the upsert option. If the record is not found, it will be inserted
             var usingUpsert = new ReplaceOptions { IsUpsert = true };
             // upsert the record (update-insert)
-            mongoCollection?.ReplaceOne(filter, record, usingUpsert);
+            await mongoCollection?.ReplaceOneAsync(filter, record, usingUpsert);
         }
         catch (Exception e)
         {
@@ -84,6 +84,22 @@ public class MongoContext
                 Console.WriteLine("No results found");
             }
             return mongoCollection?.Find(new BsonDocument()).ToList() ?? new List<T>();
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e.Message);
+            return new List<T>();
+        }
+    }
+
+    public static async Task<List<T>> Filter<T>(string column, dynamic value) where T : IMongoModel
+    {
+        var table = typeof(T).Name.ToLower();
+        try
+        {
+            var mongoCollection = Database?.GetCollection<T>(table);
+            var filter = Builders<T>.Filter.Eq(column, value);
+            return await mongoCollection?.FindAsync(filter);
         }
         catch (Exception e)
         {

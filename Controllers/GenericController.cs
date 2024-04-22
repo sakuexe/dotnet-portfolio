@@ -8,12 +8,12 @@ namespace fullstack_portfolio.Controllers;
 public class GenericController<T> : Controller where T : IMongoModel
 {
     // I tried using a struct, but when I do, the result is always empty
-    private class Error {
+    protected class Error {
         public string Field { get; set; } = string.Empty;
         public string[] Messages { get; set; } = Array.Empty<string>();
     }
 
-    private Error[] GetErrors()
+    protected Error[] GetErrors()
     {
         // get all errors and group them by input field, 
         // for ease of use in the frontend. like this:
@@ -28,7 +28,7 @@ public class GenericController<T> : Controller where T : IMongoModel
     }
 
     [HttpGet]
-    public IActionResult Index()
+    public virtual IActionResult Index()
     {
         // List all the items in a collection
         ViewBag.Collection = typeof(T).Name;
@@ -38,7 +38,7 @@ public class GenericController<T> : Controller where T : IMongoModel
     }
 
     [HttpGet("new")]
-    public IActionResult New()
+    public virtual IActionResult New()
     {
         ViewBag.Title = $"New {typeof(T).Name}";
         // create a new item, initialize it with a new instance
@@ -46,7 +46,7 @@ public class GenericController<T> : Controller where T : IMongoModel
     }
 
     [HttpGet("{id}")]
-    public IActionResult Edit(string id)
+    public virtual IActionResult Edit(string id)
     {
         // get the edit page for an item and fill it with the data
         T? model = MongoContext.Get<T>(id);
@@ -56,8 +56,8 @@ public class GenericController<T> : Controller where T : IMongoModel
         return View("Views/Dashboard/Edit.cshtml", model);
     }
 
-    [HttpPost("{id}/save")]
-    public IActionResult Save(T model)
+    [HttpPost("{id}/Save")]
+    public virtual async Task<IActionResult> Save(T model, IFormFile? file = null)
     {
         // save the item to the database
         if (!ModelState.IsValid)
@@ -67,7 +67,7 @@ public class GenericController<T> : Controller where T : IMongoModel
             return BadRequest(JsonSerializer.Serialize(errors));
         }
 
-        MongoContext.Save(model);
+        await MongoContext.Save(model);
         return Ok();
     }
 }

@@ -22,7 +22,8 @@ public class Expertise : IMongoModel
     public string Description { get; set; }
     [MaxLength(50)]
     [BsonElement("icon")]
-    public string Icon { get; set; }
+    [DataType(DataType.ImageUrl)]
+    public string? Icon { get; set; }
 
     public Expertise()
     {

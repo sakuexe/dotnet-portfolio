@@ -1,15 +1,36 @@
 @using System.ComponentModel.DataAnnotations;
+@using System.Reflection;
 @using fullstack_portfolio.Data;
 @model IMongoModel
 
 @{
   var id = @Model.GetType().GetProperty("_id")?.GetValue(Model);
   var collection = Context.Request.Path.Value?.Split("/")[2];
+  bool ModelHasFileInput = false;
+  bool IsFile(PropertyInfo property)
+  {
+    var dataTypeAttribute = property.GetCustomAttribute<DataTypeAttribute>();
+    if (dataTypeAttribute == null)
+      return false;
+    bool isFile = dataTypeAttribute.DataType == DataType.ImageUrl;
+    ModelHasFileInput = isFile;
+    return isFile;
+  }
+
+  string TrimPath(PropertyInfo property)
+  {
+    var path = property.GetValue(Model).ToString();
+    if (path.Contains("wwwroot"))
+    {
+      path = path.Split("wwwroot")[1];
+    }
+    return path;
+  }
 }
 
 
 <section>
-  <form id="edit" action="/dashboard/@collection/@id/save" method="post" class="grid">
+  <form id="edit" action="/dashboard/@collection/@id/save" method="post" enctype="multipart/form-data" class="grid">
     @foreach (var field in Model.GetType().GetProperties())
     {
       if (field.Name == "_id")
@@ -18,14 +39,28 @@
         continue;
       }
       <div class="flex flex-col">
-        <label for="@field.Name">@field.Name</label>
+
         @if (field.PropertyType.IsEnum)
         {
+          <label for="@field.Name">@field.Name</label>
           @Html.DropDownList(field.Name, new SelectList(Enum.GetValues(field.PropertyType)),
                  "Select " + field.Name, new { @class = "bg-primary border-2 border-primary-700" })
         }
+
+        else if (IsFile(field))
+        {
+          <div class="flex gap-2 items-center">
+            <label for="file">@field.Name</label>
+            <p class="opacity-75 text-sm">
+              Current: <a href="@TrimPath(field)">@TrimPath(field)</a>
+            </p>
+          </div>
+          <input type="file" id="file" name="file" value="@field.GetValue(Model)"></input>
+        }
+
         else
         {
+          <label for="@field.Name">@field.Name</label>
           <input asp-for="@field" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name"
             class="bg-transparent border-2 border-primary-700" />
         }
