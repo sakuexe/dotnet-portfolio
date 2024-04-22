@@ -1,5 +1,8 @@
+using System.Diagnostics;
+using System.Reflection;
 using System.Text.Json;
 using fullstack_portfolio.Data;
+using fullstack_portfolio.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fullstack_portfolio.Controllers;
@@ -7,6 +10,10 @@ namespace fullstack_portfolio.Controllers;
 [Route("Dashboard/[controller]")]
 public class GenericController<T> : Controller where T : IMongoModel
 {
+    public virtual int ImageWidth { get; set; } = 0;
+    public virtual int ImageHeight { get; set; } = 0;
+    public virtual string? ImageProperty { get; set; }
+
     // I tried using a struct, but when I do, the result is always empty
     protected class Error {
         public string Field { get; set; } = string.Empty;
@@ -67,6 +74,62 @@ public class GenericController<T> : Controller where T : IMongoModel
             return BadRequest(JsonSerializer.Serialize(errors));
         }
 
+        if (file == null)
+        {
+            // save the expertise
+            await MongoContext.Save(model);
+            return Ok();
+        }
+
+        // check that the ImageProperty is set if the file is sent
+        if (string.IsNullOrEmpty(ImageProperty))
+        {
+            Error[] errors = { new Error { Field = "Icon", Messages = new string[] { "ImageProperty variable is not set inside controller" } } };
+            return BadRequest(JsonSerializer.Serialize(errors));
+        }
+
+        // save to disk if the icon is given
+        string? savedPath = await FileUtils.SaveFile(file);
+        if (savedPath == null)
+        {
+            Error[] errors = { new Error { Field = "Icon", Messages = new string[] { "File could not be saved" } } };
+            return BadRequest(JsonSerializer.Serialize(errors));
+        }
+
+        // resize the image (svgs not supported)
+        string filetype = Path.GetExtension(savedPath);
+        if (filetype == ".svg" || !FileUtils.ResizeImage(savedPath, ImageWidth, ImageHeight))
+            Debug.WriteLine("Couldn't resize the image");
+
+        T? currentModelData = MongoContext.Get<T>(model._id.ToString());
+        if (currentModelData != null)
+        {
+            // fetch all the expertise items that have the same icon
+            string? currentIcon = currentModelData.GetType().GetProperty(ImageProperty)?.GetValue(currentModelData) as string;
+            if (currentIcon == null)
+                return BadRequest("Icon property is not set correctly in the model");
+
+            List<T> records = await MongoContext.Filter<T>(ImageProperty!, currentIcon);
+            // do not remove the file if it's being used by another item
+            if (records.Count() < 1 && currentIcon != savedPath)
+                FileUtils.DeleteFile(currentIcon ?? "");
+        }
+
+        // get the model property that has datatype of ImageUrl
+        PropertyInfo? prop = model.GetType().GetProperty(ImageProperty ?? "");
+        if (prop == null)
+        {
+            Error[] errors = { new Error { 
+                Field = ImageProperty ?? "",
+                Messages = new string[] { 
+                    $"Property variable ({ImageProperty}) is set incorrectly inside controller" 
+                }} 
+            };
+            return BadRequest(JsonSerializer.Serialize(errors));
+        }
+
+        // finally, if all is well, save the path to the model and save the model
+        prop.SetValue(model, savedPath);
         await MongoContext.Save(model);
         return Ok();
     }
