@@ -13,7 +13,10 @@ public static class FileUtils
         if (file == null)
             return null;
         if (path == null)
-            path = DefaultPath + file.FileName;
+            path = Path.Combine(DefaultPath, file.FileName);
+
+        path = Path.Combine(Directory.GetCurrentDirectory(), path);
+
         // check if path exists and create it if it doesn't
         var directory = Path.GetDirectoryName(path);
         if (directory == null)
@@ -23,6 +26,7 @@ public static class FileUtils
         }
         if (!Directory.Exists(directory))
             Directory.CreateDirectory(directory);
+
         using var stream = new FileStream(path, FileMode.Create);
         await file.CopyToAsync(stream);
         return path;
