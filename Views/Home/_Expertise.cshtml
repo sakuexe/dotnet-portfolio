@@ -18,12 +18,12 @@
       <p><span>// 02</span> Expertise</p>
       <h2>What Do I Do?</h2>
     </div>
-    <div class="flex flex-wrap gap-4 justify-center">
+    <div class="flex flex-wrap gap-4 justify-center max-w-content mx-auto">
 
       @foreach (var expertise in Model)
       {
       <!-- TODO: Fetch experiences from the database -->
-      <div class="flex flex-col outline outline-2 outline-primary-300 
+      <div class="flex flex-col flex-grow outline outline-2 outline-primary-300 
       max-w-md p-6 space-y-3 drop-shadow-lg backdrop-brightness-90 backdrop-blur-sm">
         <!-- card header -->
         <div class="flex items-center gap-x-5">

@@ -1,6 +1,9 @@
 /** @type {HTMLFormElement | null} */
 const editForm =  document.querySelector("form#edit");
 
+/** @type {number} */
+let number;
+
 /**
  * @param {string} url
  * @returns {Promise<boolean>}

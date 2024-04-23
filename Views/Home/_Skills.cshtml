@@ -7,7 +7,7 @@ var SkillBars = Model.Where(s => s.Type == SkillType.Bar);
 var SkillPies = Model.Where(s => s.Type == SkillType.Pie);
 }
 
-<section id="skills" class="grid">
+<section id="skills" class="grid gap-8 max-w-content mx-auto lg:grid-cols-2">
   <div class="space-y-6 flex flex-col justify-center">
     <div class="subheader">
       <p><span>// 03</span> Skills</p>
@@ -16,6 +16,9 @@ var SkillPies = Model.Where(s => s.Type == SkillType.Pie);
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel sit veniam dolor
       quae cupiditate, ullam sed? Nobis amet rem possimus aut saepe.
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
+      Molestias ducimus provident sapiente esse, omnis ad pariatur, 
+      magni ea numquam, quidem dolorem veritatis?
     </p>
     <div id="skill-bars" class="space-y-4">
       @foreach (var skill in SkillBars.Select((value, index) => new { Value = value, Index = index }))
@@ -23,7 +26,7 @@ var SkillPies = Model.Where(s => s.Type == SkillType.Pie);
       <div>
         <p>@skill.Value.Title</p>
         <div>
-          <div class="h-2 @(skill.Index % 2 == 0 ? " bg-secondary" : "bg-accent" )"
+          <div class="h-2 @(skill.Index % 2 == 0 ? "bg-secondary" : "bg-accent")"
             style="width: @skill.Value.Value %;"></div>
         </div>
       </div>
@@ -34,7 +37,10 @@ var SkillPies = Model.Where(s => s.Type == SkillType.Pie);
     @foreach (var skill in SkillPies.Select((value, index) => new { Value = value, Index = index }))
     {
     <div class="w-44 space-y-5">
-      <div class="pie aspect-square rounded-full text-secondary" data-val="@skill.Value.Value">
+      <div 
+        class="pie aspect-square rounded-full 
+        @(@skill.Index % 2 == 0 ? "text-secondary" : "text-accent")"
+        style="--value: @skill.Value.Value;">
         <p class="font-bold text-primary-100">@skill.Value.Value</p>
       </div>
       <p class="text-center">
@@ -48,19 +54,20 @@ var SkillPies = Model.Where(s => s.Type == SkillType.Pie);
 <style>
   /* https://www.freecodecamp.org/news/css-only-pie-chart/ */
   .pie {
+    --pieThickness: 0.6rem;
     position: relative;
     width: 100%;
     display: inline-grid;
     place-content: center;
   }
-  .pie[data-val]::before {
+  .pie::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     border-radius: 50%;
     background: conic-gradient(
-      currentcolor calc(60 * 1%),
+      currentcolor calc(var(--value) * 1%),
       transparent 0
     );
     -webkit-mask: radial-gradient(
