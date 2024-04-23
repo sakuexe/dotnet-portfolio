@@ -72,6 +72,20 @@
           <input type="file" id="file" name="file" value="@field.GetValue(Model)"></input>
         }
 
+        else if (field.PropertyType.ToString() == "System.Boolean")
+        {
+          <label for="@field.Name">@field.Name</label>
+          <input type="checkbox" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name"
+            class="bg-transparent border-2 border-primary-700" />
+        }
+
+        else if (field.PropertyType.ToString().Contains("System.Collections.Generic.List`1[System.String]"))
+        {
+          <label for="@field.Name">@field.Name</label>
+          <input asp-for="@field" name="@field.Name" id="@field.Name"
+            class="bg-transparent border-2 border-primary-700" value="todo">
+        }
+
         else
         {
           <label for="@field.Name">@field.Name</label>
