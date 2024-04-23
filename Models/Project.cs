@@ -35,7 +35,7 @@ public class Project : IMongoModel
     [Required]
     [BsonElement("category")]
     [Display(Name = "Chart Type")]
-    [EnumDataType(typeof(SkillType))]
+    [EnumDataType(typeof(CategoryType))]
     public CategoryType Category { get; set; }
     [MaxLength(5012)]
     [DataType(DataType.MultilineText)]

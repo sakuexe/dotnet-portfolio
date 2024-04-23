@@ -13,4 +13,7 @@ public class ExpertiseController : GenericController<Expertise>
 
 public class SkillController : GenericController<Skill> { }
 
-public class ProjectController : GenericController<Project> { }
+public class ProjectController : GenericController<Project> 
+{ 
+    public override string EditView { get; set; } = "Views/Dashboard/EditProject.cshtml";
+}

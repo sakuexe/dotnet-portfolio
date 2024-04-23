@@ -13,6 +13,7 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
     public virtual int ImageWidth { get; set; } = 0;
     public virtual int ImageHeight { get; set; } = 0;
     public virtual string? ImageProperty { get; set; }
+    public virtual string EditView { get; set; } = "Views/Dashboard/Edit.cshtml";
 
     // I tried using a struct, but when I do, the result is always empty
     protected class Error {
@@ -50,8 +51,9 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
     public virtual IActionResult New()
     {
         ViewBag.Title = $"New {typeof(T).Name}";
+        ViewBag.Collection = typeof(T).Name;
         // create a new item, initialize it with a new instance
-        return View("Views/Dashboard/Edit.cshtml", Activator.CreateInstance<T>());
+        return View(EditView, new T());
     }
 
     [HttpGet("{id}")]
@@ -62,7 +64,7 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
         if (model == null)
             return NotFound();
         ViewBag.Title = model._id.ToString().Substring(0, 8) + "...";
-        return View("Views/Dashboard/Edit.cshtml", model);
+        return View(EditView, model);
     }
 
     [HttpPost("{id}/Save")]

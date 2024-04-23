@@ -1,0 +1,56 @@
+@using fullstack_portfolio.Models
+@using fullstack_portfolio.Utils
+@model Project
+
+@{
+string collection = ViewBag.Collection;
+var id = @Model.GetType().GetProperty("_id")?.GetValue(Model);
+var enumValues = new SelectList(Enum.GetValues(typeof(CategoryType)));
+string ImagePath = ViewUtils.TrimPath(Model.ImageUrl ?? string.Empty);
+}
+
+<section>
+  <form id="edit" action="/dashboard/@collection/@id/save" method="post" class="grid">
+    <input asp-for="@Model._id" value="@id" hidden aria-hidden="true" />
+
+    <label for="@Model.Title">Title</label>
+    <input asp-for="@Model.Title" class="bg-transparent border-2 border-primary-700" />
+
+    <label for="@Model.Category">Category</label>
+    <select asp-for="@Model.Category" asp-items="@enumValues"
+      class="bg-primary border-2 border-primary-700"></select>
+
+    <label for="@Model.Category">Description</label>
+    <textarea asp-for="@Model.Title" rows="5"
+      class="bg-transparent border-2 border-primary-700">
+    </textarea>
+
+    <label for="@Model.FinishedAt">Finishing Date</label>
+    <input asp-for="@Model.FinishedAt" class="bg-transparent border-2 border-primary-700" />
+
+    <label for="@Model.Tags">Tags</label>
+    <input asp-for="@Model.Tags" class="bg-transparent border-2 border-primary-700" />
+
+    <label for="@Model.Team">Team</label>
+    <input asp-for="@Model.Team" class="bg-transparent border-2 border-primary-700" />
+
+    <div class="flex gap-2 items-center">
+      <label for="file">Image</label>
+      @if (!string.IsNullOrEmpty(ImagePath))
+      {
+        <p class="opacity-75 text-sm">
+          Current: <a href="@ImagePath">@ImagePath</a>
+        </p>
+      }
+    </div>
+    <input type="file" id="file" name="file"></input>
+
+    <div>
+      <label for="@Model.IsLarge">IsLarge</label>
+      <input asp-for="@Model.IsLarge" class="bg-transparent border-2 border-primary-700" />
+    </div>
+
+    <button type="submit" class="bg-primary text-white border-2 border-primary-700">Save</button>
+
+  </form>
+</section>
