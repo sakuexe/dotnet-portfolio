@@ -2,6 +2,7 @@ import colors from "tailwindcss/colors";
 // The reason that tailwind lsp is not working is this line
 
 const secondary = colors.violet;
+const accent = colors.orange;
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -40,6 +41,12 @@ module.exports = {
           // add a default value as well
           ...secondary,
           DEFAULT: secondary[500],
+        },
+        accent: {
+          // make an alias for the secondary color
+          // add a default value as well
+          ...accent,
+          DEFAULT: accent[300],
         },
       },
       fontFamily: {

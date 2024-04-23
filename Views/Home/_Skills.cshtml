@@ -1,0 +1,78 @@
+@using fullstack_portfolio.Models.ViewModels
+@using fullstack_portfolio.Models
+@model Skill[]
+
+@{
+var SkillBars = Model.Where(s => s.Type == SkillType.Bar);
+var SkillPies = Model.Where(s => s.Type == SkillType.Pie);
+}
+
+<section id="skills" class="grid">
+  <div class="space-y-6 flex flex-col justify-center">
+    <div class="subheader">
+      <p><span>// 03</span> Skills</p>
+      <h2>My Skills & Tools</h2>
+    </div>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel sit veniam dolor
+      quae cupiditate, ullam sed? Nobis amet rem possimus aut saepe.
+    </p>
+    <div id="skill-bars" class="space-y-4">
+      @foreach (var skill in SkillBars.Select((value, index) => new { Value = value, Index = index }))
+      {
+      <div>
+        <p>@skill.Value.Title</p>
+        <div>
+          <div class="h-2 @(skill.Index % 2 == 0 ? " bg-secondary" : "bg-accent" )"
+            style="width: @skill.Value.Value %;"></div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  <div id="skill-pies" class="flex flex-wrap gap-4 justify-center items-center">
+    @foreach (var skill in SkillPies.Select((value, index) => new { Value = value, Index = index }))
+    {
+    <div class="w-44 space-y-5">
+      <div class="pie aspect-square rounded-full text-secondary" data-val="@skill.Value.Value">
+        <p class="font-bold text-primary-100">@skill.Value.Value</p>
+      </div>
+      <p class="text-center">
+        @skill.Value.Title
+      </p>
+    </div>
+    }
+  </div>
+</section>
+
+<style>
+  /* https://www.freecodecamp.org/news/css-only-pie-chart/ */
+  .pie {
+    position: relative;
+    width: 100%;
+    display: inline-grid;
+    place-content: center;
+  }
+  .pie[data-val]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 50%;
+    background: conic-gradient(
+      currentcolor calc(60 * 1%),
+      transparent 0
+    );
+    -webkit-mask: radial-gradient(
+      farthest-side,
+      #0000 calc(99% - var(--pieThickness)),
+      #000 calc(100% - var(--pieThickness))
+    );
+    mask: radial-gradient(
+      farthest-side,
+      #0000 calc(99% - var(--pieThickness)),
+      #000 calc(100% - var(--pieThickness))
+    );
+  }
+</style>
+
