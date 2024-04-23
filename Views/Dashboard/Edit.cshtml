@@ -19,12 +19,12 @@
 
   string TrimPath(PropertyInfo property)
   {
-    var path = property.GetValue(Model).ToString();
-    if (path.Contains("wwwroot"))
+    var path = property.GetValue(Model)?.ToString();
+    if (!string.IsNullOrEmpty(path) && path.Contains("wwwroot"))
     {
       path = path.Split("wwwroot")[1];
     }
-    return path;
+    return path ?? "";
   }
 
   bool IsTextArea(PropertyInfo property)
@@ -58,7 +58,7 @@
         else if (IsTextArea(field))
         {
           <label for="@field.Name">@field.Name</label>
-          @Html.TextArea(field.Name, field.GetValue(Model).ToString(), new { @class = "bg-transparent border-2 border-primary-700", @rows = 5})
+          @Html.TextArea(field.Name, field.GetValue(Model)?.ToString(), new { @class = "bg-transparent border-2 border-primary-700", @rows = 5})
         }
 
         else if (IsFile(field))

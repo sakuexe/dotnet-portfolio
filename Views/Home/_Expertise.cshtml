@@ -2,8 +2,10 @@
 @model IEnumerable<Expertise>
 
 @{
-  string GetIcon(string iconUrl)
+  string GetIcon(string? iconUrl)
   {
+    if (iconUrl == null)
+      return "icons/default.svg";
     // check if the file exists
     if (!System.IO.File.Exists(iconUrl))
       return "icons/default.svg";

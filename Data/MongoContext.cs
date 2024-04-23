@@ -46,11 +46,11 @@ public class MongoContext
             // use the upsert option. If the record is not found, it will be inserted
             var usingUpsert = new ReplaceOptions { IsUpsert = true };
             // upsert the record (update-insert)
-            await mongoCollection?.ReplaceOneAsync(filter, record, usingUpsert);
+            await mongoCollection?.ReplaceOneAsync(filter, record, usingUpsert)!;
         }
         catch (Exception e)
         {
-            Console.WriteLine("Skill Issue");
+            Console.WriteLine("Skill Issue - Saving record failed");
             Console.WriteLine(e.Message);
         }
         return record;
