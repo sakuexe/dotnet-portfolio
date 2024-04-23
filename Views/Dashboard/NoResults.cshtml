@@ -1,0 +1,13 @@
+@using fullstack_portfolio.Data;
+@model IMongoModel;
+
+@{
+  string CollectionName = ViewBag.Collection;
+}
+
+<section class="mx-auto max-w-2xl text-center">
+  <p>@CollectionName</p>
+  <h1 class="text-2xl font-bold">No Results Found</h1>
+  <p>Create a new instance:</p>
+  <a href="/dashboard/@CollectionName/new" class="btn border-2 border-primary-500 mx-auto">Add New @CollectionName</a>
+</section>

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace fullstack_portfolio.Controllers;
 
 [Route("Dashboard/[controller]")]
-public class GenericController<T> : Controller where T : IMongoModel
+public class GenericController<T> : Controller where T : IMongoModel, new()
 {
     public virtual int ImageWidth { get; set; } = 0;
     public virtual int ImageHeight { get; set; } = 0;
@@ -41,6 +41,8 @@ public class GenericController<T> : Controller where T : IMongoModel
         ViewBag.Collection = typeof(T).Name;
         ViewBag.Title = $"{typeof(T).Name}s";
         List<T> models = MongoContext.GetAll<T>();
+        if (models.Count() < 1)
+            return View("Views/Dashboard/NoResults.cshtml", new T());
         return View("Views/Dashboard/Collection.cshtml", models);
     }
 
