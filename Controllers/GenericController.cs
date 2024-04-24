@@ -135,8 +135,6 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
             return BadRequest(JsonSerializer.Serialize(errors));
         }
 
-        Console.WriteLine($"Saving {savedPath} to {model.GetType().Name}");
-
         // finally, if all is well, save the path to the model and save the model
         prop.SetValue(model, savedPath);
         await MongoContext.Save(model);
