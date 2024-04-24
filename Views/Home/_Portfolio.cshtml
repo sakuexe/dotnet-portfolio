@@ -1,8 +1,21 @@
+@using fullstack_portfolio.Models
+@model Project[]
+
+@{
+  string DefaultImageUrl = Url.Content("~/images/code.png");
+  string GetImageUrl(string rawUrl)
+  {
+    if (!System.IO.File.Exists(rawUrl))
+      return DefaultImageUrl;
+    return Url.Content(rawUrl.Split("wwwroot")[1]);
+  }
+}
+
 <section class="grid gap-6 md:grid-cols-2">
   <div class="space-y-4">
     <div class="subheader">
       <p><span>// 04</span> Works</p>
-      <h2>My Skills & Tools</h2>
+      <h2>My Portfolio</h2>
     </div>
     <p>
       Leo in netus enim sed auctor. Enim dolor elementum velit aliquam enim. In feugiat
@@ -22,5 +35,29 @@
     </div>
     <img src="~/images/placeholder-phone.png" alt="placeholder phone"
       class="absolute top-0 right-0 -z-10 h-full">
+  </div>
+  <div>
+    <p>Filter by:</p>
+    <ul class="flex flex-wrap gap-2">
+      <li class="text-secondary">All <span>[10]</span></li>
+      <li>/</li>
+      <li>Web Development <span>[7]</span></li>
+      <li>/</li>
+      <li>Graphic Design <span>[3]</span></li>
+    </ul>
+  </div>
+  <div class="grid grid-cols-fluid gap-2 md:col-span-2">
+    @foreach (var project in Model)
+    {
+      <div class="w-full aspect-[3/2] relative overflow-clip shadow-primary/50 shadow-xl">
+        <img src="@GetImageUrl(project.ImageUrl)" alt="Image of the @project.Title project"
+          class="w-full h-full object-cover motion-safe:transition-all hover:scale-110">
+        <div class="absolute bottom-0 left-0 w-full bg-primary-950/50 backdrop-blur-md
+          py-2 px-4 leading-snug">
+          <p class="opacity-75">@project.Category</p>
+          <h4 class="font-bold text-2xl">@project.Title</h4>
+        </div>
+      </div>
+    }
   </div>
 </section>

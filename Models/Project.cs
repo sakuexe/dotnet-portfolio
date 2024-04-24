@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using fullstack_portfolio.Data;
 using MongoDB.Bson;
@@ -34,7 +35,6 @@ public class Project : IMongoModel
     public string Title { get; set; }
     [Required]
     [BsonElement("category")]
-    [Display(Name = "Chart Type")]
     [EnumDataType(typeof(CategoryType))]
     public CategoryType Category { get; set; }
     [MaxLength(5012)]

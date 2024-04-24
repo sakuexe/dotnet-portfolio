@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
 using fullstack_portfolio.Data;
@@ -16,7 +15,8 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
     public virtual string EditView { get; set; } = "Views/Dashboard/Edit.cshtml";
 
     // I tried using a struct, but when I do, the result is always empty
-    protected class Error {
+    protected class Error
+    {
         public string Field { get; set; } = string.Empty;
         public string[] Messages { get; set; } = Array.Empty<string>();
     }
@@ -89,7 +89,9 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
         // check that the ImageProperty is set if the file is sent
         if (string.IsNullOrEmpty(ImageProperty))
         {
-            Error[] errors = { new Error { Field = "general-error", Messages = new string[] { "ImageProperty variable is not set inside controller" } } };
+            Error[] errors = { new Error {
+                Field = "general-error",
+                Messages = new string[] { "ImageProperty variable is not set inside controller" } } };
             return BadRequest(JsonSerializer.Serialize(errors));
         }
 
@@ -126,11 +128,11 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
         if (prop == null)
         {
             Console.WriteLine("No property with imageurl found");
-            Error[] errors = { new Error { 
+            Error[] errors = { new Error {
                 Field = "general-error",
-                Messages = new string[] { 
-                    $"No variable ({ImageProperty}) could be found in the model {model.GetType().Name}" 
-                }} 
+                Messages = new string[] {
+                    $"No variable ({ImageProperty}) could be found in the model {model.GetType().Name}"
+                }}
             };
             return BadRequest(JsonSerializer.Serialize(errors));
         }
