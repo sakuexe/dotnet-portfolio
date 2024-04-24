@@ -1,9 +1,6 @@
 /** @type {HTMLFormElement | null} */
 const editForm =  document.querySelector("form#edit");
 
-/** @type {number} */
-let number;
-
 /**
  * @param {string} url
  * @returns {Promise<boolean>}
@@ -34,8 +31,8 @@ async function saveChanges(url) {
 
   } catch (error) {
     console.error(error.message);
-
     const generalError = editForm.querySelector("span#general-error");
+
     if (!generalError) {
       console.warn("no span#general-error found");
       return false;
@@ -48,9 +45,17 @@ async function saveChanges(url) {
   data.forEach(error => {
     // get the field with the corresponding for tag to the error field
     const field = editForm.querySelector(`span[data-valmsg-for="${error.Field}"]`);
-    if (field) {
-      field.textContent = error.Messages.join(", ");
+    const generalError = editForm.querySelector("span#general-error");
+
+    if (!field && generalError) {
+      generalError.textContent = error.Messages.join(", ");
+      return;
     }
+    if (!field) {
+      console.warn(`No field found for ${error.Field}`);
+      return;
+    }
+    field.textContent = error.Messages.join(", ");
   });
   return false;
 }
@@ -69,6 +74,10 @@ editForm?.addEventListener("submit", async (e) => {
   successMessage.textContent = "Changes saved successfully";
   successMessage.classList.add("text-center", "w-full", "opacity-75", "italic");
   editForm.appendChild(successMessage);
+  // wait for 500ms and then get back to the previous page
+  setTimeout(() => {
+    window.history.back();
+  }, 500);
 })
 
 editForm?.addEventListener("change", () => {

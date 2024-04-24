@@ -52,7 +52,7 @@ public static class FileUtils
     // you can also pass the height
     // more info here:
     // https://docs.sixlabors.com/articles/imagesharp/resize.html
-    public static bool ResizeImage(string path, int width, int height = 0)
+    public static string? ResizeImage(string path, int width, int height = 0)
     {
         try {
             using Image img = Image.Load(path);
@@ -60,8 +60,8 @@ public static class FileUtils
             img.Save(path);
         } catch (Exception e) {
             Debug.WriteLine($"Error resizing image: {e.Message}");
-            return false;
+            return e.Message;
         }
-        return true;
+        return null;
     }
 }

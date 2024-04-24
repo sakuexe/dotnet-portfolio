@@ -10,7 +10,7 @@ string ImagePath = ViewUtils.TrimPath(Model.ImageUrl ?? string.Empty);
 }
 
 <section>
-  <form id="edit" action="/dashboard/@collection/@id/save" method="post" class="grid">
+  <form id="edit" action="/dashboard/@collection/@id/save" method="post" enctype="multipart/form-data" class="grid">
     <input asp-for="@Model._id" value="@id" hidden aria-hidden="true" />
 
     <label for="@Model.Title">Title</label>
@@ -18,13 +18,11 @@ string ImagePath = ViewUtils.TrimPath(Model.ImageUrl ?? string.Empty);
     <span asp-validation-for="@Model.Title" class="text-accent-400"></span>
 
     <label for="@Model.Category">Category</label>
-    <select asp-for="@Model.Category" asp-items="@enumValues"
-      class="bg-primary border-2 border-primary-700"></select>
+    <select asp-for="@Model.Category" asp-items="@enumValues" class="bg-primary border-2 border-primary-700"></select>
     <span asp-validation-for="@Model.Category" class="text-accent-400"></span>
 
     <label for="@Model.Description">Description</label>
-    <textarea asp-for="@Model.Description" rows="5"
-      class="bg-transparent border-2 border-primary-700">
+    <textarea asp-for="@Model.Description" rows="5" class="bg-transparent border-2 border-primary-700">
     </textarea>
     <span asp-validation-for="@Model.Description" class="text-accent-400"></span>
 
@@ -34,27 +32,26 @@ string ImagePath = ViewUtils.TrimPath(Model.ImageUrl ?? string.Empty);
 
     <label for="@Model.Tags">Tags</label>
     <div id="tags" class="flex flex-wrap gap-2">
-    @foreach (int index in Enumerable.Range(0, Model.Tags.Count()))
-    {
+      @foreach (int index in Enumerable.Range(0, Model.Tags.Count()))
+      {
       <div class="bg-primary-700 px-2 py-1">
         @Model.Tags[index]
         <button type="button" class="remove-tag">x</button>
         <input asp-for="@Model.Tags[index]" hidden>
       </div>
-    }
+      }
     </div>
     <span asp-validation-for="@Model.Tags" class="text-accent-400"></span>
     <div id="new-tags" class="flex flex-col">
-      <button type="button" id="add-tag" 
-        class="bg-transparent border-2 border-primary-700">
+      <button type="button" id="add-tag" class="bg-transparent border-2 border-primary-700">
         <span class="font-bold">+</span> Add New Tag
       </button>
     </div>
 
     <label>Team Members</label>
     <div id="teammates" class="flex flex-wrap gap-2">
-    @foreach (int index in Enumerable.Range(0, Model.Team.Count()))
-    {
+      @foreach (int index in Enumerable.Range(0, Model.Team.Count()))
+      {
       <div class="flex flex-col max-w-md">
         <label asp-for="@Model.Team[index].Name">Name</label>
         <input asp-for="@Model.Team[index].Name" class="bg-transparent border-2 border-primary-700" />
@@ -67,7 +64,7 @@ string ImagePath = ViewUtils.TrimPath(Model.ImageUrl ?? string.Empty);
 
         <button type="button" class="remove-teammate">Remove</button>
       </div>
-    }
+      }
       <button type="button" id="add-teammate" class="border-2 border-primary-700 flex-grow">
         <div class="font-bold">
           &plus;
@@ -82,28 +79,35 @@ string ImagePath = ViewUtils.TrimPath(Model.ImageUrl ?? string.Empty);
       <label for="file">Image</label>
       @if (!string.IsNullOrEmpty(ImagePath))
       {
-        <p class="opacity-75 text-sm">
-          Current: <a href="@ImagePath">@ImagePath</a>
-        </p>
+      <p class="opacity-75 text-sm">
+        Current: <a href="@ImagePath">@ImagePath</a>
+      </p>
       }
     </div>
     <input type="file" id="file" name="file"></input>
     <span data-valmsg-for="file" data-valmsg-replace="true" class="text-red-500 field-validation-valid"></span>
 
+    <!-- the actual image url -->
+    <!-- it is added so that the url will not get removed if an empty file is passed -->
+    <input asp-for="@Model.ImageUrl" class="bg-transparent border-2 border-primary-700" hidden />
+    <span asp-validation-for="@Model.ImageUrl" class="text-accent-400"></span>
+
     <div>
       <label for="@Model.IsLarge">IsLarge</label>
       <input asp-for="@Model.IsLarge" class="bg-transparent border-2 border-primary-700" />
-    <span asp-validation-for="@Model.IsLarge" class="text-accent-400"></span>
+      <span asp-validation-for="@Model.IsLarge" class="text-accent-400"></span>
     </div>
 
 
     <button type="submit" class="bg-primary text-white border-2 border-primary-700">Save</button>
 
+    <span id="general-error" class="text-accent-400"></span>
+
   </form>
 </section>
 
 @section Scripts {
-  <script src="~/js/addteammate.js"></script>
-  <script src="~/js/addtag.js"></script>
-  <script src="~/js/savechanges.js" defer></script>
+<script src="~/js/addteammate.js"></script>
+<script src="~/js/addtag.js"></script>
+<script src="~/js/savechanges.js" defer></script>
 }

@@ -16,4 +16,6 @@ public class SkillController : GenericController<Skill> { }
 public class ProjectController : GenericController<Project> 
 { 
     public override string EditView { get; set; } = "Views/Dashboard/EditProject.cshtml";
+    public override string? ImageProperty { get; set; } = "ImageUrl";
+    public override int ImageWidth { get; set; } = 512;
 }

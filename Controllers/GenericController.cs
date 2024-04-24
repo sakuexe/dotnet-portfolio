@@ -89,7 +89,7 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
         // check that the ImageProperty is set if the file is sent
         if (string.IsNullOrEmpty(ImageProperty))
         {
-            Error[] errors = { new Error { Field = "Icon", Messages = new string[] { "ImageProperty variable is not set inside controller" } } };
+            Error[] errors = { new Error { Field = "general-error", Messages = new string[] { "ImageProperty variable is not set inside controller" } } };
             return BadRequest(JsonSerializer.Serialize(errors));
         }
 
@@ -97,23 +97,24 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
         string? savedPath = await FileUtils.SaveFile(file);
         if (savedPath == null)
         {
-            Error[] errors = { new Error { Field = "Icon", Messages = new string[] { "File could not be saved" } } };
+            Error[] errors = { new Error { Field = ImageProperty, Messages = new string[] { "File could not be saved" } } };
             return BadRequest(JsonSerializer.Serialize(errors));
         }
 
         // resize the image (svgs not supported)
         string filetype = Path.GetExtension(savedPath);
-        if (filetype == ".svg" || !FileUtils.ResizeImage(savedPath, ImageWidth, ImageHeight))
-            Debug.WriteLine("Couldn't resize the image");
+        string? resizeResult = FileUtils.ResizeImage(savedPath, ImageWidth, ImageHeight);
+        if (filetype != ".svg" && !string.IsNullOrEmpty(resizeResult))
+        {
+            Error[] errors = { new Error { Field = ImageProperty, Messages = new string[] { resizeResult } } };
+            return BadRequest(JsonSerializer.Serialize(errors));
+        }
 
         T? currentModelData = MongoContext.Get<T>(model._id.ToString());
-        if (currentModelData != null)
+        string? currentIcon = currentModelData?.GetType().GetProperty(ImageProperty)?.GetValue(currentModelData) as string;
+        if (currentIcon != null)
         {
             // fetch all the expertise items that have the same icon
-            string? currentIcon = currentModelData.GetType().GetProperty(ImageProperty)?.GetValue(currentModelData) as string;
-            if (currentIcon == null)
-                return BadRequest("Icon property is not set correctly in the model");
-
             List<T> records = await MongoContext.Filter<T>(ImageProperty!, currentIcon);
             // do not remove the file if it's being used by another item
             if (records.Count() < 1 && currentIcon != savedPath)
@@ -124,14 +125,17 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
         PropertyInfo? prop = model.GetType().GetProperty(ImageProperty ?? "");
         if (prop == null)
         {
+            Console.WriteLine("No property with imageurl found");
             Error[] errors = { new Error { 
-                Field = ImageProperty ?? "",
+                Field = "general-error",
                 Messages = new string[] { 
-                    $"Property variable ({ImageProperty}) is set incorrectly inside controller" 
+                    $"No variable ({ImageProperty}) could be found in the model {model.GetType().Name}" 
                 }} 
             };
             return BadRequest(JsonSerializer.Serialize(errors));
         }
+
+        Console.WriteLine($"Saving {savedPath} to {model.GetType().Name}");
 
         // finally, if all is well, save the path to the model and save the model
         prop.SetValue(model, savedPath);
