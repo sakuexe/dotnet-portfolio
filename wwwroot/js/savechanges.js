@@ -30,6 +30,7 @@ async function saveChanges(url) {
 
     if (response.ok) return true;
     data = await response.json();
+    console.table(data);
 
   } catch (error) {
     console.error(error.message);

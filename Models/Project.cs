@@ -42,7 +42,7 @@ public class Project : IMongoModel
     public string? Description { get; set; }
     [Required]
     [DataType(DataType.Date)]
-    public DateOnly FinishedAt { get; set; }
+    public DateOnly? FinishedAt { get; set; }
     public List<string> Tags { get; set; }
     public List<TeamMember> Team { get; set; }
     [DataType(DataType.ImageUrl)]

@@ -64,6 +64,7 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
         if (model == null)
             return NotFound();
         ViewBag.Title = model._id.ToString().Substring(0, 8) + "...";
+        ViewBag.Collection = typeof(T).Name;
         return View(EditView, model);
     }
 
