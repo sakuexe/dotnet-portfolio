@@ -1,0 +1,85 @@
+@using fullstack_portfolio.Models
+@using fullstack_portfolio.Utils
+@model Experience
+
+@{
+string collection = ViewBag.Collection;
+var id = @Model.GetType().GetProperty("_id")?.GetValue(Model);
+string ImagePath = ViewUtils.TrimPath(Model.ImageUrl ?? string.Empty);
+string skills = string.Join(", ", Model.Skills);
+}
+
+<section>
+  <form id="edit" action="/dashboard/@collection/@id/save" method="post" enctype="multipart/form-data" class="grid">
+    <input asp-for="@Model._id" value="@id" hidden aria-hidden="true" />
+
+    <!-- Title -->
+    <label asp-for="@Model.Title">Title</label>
+    <input asp-for="@Model.Title" class="bg-transparent border-2 border-primary-700" />
+    <span asp-validation-for="@Model.Title" class="text-accent-400"></span>
+
+    <!-- Start Date -->
+    <label asp-for="@Model.StartDate">Start Date</label>
+    <input asp-for="@Model.StartDate" class="bg-transparent border-2 border-primary-700" />
+    <span asp-validation-for="@Model.StartDate" class="text-accent-400"></span>
+
+    <!-- End Date -->
+    <label asp-for="@Model.EndDate">End date</label>
+    <input asp-for="@Model.EndDate" class="bg-transparent border-2 border-primary-700" />
+    <span asp-validation-for="@Model.EndDate" class="text-accent-400"></span>
+
+    <!-- Description -->
+    <label asp-for="@Model.Description">Description</label>
+    <textarea asp-for="@Model.Description" rows="5" class="bg-transparent border-2 border-primary-700">
+    </textarea>
+    <span asp-validation-for="@Model.Description" class="text-accent-400"></span>
+
+    <!-- Skills -->
+    <label for="skills-mock">Skills</label>
+    <div id="Skills" class="string-list-container flex flex-wrap gap-2">
+      @foreach (int index in Enumerable.Range(0, Model.Skills.Count()))
+      {
+        <div>
+          <button type="button" class="bg-primary-700 px-2 py-1">@Model.Skills[index] x</button>
+          <input asp-for="@Model.Skills[index]" hidden>
+        </div>
+      }
+    </div>
+    <input name="skills-mock" type="text" placeholder="New Skill..."
+      class="string-list bg-transparent border-2 border-primary-700">
+    <span asp-validation-for="@Model.Skills" class="text-accent-400"></span>
+
+    <!-- Image file -->
+    <div class="flex gap-2 items-center">
+      <label for="file">Image</label>
+      @if (!string.IsNullOrEmpty(ImagePath))
+      {
+      <p class="opacity-75 text-sm">
+        Current: <a href="@ImagePath">@ImagePath</a>
+      </p>
+      }
+    </div>
+    <input type="file" id="file" name="file"></input>
+    <span data-valmsg-for="file" data-valmsg-replace="true" class="text-red-500 field-validation-valid"></span>
+
+    <!-- Alt Text for the image -->
+    <label for="@Model.AltText">Alternative Text</label>
+    <input asp-for="@Model.AltText" class="bg-primary border-2 border-primary-700"></input>
+    <span asp-validation-for="@Model.AltText" class="text-accent-400"></span>
+
+    <!-- the actual image url -->
+    <!-- it is added so that the url will not get removed if an empty file is passed -->
+    <input asp-for="@Model.ImageUrl" class="bg-transparent border-2 border-primary-700" hidden />
+    <span asp-validation-for="@Model.ImageUrl" class="text-accent-400"></span>
+
+    <button type="submit" class="bg-primary text-white border-2 border-primary-700">Save</button>
+
+    <span id="general-error" class="text-accent-400"></span>
+
+  </form>
+</section>
+
+@section Scripts {
+<script src="~/js/savechanges.js" defer></script>
+<script src="~/js/stringlist.js" defer></script>
+}

@@ -25,6 +25,8 @@ public class Experience : IMongoModel
     public List<string> Skills { get; set; }
     [DataType(DataType.ImageUrl)]
     public string? ImageUrl { get; set; }
+    [DataType(DataType.Text)]
+    public string? AltText { get; set; }
 
     public Experience()
     {
