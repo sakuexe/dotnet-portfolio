@@ -18,6 +18,11 @@ string skills = string.Join(", ", Model.Skills);
     <input asp-for="@Model.Title" class="bg-transparent border-2 border-primary-700" />
     <span asp-validation-for="@Model.Title" class="text-accent-400"></span>
 
+    <!-- Subtitle -->
+    <label asp-for="@Model.Subtitle">Subtitle</label>
+    <input asp-for="@Model.Subtitle" class="bg-transparent border-2 border-primary-700" />
+    <span asp-validation-for="@Model.Subtitle" class="text-accent-400"></span>
+
     <!-- Start Date -->
     <label asp-for="@Model.StartDate">Start Date</label>
     <input asp-for="@Model.StartDate" class="bg-transparent border-2 border-primary-700" />

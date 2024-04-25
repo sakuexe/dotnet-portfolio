@@ -1,9 +1,66 @@
 @using fullstack_portfolio.Models;
 @model Experience[]
 
-<section id="experience">
-  <div class="subheader">
-    <p><span>// 05</span> Experience</p>
-    <h2>Professional Experience</h2>
+@{
+string DefaultImage = "/images/callingcard.jpg";
+string GetImage(string path)
+{
+if (!File.Exists(path))
+return DefaultImage;
+return path.Split("wwwroot/")[1];
+}
+}
+
+<section id="experience" class="space-y-6 max-w-content mx-auto no-container">
+  <div class="max-w-4xl space-y-4 section-padding">
+    <div class="subheader">
+      <p><span>// 05</span> Experience</p>
+      <h2>Professional Experience</h2>
+    </div>
+    <p>
+      Leo in netus enim sed auctor. Enim dolor elementum velit aliquam enim. In feugiat
+      diam bibendum egestas amet ullamcorper ipsum. Massa semper enim mauris leo.
+      At fusce nulla ut enim aliquet purus praesent eleifend.
+    </p>
+  </div>
+  <div class="grid gap-10">
+    @foreach (var (exp, index) in Model.Select((val, i) => (val, i)))
+    {
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div class="exp-header flex flex-col justify-center py-4 overflow-clip relative section-padding
+        @(index % 2 == 0 ? "" : "order-last")">
+        <div class="timespan flex gap-2 text-secondary-400">
+          //
+          <p>@exp.StartDate.ToString("MM.yyyy")</p>
+          -&gt;
+          <p>@(exp.EndDate?.ToString("MM.yyyy") ?? "Current")</p>
+        </div>
+
+        <h3 class="text-4xl font-sans mb-2">@exp.Title</h3>
+        <h4 class="text-xl font-bold font-sans">@exp.Subtitle</h4>
+
+        <img src="@GetImage(exp.ImageUrl)" alt="@exp.AltText"
+          class="w-full h-full absolute top-0 left-0 object-cover -z-30">
+        <!-- Darken the background -->
+        <div class="w-full h-full absolute top-0 left-0 bg-primary/75 -z-20">
+        </div>
+        <!-- Add a gradient to the background for better contrast -->
+        <div class="w-full h-full absolute top-0 left-0 mix-blend-multiply
+          bg-gradient-to-r from-primary to-transparent -z-10">
+        </div>
+      </div>
+
+      <div class="exp-body section-padding flex flex-col gap-4 justify-center">
+        <p>@exp.Description</p>
+        <div class="flex gap-2 flex-wrap">
+          @foreach (var skill in exp.Skills)
+          {
+          <span class="border border-secondary px-6 py-1.5 rounded-full 
+            capitalize motion-safe:transition-all hover:bg-secondary">@skill</span>
+          }
+        </div>
+      </div>
+    </div>
+    }
   </div>
 </section>

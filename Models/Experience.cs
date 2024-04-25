@@ -14,6 +14,9 @@ public class Experience : IMongoModel
     [DataType(DataType.Text)]
     public string Title { get; set; }
     [Required]
+    [DataType(DataType.Text)]
+    public string Subtitle { get; set; }
+    [Required]
     [DataType(DataType.Date)]
     public DateOnly StartDate { get; set; }
     [DataType(DataType.Date)]
