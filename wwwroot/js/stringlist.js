@@ -6,19 +6,40 @@ mockFields?.forEach((field, index) => {
   field.addEventListener("change", () => {
     const values = splitStrings(/** @type {HTMLInputElement}*/(field));
     values.map((value) => addInputField(value, containers[index]));
+    // @ts-ignore
+    field.value = "";
   });
 });
 
 deleteButtons?.forEach((button) => {
+  addRemoveButtonFunctionality(button);
+});
+
+/** @param {Element} button */
+function addRemoveButtonFunctionality(button) {
   button.addEventListener("click", () => {
     const div = button.parentElement;
+    const propertyGroup = div?.parentElement;
     if (!div) {
-      console.error("no outer div for the button was found");
+      console.error("the following button has no parent element", button);
       return
     }
     div.remove();
+    reCountInputs(propertyGroup);
   });
-});
+}
+
+/** @param {HTMLElement | null | undefined} element */
+function reCountInputs(element) {
+  if (!element) {
+    console.error("no parent element found for input fields");
+    return
+  }
+  const inputs = element.querySelectorAll("input");
+  inputs.forEach((input, index) => {
+    input.name = `${input.name.replace(/\[\d+\]/, `[${index}]`)}`
+  });
+}
 
 /** 
  * @param {HTMLInputElement} field
@@ -54,7 +75,14 @@ function addInputField(value, currentContainer) {
   const button = document.createElement("button");
   button.textContent = `${value} ${deleteIcon}`;
   button.classList.add("bg-primary-600", "px-2", "py-1");
+  button.type = "button"; // prevent form submission
 
-  currentContainer?.appendChild(input);
-  currentContainer?.appendChild(button);
+  // add the input and the button elements to a div
+  // so that they are grouped together for easy removal
+  const div = document.createElement("div");
+  div.appendChild(input);
+  div.appendChild(button);
+
+  currentContainer.appendChild(div);
+  addRemoveButtonFunctionality(button);
 }

@@ -74,9 +74,9 @@ editForm?.addEventListener("submit", async (e) => {
   successMessage.textContent = "Changes saved successfully";
   successMessage.classList.add("text-center", "w-full", "opacity-75", "italic");
   editForm.appendChild(successMessage);
-  // wait for 500ms and then get back to the previous page
+  // wait for 500ms and then reload the page
   setTimeout(() => {
-    window.history.back();
+    window.location.reload();
   }, 500);
 })
 
