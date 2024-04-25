@@ -19,3 +19,9 @@ public class ProjectController : GenericController<Project>
     public override string? ImageProperty { get; set; } = "ImageUrl";
     public override int ImageWidth { get; set; } = 512;
 }
+
+public class ExperienceController : GenericController<Experience> 
+{
+    public override string? ImageProperty { get; set; } = "ImageUrl";
+    public override int ImageWidth { get; set; } = 512;
+}
