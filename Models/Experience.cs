@@ -22,7 +22,7 @@ public class Experience : IMongoModel
     [DataType(DataType.MultilineText)]
     public string Description { get; set; }
     [Required]
-    public string[] Skills { get; set; }
+    public List<string> Skills { get; set; }
     [DataType(DataType.ImageUrl)]
     public string? ImageUrl { get; set; }
 
@@ -31,6 +31,6 @@ public class Experience : IMongoModel
         Title = string.Empty;
         StartDate = DateOnly.FromDateTime(DateTime.UtcNow);
         Description = string.Empty;
-        Skills = Array.Empty<string>();
+        Skills = new List<string>();
     }
 }
