@@ -72,6 +72,25 @@ public class MongoContext
         }
     }
 
+    public static T? GetLatest<T>() where T : IMongoModel
+    {
+        var table = typeof(T).Name.ToLower();
+        try
+        {
+            var mongoCollection = Database?.GetCollection<T>(table);
+            var results = mongoCollection
+                .AsQueryable()
+                .OrderByDescending(c => c._id)
+                .FirstOrDefault();
+            return results;
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e.Message);
+            return default;
+        }
+    }
+
     public static List<T> GetAll<T>(string? collectionName = null) where T : IMongoModel
     {
         var table = typeof(T).Name.ToLower();

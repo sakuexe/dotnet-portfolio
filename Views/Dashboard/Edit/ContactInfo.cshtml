@@ -1,0 +1,41 @@
+@using fullstack_portfolio.Models;
+@model ContactInfo
+
+@{
+string collection = ViewBag.Collection;
+var id = @Model.GetType().GetProperty("_id")?.GetValue(Model);
+}
+
+<section>
+  <form id="edit" action="/dashboard/@collection/@id/save" method="post" enctype="multipart/form-data" class="grid">
+    <input asp-for="@Model._id" value="@id" hidden aria-hidden="true" />
+
+    <!-- Title -->
+    <label asp-for="@Model.Email">Email</label>
+    <input asp-for="@Model.Email" class="bg-transparent border-2 border-primary-700" />
+    <span asp-validation-for="@Model.Email" class="text-accent-400"></span>
+
+    <!-- Links -->
+    <label for="links-mock">Links</label>
+    <div id="Links" class="string-list-container flex flex-wrap gap-2">
+      @foreach (int index in Enumerable.Range(0, Model.Links.Count()))
+      {
+        <div>
+          <button type="button" class="bg-primary-700 px-2 py-1">@Model.Links[index] x</button>
+          <input asp-for="@Model.Links[index]" hidden>
+        </div>
+      }
+    </div>
+    <input name="links-mock" type="text" placeholder="New Skill..."
+      class="string-list bg-transparent border-2 border-primary-700">
+    <span asp-validation-for="@Model.Links" class="text-accent-400"></span>
+
+    <button type="submit" class="bg-primary text-white border-2 border-primary-700">Save</button>
+
+  </form>
+</section>
+
+@section Scripts {
+  <script src="~/js/stringlist.js"></script>
+  <script src="~/js/savechanges.js"></script>
+}

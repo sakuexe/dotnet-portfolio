@@ -26,3 +26,8 @@ public class ExperienceController : GenericController<Experience>
     public override int ImageWidth { get; set; } = 512;
     public override string EditView { get; set; } = "Views/Dashboard/Edit/Experience.cshtml";
 }
+
+public class ContactInfoController : GenericController<ContactInfo> 
+{
+    public override string EditView { get; set; } = "Views/Dashboard/Edit/ContactInfo.cshtml";
+}

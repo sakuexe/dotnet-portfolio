@@ -23,7 +23,7 @@ return path.Split("wwwroot/")[1];
       At fusce nulla ut enim aliquet purus praesent eleifend.
     </p>
   </div>
-  <div class="grid gap-10">
+  <div class="grid gap-y-10">
     @foreach (var (exp, index) in Model.Select((val, i) => (val, i)))
     {
     <div class="grid gap-4 lg:grid-cols-2">
@@ -50,7 +50,7 @@ return path.Split("wwwroot/")[1];
         </div>
       </div>
 
-      <div class="exp-body section-padding flex flex-col gap-4 justify-center">
+      <div class="exp-body section-padding flex flex-col gap-4 justify-center md:px-4">
         <p>@exp.Description</p>
         <div class="flex gap-2 flex-wrap">
           @foreach (var skill in exp.Skills)

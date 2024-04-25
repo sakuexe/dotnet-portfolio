@@ -8,6 +8,7 @@ public class HomeViewModel
     public Skill[] Skills { get; set; }
     public Project[] Portfolio { get; set; }
     public Experience[] Experience { get; set; }
+    public ContactInfo ContactInfo { get; set; }
 
     public HomeViewModel()
     {
@@ -15,5 +16,6 @@ public class HomeViewModel
         Skills = MongoContext.GetAll<Skill>().ToArray();
         Portfolio = MongoContext.GetAll<Project>().ToArray();
         Experience = MongoContext.GetAll<Experience>().ToArray();
+        ContactInfo = MongoContext.GetLatest<ContactInfo>() ?? new ContactInfo();
     }
 }
