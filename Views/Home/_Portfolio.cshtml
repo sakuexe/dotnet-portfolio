@@ -2,7 +2,7 @@
 @model Project[]
 
 @{
-  string DefaultImageUrl = Url.Content("~/images/code.png");
+  string DefaultImageUrl = Url.Content("~/images/white-grid.png");
   string GetImageUrl(string rawUrl)
   {
     if (!System.IO.File.Exists(rawUrl))
@@ -36,7 +36,8 @@
     <img src="~/images/placeholder-phone.png" alt="placeholder phone"
       class="absolute top-0 right-0 -z-10 h-full">
   </div>
-  <div>
+
+  <div class="md:col-span-full">
     <p>Filter by:</p>
     <ul class="flex flex-wrap gap-2">
       <li class="text-secondary">All <span>[10]</span></li>
@@ -46,16 +47,29 @@
       <li>Graphic Design <span>[3]</span></li>
     </ul>
   </div>
-  <div class="grid grid-cols-fluid gap-2 md:col-span-2">
-    @foreach (var project in Model)
+
+  <div class="grid grid-cols-fluid gap-4 md:col-span-2">
+    @foreach (var project in Model.OrderByDescending(p => p.FinishedAt))
     {
-      <div class="w-full aspect-[3/2] relative overflow-clip shadow-primary/50 shadow-xl">
-        <img src="@GetImageUrl(project.ImageUrl)" alt="Image of the @project.Title project"
-          class="w-full h-full object-cover motion-safe:transition-all hover:scale-110">
-        <div class="absolute bottom-0 left-0 w-full bg-primary-950/50 backdrop-blur-md
+      <div 
+      class="w-full relative overflow-clip shadow-primary/50 drop-shadow-lg group
+        @(project.IsLarge ? "row-span-2" : "aspect-[3/2]")">
+        <img src="@GetImageUrl(project.ImageUrl)" 
+          alt="@(project.AltText ?? $"Image of the {project.Title} project")"
+          class="w-full h-full object-cover saturate-0
+          motion-safe:transition-all group-hover:scale-110 group-hover:saturate-50">
+        <div class="absolute bottom-0 left-0 w-full z-10
           py-2 px-4 leading-snug">
-          <p class="opacity-75">@project.Category</p>
-          <h4 class="font-bold text-2xl">@project.Title</h4>
+          <p class="opacity-75 drop-shadow-md">@Html.DisplayTextFor(m => project.Category)</p>
+          <h4 class="font-bold text-2xl capitalize drop-shadow-md">@project.Title</h4>
+        </div>
+        <!-- Add a smooth gradient to bottom of image for text contrast -->
+        <div class="bg-gradient-to-t from-black to-transparent h-1/2 w-full
+        absolute bottom-0 left-0 mix-blend-multiply opacity-95">
+        </div>
+        <!-- Color the black and white images to match the theme -->
+        <div class="bg-secondary h-full w-full opacity-50 mix-blend-multiply
+        absolute bottom-0 left-0 motion-safe:transition-all group-hover:opacity-25">
         </div>
       </div>
     }

@@ -87,6 +87,10 @@ string ImagePath = ViewUtils.TrimPath(Model.ImageUrl ?? string.Empty);
     <input type="file" id="file" name="file"></input>
     <span data-valmsg-for="file" data-valmsg-replace="true" class="text-red-500 field-validation-valid"></span>
 
+    <label for="@Model.AltText">Alternative Text</label>
+    <input asp-for="@Model.AltText" class="bg-primary border-2 border-primary-700"></input>
+    <span asp-validation-for="@Model.AltText" class="text-accent-400"></span>
+
     <!-- the actual image url -->
     <!-- it is added so that the url will not get removed if an empty file is passed -->
     <input asp-for="@Model.ImageUrl" class="bg-transparent border-2 border-primary-700" hidden />

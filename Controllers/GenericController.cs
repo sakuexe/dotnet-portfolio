@@ -42,6 +42,7 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
         ViewBag.Collection = typeof(T).Name;
         ViewBag.Title = $"{typeof(T).Name}s";
         List<T> models = MongoContext.GetAll<T>();
+        Console.WriteLine(models.Count());
         if (models.Count() < 1)
             return View("Views/Dashboard/NoResults.cshtml", new T());
         return View("Views/Dashboard/Collection.cshtml", models);
