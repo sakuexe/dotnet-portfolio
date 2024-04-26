@@ -1,0 +1,33 @@
+services:
+  dotnet:
+    container_name: dotnet
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      # set the environment variable to connect to the mongodb container
+      # the value is in ConnectionStrings > DefaultConnection
+      - ConnectionStrings__DefaultConnection=mongodb
+      - ConnectionStrings__DatabaseName=portfolio
+    depends_on:
+      - mongodb
+    networks:
+      - default
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - default
+
+networks:
+  default:
+
+volumes:
+  mongodb_data:

@@ -1,0 +1,9 @@
+README.md
+.gitignore
+.git/
+
+# npm stuff for tailwind
+node_modules/
+
+# pre-compiled Tailwind CSS
+tailwind.css
