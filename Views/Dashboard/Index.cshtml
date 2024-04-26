@@ -1,11 +1,74 @@
 @using fullstack_portfolio.Models.ViewModels
+@using fullstack_portfolio.Utils
 @model DashboardViewModel
-<section>
-  <h1>Admin Dashboard</h1>
-  <p>Welcome to the admin dashboard. Here you can manage your portfolio.</p>
 
-  @foreach (var collection in Model.Collections)
+@{
+  string defaultIcon = "wwwroot/icons/default.svg";
+  string GetSvgPath(string? filename)
   {
-  <p class="capitalize"><a asp-action="@collection">@collection</a></p>
+    if (filename == null)
+      return "";
+    filename = filename.ToLower();
+    string path = $"wwwroot/icons/{filename}.svg";
+    return System.IO.File.Exists(path) ? path : defaultIcon;
   }
+}
+
+<section id="dashboard" class="min-h-[80vh] max-h-[1440px] text-primary">
+  <div class="max-w-content mx-auto space-y-10 text-primary-100">
+    <div class="subheader text-center">
+      <p><span>// 00</span> Content Management</p>
+      <h1>Dashboard</h1>
+    </div>
+
+    <div class="flex gap-6 flex-wrap justify-center">
+      @foreach (var collection in Model.Collections)
+      {
+      <a asp-action="@collection" class="capitalize no-underline outline outline-2
+      outline-primary-600 grid place-items-center aspect-square w-48 rounded-md
+      backdrop-blur-md bg-primary/50
+      motion-safe:transition-all hover:bg-primary-600/75">
+        <div class="space-y-2 font-semibold">
+          <div class="fill-accent-200 w-20 mx-auto">
+            @Html.Raw(SvgUtils.SanitizeSvg(GetSvgPath(collection)))
+          </div>
+          <h2 class="text-center">@collection</h2>
+        </div>
+      </a>
+      }
+    </div>
+
+    <a href="/" class="btn mx-auto outline outline-2 outline-primary-600
+    motion-safe:transition-all hover:bg-primary-600/75">Return to Homepage</a>
+  </div>
 </section>
+
+<style>
+#dashboard {
+  background: url("/images/floating-cubes.jpg") no-repeat center center;
+  background-size: cover;
+  position: relative;
+  isolation: isolate;
+}
+#dashboard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(8px);
+  z-index: -2;
+}
+#dashboard::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: currentColor;
+  opacity: 0.50;
+  z-index: -1;
+}
+</style>

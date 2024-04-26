@@ -4,11 +4,14 @@ namespace fullstack_portfolio.Utils;
 
 public static class SvgUtils
 {
-    public static string SanitizeSvg(string path)
+    public static string? SanitizeSvg(string path)
     {
         string svgCode = File.ReadAllText(path);
+        if (svgCode == null)
+            return null;
         svgCode = RemoveFill(svgCode);
         svgCode = AddFullWidthHeight(svgCode);
+        svgCode = RemoveInlineFill(svgCode);
         return svgCode;
     }
 
@@ -38,5 +41,13 @@ public static class SvgUtils
         string replacePattern = "$1=\"100%\"";
         Regex rg = new Regex(FindWidthAndHeightPattern);
         return rg.Replace(svg, replacePattern);
+    }
+
+    public static string RemoveInlineFill(string svg)
+    {
+        string findFillPattern = @"fill:#?\w+;\s";
+        Regex rg = new Regex(findFillPattern);
+        svg = rg.Replace(svg, "");
+        return svg;
     }
 }
