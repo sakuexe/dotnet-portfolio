@@ -4,10 +4,9 @@ namespace fullstack_portfolio.Utils;
 
 public static class SvgUtils
 {
-    public static string SanitizeSvg(string link)
+    public static string SanitizeSvg(string path)
     {
-        string svgPath = GetSvgPath(link);
-        string svgCode = File.ReadAllText(svgPath);
+        string svgCode = File.ReadAllText(path);
         svgCode = RemoveFill(svgCode);
         svgCode = AddFullWidthHeight(svgCode);
         return svgCode;
@@ -22,7 +21,8 @@ public static class SvgUtils
     public static string RemoveFill(string svg)
     {
         // matches all fill properties and the values in them
-        string findFillPattern = @"(fill=\""#?\w*"")";
+        // also include the optional trailing whitespace
+        string findFillPattern = @"(fill=\""#?\w*""\s?)";
         Regex rg = new Regex(findFillPattern);
         svg = rg.Replace(svg, "");
         return svg;

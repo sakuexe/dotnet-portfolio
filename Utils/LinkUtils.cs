@@ -12,8 +12,8 @@ public static class LinkUtils
         string pattern = @"(^https?://)([^/]*)";
         Regex rg = new Regex(pattern);
 
-        // get the second group of regex (the main domain)
-        // groups[0] - all, groups[1] - first group
+        // get the second group of regex the domain
+        // groups[0] - all, groups[1] - first match group
         return rg.Match(link).Groups[2].Value;
     }
 

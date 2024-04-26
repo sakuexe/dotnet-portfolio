@@ -29,7 +29,7 @@
           {
           <div class="flex items-center gap-2">
             <div class="fill-primary-100 w-8">
-              @Html.Raw(SvgUtils.SanitizeSvg(link))
+              @Html.Raw(SvgUtils.SanitizeSvg(SvgUtils.GetSvgPath(link)))
             </div>
             <a href="@link" target="_blank" class="capitalize">@LinkUtils.GetBrand(link)</a>
           </div>
