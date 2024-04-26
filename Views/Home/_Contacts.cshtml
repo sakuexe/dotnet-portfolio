@@ -1,50 +1,84 @@
-@using fullstack_portfolio.Models;
-@using System.Text.RegularExpressions;
-@model ContactInfo
+@using fullstack_portfolio.Models.ViewModels;
+@using fullstack_portfolio.Utils;
+@model ContactsViewModel
 
-@{
-  // first group is http:// or https://
-  // second group is the domain
-  string pattern = @"(^https?://)([^/]*)";
-  Regex rg = new Regex(pattern);
-
-  string GetBrand(string link)
-  {
-    // get the second group of regex (the main domain)
-    string domain = rg.Match(link).Groups[2].Value;
-    Console.WriteLine(domain);
-    string business = domain.Split(".")[^2];
-    return business;
-  }
-}
-
-<section class="grid gap-4">
+<section class="space-y-4">
   <div class="subheader">
     <p><span>// 04</span> Contacts</p>
     <h2>Looking For a Developer?</h2>
   </div>
-  <div class="flex flex-col gap-4 justify-between">
-    <div class="space-y-4">
-      <b class="text-3xl font-bold">Get in Contact</b>
-      <p>
-        Are you in need of a developer for an upcoming project? Or are you
-        looking for someone to bring your software/website plans to fruition?
-        Get in touch with me and let’s work together to make sure your project
-        becomes the way you would want.
-      </p>
-      <p>
-        Get in contact with me through any of the links below or via the contact
-        form. Or shoot me a message through email.
-      </p>
+  <div class="grid gap-6 md:grid-cols-2">
+    <div class="flex flex-col gap-4 justify-between md:py-6">
+      <div class="space-y-4">
+        <b class="text-3xl font-bold">Get in Contact</b>
+        <p>
+          Are you in need of a developer for an upcoming project? Or are you
+          looking for someone to bring your software/website plans to fruition?
+          Get in touch with me and let’s work together to make sure your project
+          becomes the way you would want.
+        </p>
+        <p>
+          Get in contact with me through any of the links below or via the contact
+          form. Or shoot me a message through email.
+        </p>
+      </div>
+      <div class="space-y-4">
+        <p><a href="@Model.ContactInfo.Email">@Model.ContactInfo.Email</a></p>
+        <div id="Links" class="string-list-container flex flex-wrap gap-2">
+          @foreach (var link in Model.ContactInfo.Links)
+          {
+          <div class="flex items-center gap-2">
+            <div class="fill-primary-100 w-8">
+              @Html.Raw(SvgUtils.SanitizeSvg(link))
+            </div>
+            <a href="@link" target="_blank" class="capitalize">@LinkUtils.GetBrand(link)</a>
+          </div>
+          }
+        </div>
+      </div>
     </div>
     <div>
-      <p><a href="@Model.Email">@Model.Email</a></p>
-      <div id="Links" class="string-list-container flex flex-wrap gap-2">
-        @foreach (var link in Model.Links)
-        {
-          <a href="@link" class="capitalize">@GetBrand(link)</a>
-        }
-      </div>
+      <form id="ContactForm" asp-controller="Email" asp-action="SendEmail" method="post"
+        class="flex flex-col gap-2">
+
+        <div class="flex flex-col">
+          <label asp-for="@Model.Name">Name</label>
+          <input asp-for="@Model.Name" placeholder="Firstname Lastname" required
+            class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
+          <span asp-validation-for="@Model.Name"></span>
+        </div>
+
+        <div class="flex flex-col">
+          <label asp-for="@Model.Email">Email</label>
+          <input asp-for="@Model.Email" placeholder="email@address.com" required
+            class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
+          <span asp-validation-for="@Model.Email"></span>
+        </div>
+
+        <div class="flex flex-col">
+          <label asp-for="@Model.Subject">Subject</label>
+          <input asp-for="@Model.Subject" placeholder="Subject..." required
+            class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
+          <span asp-validation-for="@Model.Subject"></span>
+        </div>
+
+        <div class="flex flex-col">
+          <label asp-for="@Model.Message">Message</label>
+          <textarea asp-for="@Model.Message" placeholder="Message..." required rows="5"
+            class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md">
+          </textarea>
+          <span asp-validation-for="@Model.Message"></span>
+        </div>
+
+        <button type="submit" 
+          class="bg-gradient-to-r from-secondary-900 to-accent rounded-md px-4 py-2">
+          Send
+        </button>
+        <button type="submit" class="outline outline-2 outline-primary-600 rounded-md 
+          px-4 py-2">
+          Clear
+        </button>
+      </form>
     </div>
   </div>
 </section>
