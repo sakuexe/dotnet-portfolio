@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using fullstack_portfolio.Data;
 using MongoDB.Bson;
@@ -22,6 +21,11 @@ public class TeamMember
     public string Name { get; set; } = string.Empty;
     public string Role { get; set; } = string.Empty;
     public string? Link { get; set; }
+
+    public override string ToString()
+    {
+        return $"{Name} - {Role}";
+    }
 }
 
 public class Project : IMongoModel

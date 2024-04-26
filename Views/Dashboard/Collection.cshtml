@@ -1,29 +1,88 @@
-@model dynamic
+@using fullstack_portfolio.Data
+@using System.Reflection
+@model IMongoModel[]
 
 @{
-var collection = ViewBag.Collection;
+  var collection = ViewBag.Collection;
+  bool isList(PropertyInfo? prop) {
+    return prop.PropertyType.IsGenericType && prop.PropertyType.ToString().Contains("List");
+  }
 }
 
-<section>
-  <div class="flex gap-4">
-    <div>
-      <h1>Collection</h1>
-      <b>@collection</b>
-    </div>
-    <a href="/dashboard/@collection/new" class="btn border-2 border-primary-500 my-auto">Add a new @collection</a>
+<section class="space-y-6 max-w-content mx-auto">
+  <div class="subheader leading-tight">
+    <p><span>// [@Model.Count()]</span> Collection</p>
+    <h1>@collection</h1>
   </div>
 
-  @foreach (var item in Model)
-  {
-  @foreach (var prop in item.GetType().GetProperties())
-  {
-  @if (prop.Name == "_id")
-  {
-  <a asp-action="Edit" asp-route-id="@prop.GetValue(item)">@prop.Name: @prop.GetValue(item)</a>
-  continue;
-  }
-  <p>@prop.Name: @prop.GetValue(item)</p>
-  }
-  <hr>
-  }
+  <a href="/dashboard/@collection/new" 
+    class="block rounded-md px-4 py-1 border-2 border-secondary my-auto w-full 
+    text-center no-underline max-w-xl motion-safe:transition-all hover:bg-secondary">
+    Add a new @collection
+  </a>
+
+  <!-- Mobile List -->
+  <div id="mobile-list" class="grid gap-4 grid-flow-row lg:grid-cols-2">
+    @foreach (var item in Model)
+    {
+    <div class="border-2 border-primary-700 rounded-lg max-w-xl">
+
+      <div class="record-header bg-primary-700 px-4 py-2 rounded-md flex justify-between 
+        cursor-pointer select-none">
+        <div class="flex gap-2">
+          <h2 class="font-semibold">@item.GetType().GetProperties()[1].GetValue(item)</h2>
+          <span class="opacity-50">|</span>
+          <a asp-action="Edit" asp-route-id="@item._id">Edit</a>
+        </div>
+        <button type="button" class="open px-4">&#9660;</button>
+      </div>
+
+      <div class="record-body px-4 py-2 space-y-4">
+      @foreach (var (prop, index) in item.GetType().GetProperties().Select((prop, index) => (prop, index)))
+      {
+      @if (index <= 1) { continue; }
+      @if (isList(prop)) 
+      {
+        <div>
+          <p class="opacity-75">@prop.Name:</p>
+          <ul class="flex flex-wrap gap-2">
+            <span class="opacity-50">|</span>
+            @foreach (var listItem in (IEnumerable<object>)prop.GetValue(item))
+            {
+              <li>@listItem</li>
+              <span class="opacity-50">|</span>
+            }
+          </ul>
+        </div>
+        continue;
+      }
+
+      <div>
+        <p class="opacity-75">@prop.Name:</p>
+        <p>@prop.GetValue(item)</p>
+      </div>
+
+      @if (index <= item.GetType().GetProperties().Length - 2) { <hr class="opacity-25"> }
+
+      }
+      </div>
+    </div>
+    }
+  </div>
 </section>
+
+@section Scripts {
+  <script>
+    const records = document.querySelectorAll('#mobile-list .record-body');
+
+    records.forEach(record => {
+      record.style.display = 'none';
+    });
+
+    records.forEach(record => {
+      record.previousElementSibling.parentElement.addEventListener('click', () => {
+        record.style.display = record.style.display === 'none' ? 'block' : 'none';
+      });
+    });
+  </script>
+}

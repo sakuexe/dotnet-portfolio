@@ -48,6 +48,7 @@ body > main > *:not(.no-container) {
   font-style: monospace;
 }
 
+.subheader > h1,
 .subheader > h2 {
   font-family: "Montserrat", sans-serif;
   font-size: clamp(2.5rem, 8vw, 3rem);
