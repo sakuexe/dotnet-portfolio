@@ -34,6 +34,7 @@ public class Experience : IMongoModel
     public Experience()
     {
         Title = string.Empty;
+        Subtitle = string.Empty;
         StartDate = DateOnly.FromDateTime(DateTime.UtcNow);
         Description = string.Empty;
         Skills = new List<string>();

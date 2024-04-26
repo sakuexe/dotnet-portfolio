@@ -3,8 +3,10 @@
 
 @{
   string DefaultImageUrl = Url.Content("~/images/white-grid.png");
-  string GetImageUrl(string rawUrl)
+  string GetImageUrl(string? rawUrl)
   {
+    if (string.IsNullOrWhiteSpace(rawUrl))
+      return DefaultImageUrl;
     if (!System.IO.File.Exists(rawUrl))
       return DefaultImageUrl;
     return Url.Content(rawUrl.Split("wwwroot")[1]);

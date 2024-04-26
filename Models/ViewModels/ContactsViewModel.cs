@@ -15,5 +15,9 @@ public class ContactsViewModel
     public ContactsViewModel()
     {
         ContactInfo = MongoContext.GetLatest<ContactInfo>() ?? new ContactInfo();
+        Email = string.Empty;
+        Name = string.Empty;
+        Subject = string.Empty;
+        Message = string.Empty;
     }
 }

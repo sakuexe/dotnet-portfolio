@@ -18,10 +18,6 @@ public static class EditUtils
     public static string JoinStringList(PropertyInfo property, IMongoModel model)
     {
         var list = property.GetValue(model) as List<string>;
-        foreach (var value in list)
-        {
-            Console.WriteLine(value);
-        }
         return string.Join(", ", list ?? new List<string>());
     }
 

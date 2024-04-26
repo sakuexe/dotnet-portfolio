@@ -3,8 +3,10 @@
 
 @{
 string DefaultImage = "/images/callingcard.jpg";
-string GetImage(string path)
+string GetImage(string? path)
 {
+if (string.IsNullOrWhiteSpace(path))
+return DefaultImage;
 if (!File.Exists(path))
 return DefaultImage;
 return path.Split("wwwroot/")[1];
