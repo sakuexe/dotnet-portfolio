@@ -1,14 +1,15 @@
+@using fullstack_portfolio.Components
 @using fullstack_portfolio.Models.ViewModels;
 @using fullstack_portfolio.Utils;
 @model ContactsViewModel
 
-<section class="space-y-4">
-  <div class="subheader">
+<section class="space-y-8 max-w-7xl mx-auto">
+  <div class="subheader md:text-center">
     <p><span>// 04</span> Contacts</p>
     <h2>Looking For a Developer?</h2>
   </div>
   <div class="grid gap-6 md:grid-cols-2">
-    <div class="flex flex-col gap-4 justify-between md:py-6">
+    <div class="flex flex-col gap-4 justify-between md:pt-6">
       <div class="space-y-4">
         <b class="text-3xl font-bold">Get in Contact</b>
         <p>
@@ -27,58 +28,18 @@
         <div id="Links" class="string-list-container flex flex-wrap gap-2">
           @foreach (var link in Model.ContactInfo.Links)
           {
-          <div class="flex items-center gap-2">
-            <div class="fill-primary-100 w-8">
-              @Html.Raw(SvgUtils.SanitizeSvg(SvgUtils.GetSvgPath(link)))
+            <div class="flex items-center gap-2">
+              <div class="fill-primary-100 w-8">
+                @Html.Raw(SvgUtils.SanitizeSvg(SvgUtils.GetSvgPath(link)))
+              </div>
+              <a href="@link" target="_blank" class="capitalize">@LinkUtils.GetBrand(link)</a>
             </div>
-            <a href="@link" target="_blank" class="capitalize">@LinkUtils.GetBrand(link)</a>
-          </div>
           }
         </div>
       </div>
     </div>
     <div>
-      <form id="ContactForm" asp-controller="Email" asp-action="SendEmail" method="post"
-        class="flex flex-col gap-2">
-
-        <div class="flex flex-col">
-          <label asp-for="@Model.Name">Name</label>
-          <input asp-for="@Model.Name" placeholder="Firstname Lastname" required
-            class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
-          <span asp-validation-for="@Model.Name"></span>
-        </div>
-
-        <div class="flex flex-col">
-          <label asp-for="@Model.Email">Email</label>
-          <input asp-for="@Model.Email" placeholder="email@address.com" required
-            class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
-          <span asp-validation-for="@Model.Email"></span>
-        </div>
-
-        <div class="flex flex-col">
-          <label asp-for="@Model.Subject">Subject</label>
-          <input asp-for="@Model.Subject" placeholder="Subject..." required
-            class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
-          <span asp-validation-for="@Model.Subject"></span>
-        </div>
-
-        <div class="flex flex-col">
-          <label asp-for="@Model.Message">Message</label>
-          <textarea asp-for="@Model.Message" placeholder="Message..." required rows="5"
-            class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md">
-          </textarea>
-          <span asp-validation-for="@Model.Message"></span>
-        </div>
-
-        <button type="submit" 
-          class="bg-gradient-to-r from-secondary-900 to-accent rounded-md px-4 py-2">
-          Send
-        </button>
-        <button type="submit" class="outline outline-2 outline-primary-600 rounded-md 
-          px-4 py-2">
-          Clear
-        </button>
-      </form>
+      <component type="typeof(EmailForm)" render-mode="Server" />
     </div>
   </div>
 </section>

@@ -1,0 +1,57 @@
+@using fullstack_portfolio.Data
+@using fullstack_portfolio.Models
+
+<form id="ContactForm" @onsubmit="() => MockEmail()" class="flex flex-col gap-2">
+
+	<div class="flex flex-col">
+		<label for="Name">Name</label>
+		<input type="text" id="Name" name="Name" placeholder="Firstname Lastname" required @bind="Name"
+			class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
+		<span asp-validation-for="Name"></span>
+	</div>
+
+	<div class="flex flex-col">
+		<label for="Email">Email</label>
+		<input type="text" id="Email" name="Email" placeholder="email@address.com" required @bind="Email"
+			class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
+		<span asp-validation-for="Email"></span>
+	</div>
+
+	<div class="flex flex-col">
+		<label for="Subject">Subject</label>
+		<input type="text" id="Subject" name="Subject" placeholder="Subject..." required @bind="Subject"
+			class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
+		<span asp-validation-for="Subject"></span>
+	</div>
+
+	<div class="flex flex-col">
+		<label for="Message">Message</label>
+		<textarea id="Message" name="Message" placeholder="Message..." required rows="5" @bind="Message"
+			class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md">
+		  </textarea>
+		<span asp-validation-for="Message"></span>
+	</div>
+
+	<button type="submit" class="bg-gradient-to-r from-secondary-900 to-accent rounded-md px-4 py-2">
+		Send
+	</button>
+	<button type="submit" class="outline outline-2 outline-primary-600 rounded-md 
+          px-4 py-2">
+		Clear
+	</button>
+</form>
+
+@code {
+	public string Name { get; set; } = string.Empty;
+	public string Email { get; set; } = string.Empty;
+	public string Subject { get; set; } = string.Empty;
+	public string Message { get; set; } = string.Empty;
+
+	public void MockEmail()
+	{
+		Console.WriteLine($"Name: {Name}");
+		Console.WriteLine($"Email: {Email}");
+		Console.WriteLine($"Subject: {Subject}");
+		Console.WriteLine($"Message: {Message}");
+	}
+}
