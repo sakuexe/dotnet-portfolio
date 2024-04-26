@@ -6,7 +6,13 @@ public static class SvgUtils
 {
     public static string? SanitizeSvg(string path)
     {
-        string svgCode = File.ReadAllText(path);
+        string svgCode;
+        try {
+            svgCode = File.ReadAllText(path);
+        } catch (Exception e) {
+            Console.WriteLine(e.Message);
+            return null;
+        }
         if (svgCode == null)
             return null;
         svgCode = RemoveFill(svgCode);
