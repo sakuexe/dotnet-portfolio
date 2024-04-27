@@ -68,16 +68,13 @@
           <img src="@GetImageUrl(project.ImageUrl)" loading="lazy" decoding="async"
             alt="@(project.AltText ?? $"Image of the {project.Title} project")"
             class="w-full h-full object-cover saturate-0
-            motion-safe:transition-all group-hover:scale-110 group-hover:saturate-50">
-          <!-- Color the black and white images to match the theme -->
-          <div class="bg-secondary h-full w-full opacity-50 mix-blend-multiply
-          absolute bottom-0 left-0 motion-safe:transition-all group-hover:opacity-25">
-          </div>
+            motion-safe:transition-all motion-safe:group-hover:scale-110 group-hover:saturate-50">
         }
         else
         {
-          <div class="bg-gradient-to-tr from-black to-primary-800 absolute top-0 left-0 w-full h-full isolate">
-            <div class="grid-pattern opacity-50 w-full h-full motion-safe:transition-all group-hover:scale-110">
+          <div class="bg-gradient-to-tr from-black to-primary-900 absolute top-0 left-0 w-full h-full isolate">
+            <div 
+              class="grid-pattern opacity-50 w-full h-full motion-safe:transition-all motion-safe:group-hover:scale-110">
             </div>
           </div>
         }
@@ -91,6 +88,10 @@
         <!-- Add a smooth gradient to bottom of image for text contrast -->
         <div class="bg-gradient-to-t from-black to-transparent h-1/2 w-full
         absolute bottom-0 left-0 mix-blend-multiply opacity-95">
+        </div>
+        <!-- Color the black and white images to match the theme -->
+        <div class="bg-secondary h-full w-full opacity-50 mix-blend-multiply
+        absolute bottom-0 left-0 motion-safe:transition-all group-hover:opacity-25">
         </div>
       </div>
     }

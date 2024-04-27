@@ -88,7 +88,9 @@ a:not(.btn):not(.no-underline):hover {
   background-image: url("/images/grid-pattern.svg");
   background-size: var(--pattern-size);
   background-color: transparent;
-  animation: pan 20s linear infinite;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: pan 20s linear infinite;
+  }
 }
 
 @keyframes pan {
