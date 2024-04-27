@@ -54,7 +54,13 @@ string skills = string.Join(", ", Model.Skills);
       class="string-list">
     <span asp-validation-for="@Model.Skills" class="text-accent-400"></span>
 
-    <label for="file">Image</label>
+    <div>
+      <label for="file">Image</label>
+      @if (!string.IsNullOrEmpty(ImagePath))
+      {
+        <button type="button" class="remove-image" data-imagename="ImageUrl">Remove Current Image</button>
+      }
+    </div>
     <label for="file">
       <p>Upload Image</p>
       @if (!string.IsNullOrEmpty(ImagePath))
@@ -67,15 +73,15 @@ string skills = string.Join(", ", Model.Skills);
     <span data-valmsg-for="file" data-valmsg-replace="true" class="text-red-500 field-validation-valid"></span>
     <input type="file" id="file" name="file"></input>
 
-    <!-- Alt Text for the image -->
-    <label for="@Model.AltText">Alternative Text</label>
-    <input asp-for="@Model.AltText" placeholder="Description of the image, for screenreaders"></input>
-    <span asp-validation-for="@Model.AltText" class="text-accent-400"></span>
-
     <!-- the actual image url -->
     <!-- it is added so that the url will not get removed if an empty file is passed -->
     <input asp-for="@Model.ImageUrl" hidden />
     <span asp-validation-for="@Model.ImageUrl" class="text-accent-400"></span>
+
+    <!-- Alt Text for the image -->
+    <label for="@Model.AltText">Alternative Text</label>
+    <input asp-for="@Model.AltText" placeholder="Description of the image, for screenreaders"></input>
+    <span asp-validation-for="@Model.AltText" class="text-accent-400"></span>
 
     <button type="submit">Save</button>
 
@@ -87,6 +93,7 @@ string skills = string.Join(", ", Model.Skills);
 @section Scripts {
 <script src="~/js/savechanges.js" defer></script>
 <script src="~/js/stringlist.js" defer></script>
+<script src="~/js/modelimage.js" defer></script>
 }
 
 @section Styles {

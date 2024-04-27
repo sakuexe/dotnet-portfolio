@@ -76,7 +76,13 @@ string ImagePath = ViewUtils.TrimPath(Model.ImageUrl ?? string.Empty);
     </div>
     <span asp-validation-for="@Model.Team" class="text-accent-400"></span>
 
-    <label for="file">Image</label>
+    <div>
+      <label for="file">Image</label>
+      @if (!string.IsNullOrEmpty(ImagePath))
+      {
+        <button type="button" class="remove-image" data-imagename="ImageUrl">Remove Current Image</button>
+      }
+    </div>
     <label for="file">
       <p>Upload Image</p>
       @if (!string.IsNullOrEmpty(ImagePath))
@@ -88,16 +94,16 @@ string ImagePath = ViewUtils.TrimPath(Model.ImageUrl ?? string.Empty);
     </label>
     <span data-valmsg-for="file" data-valmsg-replace="true" class="text-red-500 field-validation-valid"></span>
     <input type="file" id="file" name="file"></input>
+    <!-- the actual image url -->
+    <!-- it is added so that the url will not get removed if an empty file is passed -->
+    <input asp-for="@Model.ImageUrl" hidden aria-hidden="true" />
+    <span asp-validation-for="@Model.ImageUrl" class="text-accent-400"></span>
+
 
     <!-- Alt Text for the image -->
     @Html.LabelFor(m => m.AltText)
     <input asp-for="@Model.AltText" placeholder="Description of the image, for screenreaders"></input>
     <span asp-validation-for="@Model.AltText" class="text-accent-400"></span>
-
-    <!-- the actual image url -->
-    <!-- it is added so that the url will not get removed if an empty file is passed -->
-    <input asp-for="@Model.ImageUrl" hidden aria-hidden="true" />
-    <span asp-validation-for="@Model.ImageUrl" class="text-accent-400"></span>
 
     <!-- IsLarge - Shows up as twice as big in the list view -->
     <div>
@@ -117,6 +123,7 @@ string ImagePath = ViewUtils.TrimPath(Model.ImageUrl ?? string.Empty);
 <script src="~/js/addteammate.js"></script>
 <script src="~/js/stringlist.js"></script>
 <script src="~/js/savechanges.js" defer></script>
+<script src="~/js/modelimage.js" defer></script>
 }
 
 @section Styles {

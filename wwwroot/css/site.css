@@ -82,3 +82,20 @@ a:not(.btn):not(.no-underline):hover {
     transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
+
+.grid-pattern {
+  --pattern-size: 35px;
+  background-image: url("/images/grid-pattern.svg");
+  background-size: var(--pattern-size);
+  background-color: transparent;
+  animation: pan 20s linear infinite;
+}
+
+@keyframes pan {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: calc(var(--pattern-size) * 10) calc(var(--pattern-size) * -10);
+  }
+}

@@ -98,6 +98,21 @@ label[for="file"] > p {
   opacity: 0.75;
 }
 
+/* Remove current file button */
+div:has(label[for="file"] + div) {
+  display: flex;
+  gap: 0.5rem;
+}
+
+label[for="file"] + div > button {
+  font-size: 1rem;
+  opacity: 0.75;
+}
+
+label[for="file"] + div > button:before {
+  content: "✕ ";
+}
+
 /* Checkbox */
 form > div:has(> input[type="checkbox"]) {
   display: flex;

@@ -3,12 +3,12 @@
 
 @{
   string DefaultImageUrl = Url.Content("~/images/white-grid.png");
-  string GetImageUrl(string? rawUrl)
+  string? GetImageUrl(string? rawUrl)
   {
     if (string.IsNullOrWhiteSpace(rawUrl))
-      return DefaultImageUrl;
+      return null;
     if (!System.IO.File.Exists(rawUrl))
-      return DefaultImageUrl;
+      return null;
     return Url.Content(rawUrl.Split("wwwroot")[1]);
   }
 }
@@ -63,10 +63,24 @@
       class="w-full aspect-[3/2] relative overflow-clip shadow-primary/50 drop-shadow-lg group
         @(project.IsLarge ? "md:row-span-2 md:aspect-auto" : "")">
 
-        <img src="@GetImageUrl(project.ImageUrl)" loading="lazy" decoding="async"
-          alt="@(project.AltText ?? $"Image of the {project.Title} project")"
-          class="w-full h-full object-cover saturate-0
-          motion-safe:transition-all group-hover:scale-110 group-hover:saturate-50">
+        @if (GetImageUrl(project.ImageUrl) != null)
+        {
+          <img src="@GetImageUrl(project.ImageUrl)" loading="lazy" decoding="async"
+            alt="@(project.AltText ?? $"Image of the {project.Title} project")"
+            class="w-full h-full object-cover saturate-0
+            motion-safe:transition-all group-hover:scale-110 group-hover:saturate-50">
+          <!-- Color the black and white images to match the theme -->
+          <div class="bg-secondary h-full w-full opacity-50 mix-blend-multiply
+          absolute bottom-0 left-0 motion-safe:transition-all group-hover:opacity-25">
+          </div>
+        }
+        else
+        {
+          <div class="bg-gradient-to-tr from-black to-primary-800 absolute top-0 left-0 w-full h-full isolate">
+            <div class="grid-pattern opacity-50 w-full h-full motion-safe:transition-all group-hover:scale-110">
+            </div>
+          </div>
+        }
 
         <div class="absolute bottom-0 left-0 w-full z-10
           py-2 px-4 leading-snug">
@@ -77,10 +91,6 @@
         <!-- Add a smooth gradient to bottom of image for text contrast -->
         <div class="bg-gradient-to-t from-black to-transparent h-1/2 w-full
         absolute bottom-0 left-0 mix-blend-multiply opacity-95">
-        </div>
-        <!-- Color the black and white images to match the theme -->
-        <div class="bg-secondary h-full w-full opacity-50 mix-blend-multiply
-        absolute bottom-0 left-0 motion-safe:transition-all group-hover:opacity-25">
         </div>
       </div>
     }
