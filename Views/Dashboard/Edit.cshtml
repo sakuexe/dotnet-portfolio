@@ -10,8 +10,14 @@
 }
 
 
-<section>
-  <form id="edit" action="/dashboard/@collection/@id/save" method="post" enctype="multipart/form-data" class="grid">
+<section class="max-w-4xl mx-auto space-y-6 px-6">
+
+  <div class="subheader">
+    <p><span>//</span> Edit</p>
+    <h1>@collection</h1>
+  </div>
+
+  <form id="edit" action="/dashboard/@collection/@id/save" method="post" enctype="multipart/form-data">
     @foreach (var field in Model.GetType().GetProperties())
     {
       if (field.Name == "_id")
@@ -25,47 +31,52 @@
       {
         <label for="@field.Name">@field.Name</label>
         @Html.DropDownList(field.Name, new SelectList(Enum.GetValues(field.PropertyType)),
-               "Select " + field.Name, new { @class = "bg-primary border-2 border-primary-700" })
+               "Select " + field.Name, new { @class = "bg-primary" })
       }
 
       else if (EditUtils.IsTextArea(field))
       {
         <label for="@field.Name">@field.Name</label>
-        @Html.TextArea(field.Name, field.GetValue(Model)?.ToString(), new { @class = "bg-transparent border-2 border-primary-700", @rows = 5})
+        @Html.TextArea(field.Name, field.GetValue(Model)?.ToString())
       }
 
       else if (EditUtils.IsFile(field))
       {
-        <div class="flex gap-2 items-center">
-          <label for="file">@field.Name</label>
-          <p class="opacity-75 text-sm">
-            Current: <a href="@EditUtils.TrimPath(field, Model)">@EditUtils.TrimPath(field, Model)</a>
-          </p>
-        </div>
+        <label for="file">@field.Name</label>
+        <label for="file">
+          <p>Upload Image</p>
+          @if (!string.IsNullOrEmpty(EditUtils.TrimPath(field, Model)))
+          {
+            <p>
+              Current: <a href="@EditUtils.TrimPath(field, Model)">@EditUtils.TrimPath(field, Model)</a>
+            </p>
+          }
+        </label>
         <input type="file" id="file" name="file" value="@field.GetValue(Model)"></input>
         <!-- the actual image url -->
         <!-- it is added so that the url will not get removed if an empty file is passed -->
-        <input name="@field.Name" value="@field.GetValue(Model)" class="bg-transparent border-2 border-primary-700" hidden />
+        <input name="@field.Name" value="@field.GetValue(Model)" hidden aria-hidden="true" />
       }
 
       else if (field.PropertyType.ToString() == "System.Boolean")
       {
         <div>
           <label for="@field.Name">@field.Name</label>
-          <input type="checkbox" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name"
-            class="bg-transparent border-2 border-primary-700" />
+          <input type="checkbox" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name" />
         </div>
       }
 
       else
       {
         <label for="@field.Name">@field.Name</label>
-        <input asp-for="@field" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name"
-          class="bg-transparent border-2 border-primary-700" />
+        <input asp-for="@field" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name" />
       }
       <span data-valmsg-for="@field.Name" data-valmsg-replace="true" class="text-red-500 field-validation-valid"></span>
     </div>
     }
+
+    <hr>
+
     <button type="submit">Save</button>
     <button type="button">Remove (todo)</button>
     <span id="general-error" class="text-red-500"></span>
@@ -75,4 +86,8 @@
 @section Scripts {
   <script src="~/js/savechanges.js" defer></script>
   <script src="~/js/stringlist.js" defer></script>
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/edit.css" />
 }

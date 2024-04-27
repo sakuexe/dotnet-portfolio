@@ -9,6 +9,7 @@
   <!-- Todo: Add SEO tags -->
   <link rel="stylesheet" href="~/css/tailwind.css" asp-append-version="true" />
   <!-- <link rel="stylesheet" href="~/fullstack_portfolio.styles.css" asp-append-version="true" /> -->
+  @await RenderSectionAsync("Styles", required: false)
 </head>
 
 <body class="text-primary-100 bg-primary text-lg font-mono leading-relaxed min-w-[356px]">

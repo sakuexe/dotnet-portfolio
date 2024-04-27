@@ -49,20 +49,25 @@ public class Project : IMongoModel
     [Required]
     [DataType(DataType.Date)]
     [BsonElement("finishedAt")]
+    [Display(Name = "Finished At")]
     public DateOnly? FinishedAt { get; set; }
 
     [BsonElement("tags")]
     public List<string> Tags { get; set; }
     [BsonElement("team")]
+    [Display(Name = "Team Members")]
     public List<TeamMember> Team { get; set; }
 
     [BsonElement("imageUrl")]
     [DataType(DataType.ImageUrl)]
+    [Display(Name = "Image URL")]
     public string? ImageUrl { get; set; }
     [DataType(DataType.Text)]
     [BsonElement("altText")]
+    [Display(Name = "Alternative Image Text")]
     public string? AltText { get; set; }
     [BsonElement("isLarge")]
+    [Display(Name = "Is Large?")]
     public bool IsLarge { get; set; }
 
     public Project()

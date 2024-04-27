@@ -10,74 +10,74 @@ string skills = string.Join(", ", Model.Skills);
 }
 
 <section>
-  <form id="edit" action="/dashboard/@collection/@id/save" method="post" enctype="multipart/form-data" class="grid">
+  <form id="edit" action="/dashboard/@collection/@id/save" method="post" enctype="multipart/form-data">
     <input asp-for="@Model._id" value="@id" hidden aria-hidden="true" />
 
     <!-- Title -->
     <label asp-for="@Model.Title">Title</label>
-    <input asp-for="@Model.Title" class="bg-transparent border-2 border-primary-700" />
+    <input asp-for="@Model.Title" />
     <span asp-validation-for="@Model.Title" class="text-accent-400"></span>
 
     <!-- Subtitle -->
     <label asp-for="@Model.Subtitle">Subtitle</label>
-    <input asp-for="@Model.Subtitle" class="bg-transparent border-2 border-primary-700" />
+    <input asp-for="@Model.Subtitle" />
     <span asp-validation-for="@Model.Subtitle" class="text-accent-400"></span>
 
     <!-- Start Date -->
     <label asp-for="@Model.StartDate">Start Date</label>
-    <input asp-for="@Model.StartDate" class="bg-transparent border-2 border-primary-700" />
+    <input asp-for="@Model.StartDate" />
     <span asp-validation-for="@Model.StartDate" class="text-accent-400"></span>
 
     <!-- End Date -->
     <label asp-for="@Model.EndDate">End date</label>
-    <input asp-for="@Model.EndDate" class="bg-transparent border-2 border-primary-700" />
+    <input asp-for="@Model.EndDate" />
     <span asp-validation-for="@Model.EndDate" class="text-accent-400"></span>
 
     <!-- Description -->
     <label asp-for="@Model.Description">Description</label>
-    <textarea asp-for="@Model.Description" rows="5" class="bg-transparent border-2 border-primary-700">
+    <textarea asp-for="@Model.Description">
     </textarea>
     <span asp-validation-for="@Model.Description" class="text-accent-400"></span>
 
     <!-- Skills -->
     <label for="skills-mock">Skills</label>
-    <div id="Skills" class="string-list-container flex flex-wrap gap-2">
+    <div id="Skills" class="string-list-container">
       @foreach (int index in Enumerable.Range(0, Model.Skills.Count()))
       {
         <div>
-          <button type="button" class="bg-primary-700 px-2 py-1">@Model.Skills[index] x</button>
+          <button type="button">@Model.Skills[index] x</button>
           <input asp-for="@Model.Skills[index]" hidden>
         </div>
       }
     </div>
     <input name="skills-mock" type="text" placeholder="New Skill..."
-      class="string-list bg-transparent border-2 border-primary-700">
+      class="string-list">
     <span asp-validation-for="@Model.Skills" class="text-accent-400"></span>
 
-    <!-- Image file -->
-    <div class="flex gap-2 items-center">
-      <label for="file">Image</label>
+    <label for="file">Image</label>
+    <label for="file">
+      <p>Upload Image</p>
       @if (!string.IsNullOrEmpty(ImagePath))
       {
-      <p class="opacity-75 text-sm">
+      <p>
         Current: <a href="@ImagePath">@ImagePath</a>
       </p>
       }
-    </div>
-    <input type="file" id="file" name="file"></input>
+    </label>
     <span data-valmsg-for="file" data-valmsg-replace="true" class="text-red-500 field-validation-valid"></span>
+    <input type="file" id="file" name="file"></input>
 
     <!-- Alt Text for the image -->
     <label for="@Model.AltText">Alternative Text</label>
-    <input asp-for="@Model.AltText" class="bg-primary border-2 border-primary-700"></input>
+    <input asp-for="@Model.AltText" placeholder="Description of the image, for screenreaders"></input>
     <span asp-validation-for="@Model.AltText" class="text-accent-400"></span>
 
     <!-- the actual image url -->
     <!-- it is added so that the url will not get removed if an empty file is passed -->
-    <input asp-for="@Model.ImageUrl" class="bg-transparent border-2 border-primary-700" hidden />
+    <input asp-for="@Model.ImageUrl" hidden />
     <span asp-validation-for="@Model.ImageUrl" class="text-accent-400"></span>
 
-    <button type="submit" class="bg-primary text-white border-2 border-primary-700">Save</button>
+    <button type="submit">Save</button>
 
     <span id="general-error" class="text-accent-400"></span>
 
@@ -87,4 +87,8 @@ string skills = string.Join(", ", Model.Skills);
 @section Scripts {
 <script src="~/js/savechanges.js" defer></script>
 <script src="~/js/stringlist.js" defer></script>
+}
+
+@section Styles {
+<link rel="stylesheet" href="~/css/edit.css" />
 }

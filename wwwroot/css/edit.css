@@ -1,0 +1,188 @@
+/* Generic Form Styles
+* this does not include any specific styles for the form itself
+* for example the member form, since it is a highly specific form
+*/
+
+form {
+  --border-color: #4e475d;
+  --active-color: #fed7aa9f;
+  --gradient-start: #3C2C55;
+  --gradient-end: #F2A289;
+  --padding-y: 0.5rem;
+  --padding-x: 1.25rem;
+  --border-radius: 0.375rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* Generic Input Styles */
+input:not([type="checkbox"]),
+select,
+textarea{
+  width: 100%;
+  padding: var(--padding-y) var(--padding-x);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+input:focus,
+input:active,
+select:focus,
+select:active,
+textarea:focus,
+textarea:active {
+  outline: none;
+  border-color: var(--active-color);
+}
+
+/* Select */
+select {
+  appearance: none;
+  /* change the default caret */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234E475D'%3E%3Cpath fill-rule='evenodd' d='M10 12l-5-5 1.5-1.5L10 9l3.5-3.5L15 7z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--padding-x) center;
+  background-size: 1.5rem;
+}
+
+/* Textarea */
+textarea {
+  /* approx 5 rows */
+  min-height: 150px;
+  resize: vertical;
+}
+
+/* File input */
+/* hide it and use the label as the visual part */
+input[type="file"] {
+  display: none;
+}
+
+label[for="file"]:has(> p) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--padding-y) var(--padding-x);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+label[for="file"]:has(> p):hover {
+  background-color: var(--border-color);
+}
+
+label[for="file"] > p:first-of-type {
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+label[for="file"] > p {
+  font-weight: 400;
+  font-size: 1rem;
+  opacity: 0.75;
+}
+
+/* Checkbox */
+form > div:has(> input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--gradient-end);
+  width: 2rem;
+  aspect-ratio: 1;
+  background-color: var(--border-color);
+  position: relative;
+  overflow: clip;
+}
+
+input[type="checkbox"]:not(:checked)::after {
+  background-color: var(--border-color);
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: darken;
+}
+
+/* String List */
+form > .string-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+form > .string-list-container > div {
+  gap: 0.5rem;
+  padding: calc(var(--padding-y) * 0.75) calc(var(--padding-x) * 0.75);
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+form > .string-list-container > .unsaved {
+  background-color: transparent;
+  border: 2px solid var(--border-color);
+}
+
+form > .string-list-container > div:hover {
+  filter: brightness(1.25);
+}
+
+/* Horizontal Seperator */
+form > hr {
+  border-color: var(--border-color);
+  border-width: 1px;
+  opacity: 0.5;
+  margin: 0.75rem 0;
+}
+
+/* Buttons */
+form > button {
+  padding: var(--padding-y) var(--padding-x);
+  border: none;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+form > button:hover {
+  background-color: var(--border-color);
+}
+
+form > button:first-of-type {
+  background: linear-gradient(90deg, var(--gradient-start) 12%, var(--gradient-end) 100%);
+  border: none;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+form > button:first-of-type:hover {
+  filter: brightness(1.25);
+}

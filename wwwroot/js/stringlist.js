@@ -74,12 +74,14 @@ function addInputField(value, currentContainer) {
   /// add a button element to display the values
   const button = document.createElement("button");
   button.textContent = `${value} ${deleteIcon}`;
-  button.classList.add("bg-primary-600", "px-2", "py-1");
+  button.classList.add("list-item");
   button.type = "button"; // prevent form submission
 
   // add the input and the button elements to a div
   // so that they are grouped together for easy removal
   const div = document.createElement("div");
+  // indicate that the button is not yet saved
+  div.classList.add("unsaved");
   div.appendChild(input);
   div.appendChild(button);
 

@@ -12,25 +12,24 @@ var id = @Model.GetType().GetProperty("_id")?.GetValue(Model);
 
     <!-- Title -->
     <label asp-for="@Model.Email">Email</label>
-    <input asp-for="@Model.Email" class="bg-transparent border-2 border-primary-700" />
+    <input asp-for="@Model.Email" />
     <span asp-validation-for="@Model.Email" class="text-accent-400"></span>
 
     <!-- Links -->
     <label for="links-mock">Links</label>
-    <div id="Links" class="string-list-container flex flex-wrap gap-2">
+    <div id="Links" class="string-list-container">
       @foreach (int index in Enumerable.Range(0, Model.Links.Count()))
       {
         <div>
-          <button type="button" class="bg-primary-700 px-2 py-1">@Model.Links[index] x</button>
+          <button type="button">@Model.Links[index] x</button>
           <input asp-for="@Model.Links[index]" hidden>
         </div>
       }
     </div>
-    <input name="links-mock" type="text" placeholder="New Skill..."
-      class="string-list bg-transparent border-2 border-primary-700">
+    <input name="links-mock" type="text" placeholder="New Skill...">
     <span asp-validation-for="@Model.Links" class="text-accent-400"></span>
 
-    <button type="submit" class="bg-primary text-white border-2 border-primary-700">Save</button>
+    <button type="submit">Save</button>
 
   </form>
 </section>
@@ -38,4 +37,8 @@ var id = @Model.GetType().GetProperty("_id")?.GetValue(Model);
 @section Scripts {
   <script src="~/js/stringlist.js"></script>
   <script src="~/js/savechanges.js"></script>
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/edit.css" />
 }

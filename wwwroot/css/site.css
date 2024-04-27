@@ -76,6 +76,9 @@ a:not(.btn):not(.no-underline):hover {
   @apply py-2 px-4 rounded-md;
   font-weight: 600;
   display: block;
-  width: max-content;
-  @apply motion-safe:transition-all;
+  min-width: max-content;
+  text-align: center;
+  @media (prefers-reduced-motion: no-preference) {
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
