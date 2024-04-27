@@ -13,6 +13,8 @@ form {
   --border-radius: 0.375rem;
   display: grid;
   gap: 0.75rem;
+  max-width: 50rem;
+  margin: 0 auto;
 }
 
 /* Generic Input Styles */
@@ -38,6 +40,8 @@ textarea:focus,
 textarea:active {
   outline: none;
   border-color: var(--active-color);
+  /* add some glow to the active element */
+  box-shadow: 0 0 5px var(--active-color);
 }
 
 /* Select */
