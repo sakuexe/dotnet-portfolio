@@ -69,6 +69,10 @@ module.exports = {
 					},
 				],
 			},
+			boxShadow: {
+				sharp: '-12px 12px 0 currentColor',
+				'sharp-lg': '-20px 20px 0 currentColor',
+			},
 		},
 	},
 	plugins: [],

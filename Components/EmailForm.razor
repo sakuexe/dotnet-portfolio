@@ -7,7 +7,32 @@
 @using System.Net
 @inject IConfiguration Configuration
 
-<form id="ContactForm" @onsubmit="() => SendEmail()" class="flex flex-col gap-2">
+
+<form id="ContactForm" @onsubmit="() => SendEmail()" class="flex flex-col gap-2 relative">
+
+	@if (IsSent)
+	{
+		<div class="grid place-items-center w-full h-full absolute top-0 left-0 bg-primary/85">
+			<div class="outline outline-current text-secondary-400 bg-primary/75 backdrop-blur
+			rounded-lg w-full shadow-sharp motion-safe:transition-all hover:shadow-sharp-lg">
+				<div class="header-bar p-4 flex justify-end gap-2 border-b-4 border-current">
+					<div class="w-4 h-4 bg-current rounded-full"></div>
+					<div class="w-4 h-4 bg-current rounded-full"></div>
+					<div class="w-4 h-4 bg-current rounded-full"></div>
+				</div>
+				<div class="p-4 pb-20 fill-current">
+					<div class="flex gap-2 items-center">
+						<svg width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" clip-rule="evenodd"
+								d="M7.53076 2.93629C9.38006 1.6771 11.4601 0.796943 13.6509 0.346604C15.8416 -0.103735 18.0998 -0.115348 20.2951 0.312436C22.4904 0.740219 24.5793 1.59893 26.4414 2.83904C28.3036 4.07915 29.902 5.67611 31.1446 7.5378C32.3872 9.39949 33.2492 11.4891 33.6811 13.686C34.113 15.8829 34.1061 18.1437 33.6609 20.338C33.2157 22.5322 32.3409 24.6165 31.087 26.4706C29.8332 28.3247 28.225 29.9119 26.3554 31.1406C22.6196 33.6401 18.045 34.5515 13.6381 33.6743C9.23109 32.7971 5.35268 30.203 2.85606 26.4629C0.359436 22.7228 -0.550896 18.1429 0.325325 13.7308C1.20155 9.31872 3.79497 5.43581 7.53076 2.93629ZM8.87641 29.1271C10.4618 30.1995 12.2433 30.9478 14.1185 31.3287C15.9937 31.7097 17.9255 31.7159 19.8031 31.347C21.6807 30.978 23.4669 30.2412 25.0592 29.1789C26.6514 28.1167 28.0182 26.7498 29.0812 25.157C30.1441 23.5641 30.8821 21.7766 31.2527 19.8973C31.6234 18.018 31.6195 16.0839 31.2411 14.2061C30.8628 12.3283 30.1175 10.5439 29.0481 8.95537C27.9787 7.36687 26.6063 6.00562 25.0097 4.94985C21.8072 2.83204 17.8974 2.06973 14.135 2.82955C10.3726 3.58936 7.06376 5.8095 4.93164 9.00466C2.79953 12.1998 2.01761 16.1101 2.7568 19.8808C3.496 23.6514 5.69618 26.9758 8.87641 29.1271ZM13.3127 14.6154C13.3127 15.258 13.0577 15.8744 12.6038 16.3288C12.15 16.7832 11.5344 17.0385 10.8925 17.0385C10.2506 17.0385 9.63499 16.7832 9.1811 16.3288C8.72722 15.8744 8.47223 15.258 8.47223 14.6154C8.47223 13.9728 8.72722 13.3565 9.1811 12.902C9.63499 12.4476 10.2506 12.1924 10.8925 12.1924C11.5344 12.1924 12.15 12.4476 12.6038 12.902C13.0577 13.3565 13.3127 13.9728 13.3127 14.6154ZM25.4139 14.6154C25.4139 15.258 25.1589 15.8744 24.7051 16.3288C24.2512 16.7832 23.6356 17.0385 22.9937 17.0385C22.3518 17.0385 21.7362 16.7832 21.2823 16.3288C20.8284 15.8744 20.5734 15.258 20.5734 14.6154C20.5734 13.9728 20.8284 13.3565 21.2823 12.902C21.7362 12.4476 22.3518 12.1924 22.9937 12.1924C23.6356 12.1924 24.2512 12.4476 24.7051 12.902C25.1589 13.3565 25.4139 13.9728 25.4139 14.6154ZM16.9431 24.3076C15.6279 24.3108 14.3366 23.9564 13.207 23.2821C12.0774 22.6078 11.1519 21.639 10.5294 20.4792L8.42383 21.6423C9.27127 23.2123 10.5352 24.5176 12.0764 25.4144C13.6176 26.3111 15.3762 26.7644 17.1583 26.7243C18.9404 26.6842 20.6769 26.1523 22.1763 25.1871C23.6757 24.222 24.8798 22.8612 25.6559 21.2546L23.4777 20.2127C22.8824 21.4406 21.9537 22.4759 20.7981 23.2001C19.6424 23.9243 18.3065 24.3081 16.9431 24.3076Z" />
+						</svg>
+						<h3 class="text-4xl font-bold">Thank You!</h3>
+					</div>
+					<p class="">The email was sent succesfully</p>
+				</div>
+			</div>
+		</div>
+	}
 
 	<div class="flex flex-col">
 		<label for="Name">Name</label>
@@ -47,6 +72,22 @@
           px-4 py-2">
 		Clear
 	</button>
+
+	@if (IsLoading)
+	{
+		<div class="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-full bg-primary/75">
+			<p class="text-2xl">Sending Email</p>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150"
+				class="max-w-xs fill-transparent stroke-secondary">
+				<path stroke-width="15" stroke-dasharray="300 385" stroke-dashoffset="0"
+					d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z">
+					<animate attributeName="stroke-dashoffset" calcMode="spline" dur="2.25" values="685;-685"
+						keySplines="0 0 1 1" repeatCount="indefinite"></animate>
+				</path>
+			</svg>
+			<p>Hold on tight, sunshine</p>
+		</div>
+	}
 </form>
 
 @code {
@@ -56,20 +97,23 @@
 	public string Message { get; set; } = string.Empty;
 	public string HoneyPot { get; set; } = string.Empty;
 
-	private SmtpClient _smtpClient;
-	private string _email;
-	private string _password;
-	private string _recipient;
+	// configuration variables
+	private string? _email => Configuration["Email:Address"];
+	private string? _password => Configuration["Email:Password"];
+	private string? _recipient => Configuration["Email:Recipient"];
+
+	// state variables
+	private bool IsLoading { get; set; }
+	public void ToggleLoading() => IsLoading = !IsLoading;
+	private bool IsSent { get; set; }
+	public void ToggleSent() => IsSent = !IsSent;
 
 	public async Task SendEmail()
 	{
-		// get the email from the appsettings file
-		var emailConfig = Configuration.GetSection("Email");
-		_email = emailConfig["Address"];
-		_password = emailConfig["Password"];
-		_recipient = emailConfig["Recipient"];
-
-		_smtpClient = new SmtpClient("smtp.gmail.com")
+		if (!ValidateEmail())
+			return;
+		ToggleLoading();
+		SmtpClient _smtpClient = new("smtp.gmail.com")
 			{
 				Port = 587,
 				Credentials = new NetworkCredential(_email, _password),
@@ -78,12 +122,32 @@
 
 		MailMessage mailMessage = await ComposeMessage();
 
-		_smtpClient.Send(mailMessage);
-		Console.WriteLine("Email Sent");
+		await _smtpClient.SendMailAsync(mailMessage);
+		ToggleLoading();
+		ToggleSent();
+	}
+
+	public bool ValidateEmail()
+	{
+		if (!string.IsNullOrWhiteSpace(HoneyPot))
+			return false;
+		if (string.IsNullOrWhiteSpace(Name))
+			return false;
+		if (string.IsNullOrWhiteSpace(Email))
+			return false;
+		if (string.IsNullOrWhiteSpace(Subject))
+			return false;
+		if (string.IsNullOrWhiteSpace(Message))
+			return false;
+
+		return true;
 	}
 
 	public async Task<MailMessage> ComposeMessage()
 	{
+		if (_email is null || _password is null || _recipient is null)
+			throw new ArgumentNullException("Email Configuration is not set up properly");
+
 		MailMessage mailMessage = new()
 			{
 				From = new MailAddress(_email),
@@ -117,7 +181,7 @@
 
 		var html = await renderer.Dispatcher.InvokeAsync(async () =>
 		{
-			var dict = new Dictionary<string, object>
+			var dict = new Dictionary<string, object?>
 			{
 { "Name", Name },
 { "SenderEmail", Email },
