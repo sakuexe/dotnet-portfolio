@@ -1,0 +1,16 @@
+<h1>Message from @Name</h1>
+<p>Subject: @Subject</p>
+
+<p>@Message</p>
+<a href="mailto:@SenderEmail">Reply</a>
+
+@code {
+	[Parameter]
+	public string Name { get; set; } = string.Empty;
+	[Parameter]
+	public string SenderEmail { get; set; } = string.Empty;
+	[Parameter]
+	public string Subject { get; set; } = string.Empty;
+	[Parameter]
+	public string Message { get; set; } = string.Empty;
+}

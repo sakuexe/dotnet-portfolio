@@ -1,41 +1,49 @@
 @using fullstack_portfolio.Data
 @using fullstack_portfolio.Models
+@using fullstack_portfolio.Components
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Web;
+@using System.Net.Mail
+@using System.Net
+@inject IConfiguration Configuration
 
-<form id="ContactForm" @onsubmit="() => MockEmail()" class="flex flex-col gap-2">
+<form id="ContactForm" @onsubmit="() => SendEmail()" class="flex flex-col gap-2">
 
 	<div class="flex flex-col">
 		<label for="Name">Name</label>
 		<input type="text" id="Name" name="Name" placeholder="Firstname Lastname" required @bind="Name"
-			class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
+			class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-md" />
 		<span asp-validation-for="Name"></span>
 	</div>
 
 	<div class="flex flex-col">
 		<label for="Email">Email</label>
 		<input type="text" id="Email" name="Email" placeholder="email@address.com" required @bind="Email"
-			class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
+			class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-md" />
 		<span asp-validation-for="Email"></span>
 	</div>
 
 	<div class="flex flex-col">
 		<label for="Subject">Subject</label>
 		<input type="text" id="Subject" name="Subject" placeholder="Subject..." required @bind="Subject"
-			class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md" />
+			class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-md" />
 		<span asp-validation-for="Subject"></span>
 	</div>
 
 	<div class="flex flex-col">
 		<label for="Message">Message</label>
 		<textarea id="Message" name="Message" placeholder="Message..." required rows="5" @bind="Message"
-			class="bg-transparent outline outline-2 outline-primary-600 px-4 py-2 rounded-md">
+			class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-md">
 		  </textarea>
 		<span asp-validation-for="Message"></span>
 	</div>
 
+	<input type="text" id="HoneyPot" name="HoneyPot" class="hidden" @bind="HoneyPot">
+
 	<button type="submit" class="bg-gradient-to-r from-secondary-900 to-accent rounded-md px-4 py-2">
 		Send
 	</button>
-	<button type="submit" class="outline outline-2 outline-primary-600 rounded-md 
+	<button type="submit" class="border-2 border-primary-700 rounded-md 
           px-4 py-2">
 		Clear
 	</button>
@@ -46,12 +54,82 @@
 	public string Email { get; set; } = string.Empty;
 	public string Subject { get; set; } = string.Empty;
 	public string Message { get; set; } = string.Empty;
+	public string HoneyPot { get; set; } = string.Empty;
 
-	public void MockEmail()
+	private SmtpClient _smtpClient;
+	private string _email;
+	private string _password;
+	private string _recipient;
+
+	public async Task SendEmail()
 	{
-		Console.WriteLine($"Name: {Name}");
-		Console.WriteLine($"Email: {Email}");
-		Console.WriteLine($"Subject: {Subject}");
-		Console.WriteLine($"Message: {Message}");
+		// get the email from the appsettings file
+		var emailConfig = Configuration.GetSection("Email");
+		_email = emailConfig["Address"];
+		_password = emailConfig["Password"];
+		_recipient = emailConfig["Recipient"];
+
+		_smtpClient = new SmtpClient("smtp.gmail.com")
+			{
+				Port = 587,
+				Credentials = new NetworkCredential(_email, _password),
+				EnableSsl = true
+			};
+
+		MailMessage mailMessage = await ComposeMessage();
+
+		_smtpClient.Send(mailMessage);
+		Console.WriteLine("Email Sent");
+	}
+
+	public async Task<MailMessage> ComposeMessage()
+	{
+		MailMessage mailMessage = new()
+			{
+				From = new MailAddress(_email),
+				Subject = Subject,
+				Body = Message,
+				IsBodyHtml = false,
+			};
+
+		mailMessage.To.Add(_recipient);
+
+		var body = await RenderEmail();
+
+		// Add the alternate body to the message.
+		// this allows the email to be sent as HTML while including
+		// a plain text as well.
+		var mimeType = new System.Net.Mime.ContentType("text/html");
+		AlternateView alternate = AlternateView.CreateAlternateViewFromString(body, mimeType);
+		mailMessage.AlternateViews.Add(alternate);
+
+		return mailMessage;
+	}
+
+	public async Task<string> RenderEmail()
+	{
+		IServiceCollection Services = new ServiceCollection();
+		Services.AddLogging();
+		IServiceProvider ServiceProvider = Services.BuildServiceProvider();
+		ILoggerFactory loggerFactory = ServiceProvider.GetRequiredService<ILoggerFactory>();
+
+		await using HtmlRenderer renderer = new(services: ServiceProvider, loggerFactory: loggerFactory);
+
+		var html = await renderer.Dispatcher.InvokeAsync(async () =>
+		{
+			var dict = new Dictionary<string, object>
+			{
+{ "Name", Name },
+{ "SenderEmail", Email },
+{ "Subject", Subject },
+{ "Message", Message },
+			};
+			var parameters = ParameterView.FromDictionary(dict);
+			var output = await renderer.RenderComponentAsync<Email>(parameters);
+
+			return output.ToHtmlString();
+		});
+
+		return html;
 	}
 }
