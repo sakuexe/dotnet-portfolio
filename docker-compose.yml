@@ -13,6 +13,13 @@ services:
       # the value is in ConnectionStrings > DefaultConnection
       - ConnectionStrings__DefaultConnection=mongodb
       - ConnectionStrings__DatabaseName=portfolio
+      # the base(d) admin user for the application
+      - Admin__Username=root
+      - Admin__Password=rootroot
+      # email settings
+      - Email__Address=example@email.com
+      - Email__Password="one two three four"
+      - Email__Recipient=me@gmail.com
     depends_on:
       - mongodb
     networks:

@@ -30,9 +30,10 @@ public class LoginController : Controller
         }
 
         // authenticate the user
-        if (await AuthenticateUser(model.Username, model.Password) == false)
+        string authResult = await AuthenticateUser(model.Username, model.Password);
+        if (!string.IsNullOrEmpty(authResult))
         {
-            ModelState.AddModelError("Username", "Invalid username or password");
+            ModelState.AddModelError("Username", authResult);
             ViewBag.Title = "Login";
             return View(model);
         }
@@ -47,17 +48,18 @@ public class LoginController : Controller
         return Redirect("/");
     }
 
-    private async Task<bool> AuthenticateUser(string username, string password, int expiresMinutes = 30)
+    private async Task<string> AuthenticateUser(string username, string password, int expiresMinutes = 30)
     {
         List<User> users = await MongoContext.GetAll<User>();
         if (users.Count == 0)
-            return false;
+            return "No users found in database";
+
         User? user = users.FirstOrDefault(u => u.Username == username);
         if (user == null)
-            return false;
+            return "Invalid Username or Password";
 
         if (!PasswordHasher.VerifyPassword(user.Password, password))
-            return false;
+            return "Invalid Username or Password";
 
         var claims = new List<Claim> {
             new Claim(ClaimTypes.Name, user.Username),
@@ -80,6 +82,6 @@ public class LoginController : Controller
             authProperties
         );
 
-        return true;
+        return "";
     }
 }

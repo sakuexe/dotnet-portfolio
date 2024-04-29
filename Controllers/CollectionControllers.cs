@@ -39,7 +39,7 @@ public class UserController : GenericController<User> {
     [HttpPost("{id}/Save")]
     public override async Task<IActionResult> Save(User model, IFormFile? file = null)
     {
-        model.SetPassword(model.Password);
+        model.Password = PasswordHasher.HashPassword(model.Password);
         return await base.Save(model, file);
     }
 }

@@ -13,7 +13,7 @@ builder.Services.AddSingleton<MongoContext>();
 // and its properties are static
 
 MongoContext.Initialize(builder.Configuration);
-MongoContext.SeedDatabase();
+MongoContext.SeedDatabase(builder.Configuration);
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

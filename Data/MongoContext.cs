@@ -41,16 +41,19 @@ public class MongoContext
             return;
 
         // make sure that the admin user is always set and encrypted
-        string username = config.GetSection("Admin").GetValue<string>("Username")
+        string username = config.GetSection("Admin")["Username"]
             ?? throw new Exception("Admin username not provided");
-        string password = config.GetSection("Admin").GetValue<string>("Password")
+        string password = config.GetSection("Admin")["Password"]
             ?? throw new Exception("Admin password not provided");
+
         User basedAdmin = new()
         {
             Username = username,
             Password = PasswordHasher.HashPassword(password),
             IsAdmin = true
         };
+
+        Save(basedAdmin).ConfigureAwait(false);
     }
 
     public static async Task<T> Save<T>(T record) where T : IMongoModel
