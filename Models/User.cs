@@ -16,7 +16,7 @@ public class User : IMongoModel
     public string Username { get; set; } = string.Empty;
     [Required]
     [DataType(DataType.Password)]
-    [StringLength(50, MinimumLength = 8)]
+    [MinLength(8)]
     public string Password { get; set; } = string.Empty;
     public bool IsAdmin { get; set; }
 

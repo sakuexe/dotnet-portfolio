@@ -52,8 +52,11 @@ public class LoginController : Controller
         List<User> users = await MongoContext.GetAll<User>();
         if (users.Count == 0)
             return false;
-        User? user = users.FirstOrDefault(u => u.Username == username && u.Password == password);
+        User? user = users.FirstOrDefault(u => u.Username == username);
         if (user == null)
+            return false;
+
+        if (!PasswordHasher.VerifyPassword(user.Password, password))
             return false;
 
         var claims = new List<Claim> {

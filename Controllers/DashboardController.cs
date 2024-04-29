@@ -1,8 +1,11 @@
 using fullstack_portfolio.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fullstack_portfolio.Controllers;
 
+[Authorize]
+[Authorize(Roles = "Admin")]
 public class DashboardController : Controller
 {
     private readonly ILogger<DashboardController> _logger;

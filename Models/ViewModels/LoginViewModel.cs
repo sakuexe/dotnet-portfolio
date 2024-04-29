@@ -10,7 +10,7 @@ public class LoginViewModel
     public string Username { get; set; }
     [Required]
     [DataType(DataType.Text)]
-    [StringLength(50, MinimumLength = 8)]
+    [MinLength(8)]
     public string Password { get; set; }
 
     public LoginViewModel()

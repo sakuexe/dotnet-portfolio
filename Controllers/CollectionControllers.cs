@@ -1,4 +1,7 @@
+using System.Text.Json;
+using fullstack_portfolio.Data;
 using fullstack_portfolio.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace fullstack_portfolio.Controllers;
 
@@ -32,4 +35,11 @@ public class ContactInfoController : GenericController<ContactInfo>
     public override string EditView { get; set; } = "Views/Dashboard/Edit/ContactInfo.cshtml";
 }
 
-public class UserController : GenericController<User> { }
+public class UserController : GenericController<User> {
+    [HttpPost("{id}/Save")]
+    public override async Task<IActionResult> Save(User model, IFormFile? file = null)
+    {
+        model.SetPassword(model.Password);
+        return await base.Save(model, file);
+    }
+}

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using fullstack_portfolio.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -17,7 +18,7 @@ public class MongoContext
 
     // make a method for the naming convention, all other methods
     // get updated at the same time
-    private static string GetCollectionName<T>(T record)
+    private static string GetCollectionName<T>(T? record)
     {
         return typeof(T).Name.ToLower();
     }
@@ -34,11 +35,29 @@ public class MongoContext
         Database = Client.GetDatabase(DATABASE_NAME);
     }
 
+    public static void SeedDatabase(IConfiguration config)
+    {
+        if (GetAll<User>().Result.Count > 0)
+            return;
+
+        // make sure that the admin user is always set and encrypted
+        string username = config.GetSection("Admin").GetValue<string>("Username")
+            ?? throw new Exception("Admin username not provided");
+        string password = config.GetSection("Admin").GetValue<string>("Password")
+            ?? throw new Exception("Admin password not provided");
+        User basedAdmin = new()
+        {
+            Username = username,
+            Password = PasswordHasher.HashPassword(password),
+            IsAdmin = true
+        };
+    }
+
     public static async Task<T> Save<T>(T record) where T : IMongoModel
     {
         // use the classname of the passed object as the table name
         // fullstack_portfolio.Models.User -> user
-        var table = GetCollectionName<T>(record);
+        var table = GetCollectionName<T>(default);
         try
         {
             var mongoCollection = Database?.GetCollection<T>(table);
@@ -58,7 +77,7 @@ public class MongoContext
 
     public static T? Get<T>(string? id) where T : IMongoModel
     {
-        var table = typeof(T).Name.ToLower();
+        var table = GetCollectionName<T>(default);
         try
         {
             var mongoCollection = Database?.GetCollection<T>(table);
@@ -74,7 +93,7 @@ public class MongoContext
 
     public static T? GetLatest<T>() where T : IMongoModel
     {
-        var table = typeof(T).Name.ToLower();
+        var table = GetCollectionName<T>(default);
         try
         {
             var mongoCollection = Database?.GetCollection<T>(table);
@@ -93,7 +112,7 @@ public class MongoContext
 
     public async static Task<List<T>> GetAll<T>(string? collectionName = null) where T : IMongoModel
     {
-        string table = typeof(T).Name.ToLower();
+        var table = GetCollectionName<T>(default);
         if (collectionName != null)
             table = collectionName;
         try
@@ -112,7 +131,7 @@ public class MongoContext
 
     public static async Task<List<T>> Filter<T>(string column, dynamic value) where T : IMongoModel
     {
-        var table = typeof(T).Name.ToLower();
+        var table = GetCollectionName<T>(default);
         try
         {
             var mongoCollection = Database?.GetCollection<T>(table);
