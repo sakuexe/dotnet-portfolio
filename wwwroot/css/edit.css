@@ -114,7 +114,8 @@ label[for="file"] + div > button:before {
 }
 
 /* Checkbox */
-form > div:has(> input[type="checkbox"]) {
+form > div:has(> input[type="checkbox"]),
+form > div > div:has(> input[type="checkbox"]) {
   display: flex;
   align-items: center;
   gap: 0.5rem;

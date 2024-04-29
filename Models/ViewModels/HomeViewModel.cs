@@ -12,10 +12,10 @@ public class HomeViewModel
 
     public HomeViewModel()
     {
-        Expertises = MongoContext.GetAll<Expertise>().ToArray();
-        Skills = MongoContext.GetAll<Skill>().ToArray();
-        Portfolio = MongoContext.GetAll<Project>().ToArray();
-        Experience = MongoContext.GetAll<Experience>().ToArray();
+        Expertises = MongoContext.GetAll<Expertise>().GetAwaiter().GetResult().ToArray();
+        Skills = MongoContext.GetAll<Skill>().GetAwaiter().GetResult().ToArray();
+        Portfolio = MongoContext.GetAll<Project>().GetAwaiter().GetResult().ToArray();
+        Experience = MongoContext.GetAll<Experience>().GetAwaiter().GetResult().ToArray();
         ContactsViewModel = new ContactsViewModel();
     }
 }

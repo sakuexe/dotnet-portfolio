@@ -91,17 +91,20 @@ public class MongoContext
         }
     }
 
-    public static List<T> GetAll<T>(string? collectionName = null) where T : IMongoModel
+    public async static Task<List<T>> GetAll<T>(string? collectionName = null) where T : IMongoModel
     {
-        var table = typeof(T).Name.ToLower();
+        string table = typeof(T).Name.ToLower();
+        if (collectionName != null)
+            table = collectionName;
         try
         {
             var mongoCollection = Database?.GetCollection<T>(table);
-            var resultsList = mongoCollection!.Find(new BsonDocument()).ToList();
-            return mongoCollection?.Find(new BsonDocument()).ToList() ?? new List<T>();
+            var resultsList = await mongoCollection.FindAsync(new BsonDocument());
+            return resultsList.ToList();
         }
         catch (Exception e)
         {
+            Console.WriteLine("Skill Issue - Getting all records failed");
             Console.WriteLine(e.Message);
             return new List<T>();
         }

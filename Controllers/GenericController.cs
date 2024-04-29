@@ -1,7 +1,6 @@
 using System.Reflection;
 using System.Text.Json;
 using fullstack_portfolio.Data;
-using fullstack_portfolio.Models.ViewModels;
 using fullstack_portfolio.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,15 +36,15 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
     }
 
     [HttpGet]
-    public virtual IActionResult Index()
+    public async virtual Task<IActionResult> Index()
     {
         // List all the items in a collection
         ViewBag.Collection = typeof(T).Name;
         ViewBag.Title = $"{typeof(T).Name}s";
-        T[] models = MongoContext.GetAll<T>().ToArray();
+        List<T> models = await MongoContext.GetAll<T>();
         if (models.Count() < 1)
             return View("Views/Dashboard/NoResults.cshtml", new T());
-        return View("Views/Dashboard/Collection.cshtml", models);
+        return View("Views/Dashboard/Collection.cshtml", models.ToArray());
     }
 
     [HttpGet("new")]

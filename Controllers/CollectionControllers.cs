@@ -31,3 +31,5 @@ public class ContactInfoController : GenericController<ContactInfo>
 {
     public override string EditView { get; set; } = "Views/Dashboard/Edit/ContactInfo.cshtml";
 }
+
+public class UserController : GenericController<User> { }

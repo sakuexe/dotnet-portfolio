@@ -19,6 +19,14 @@
       <li><a asp-controller="Home" asp-action="Index" class="no-underline">Home</a></li>
       <li><a asp-controller="Home" asp-action="Privacy" class="no-underline">Privacy</a></li>
       <li><a asp-controller="Dashboard" asp-action="Index" class="no-underline">Dashboard</a></li>
+        @if (User.Identity.IsAuthenticated)
+        {
+          <li><a asp-controller="Login" asp-action="Logout" class="no-underline">Logout</a></li>
+        }
+        else
+        {
+          <li><a asp-controller="Login" asp-action="Index" class="no-underline">Login</a></li>
+        }
     </ul>
   </nav>
   <main role="main" class="pb-20 min-h-[90svh] overflow-x-clip">
