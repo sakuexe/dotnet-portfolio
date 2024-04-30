@@ -18,7 +18,6 @@ public static class PasswordHasher
 
     public static bool VerifyPassword(string hashedPassword, string inputPassword)
     {
-        Console.WriteLine($"Comparing {inputPassword} with {hashedPassword}");
         var parts = hashedPassword.Split(Delimiter);
         var salt = Convert.FromBase64String(parts[0]);
         var hash = Convert.FromBase64String(parts[1]);
