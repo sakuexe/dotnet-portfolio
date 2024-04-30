@@ -7,3 +7,6 @@ node_modules/
 
 # pre-compiled Tailwind CSS
 tailwind.css
+
+# do not include the test directory
+fullstack-portfolio.Tests/
