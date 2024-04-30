@@ -35,28 +35,7 @@ public class MongoContext
         Database = Client.GetDatabase(DATABASE_NAME);
     }
 
-    public static void SeedDatabase(IConfiguration config)
-    {
-        if (GetAll<User>().Result.Count > 0)
-            return;
-
-        // make sure that the admin user is always set and encrypted
-        string username = config.GetSection("Admin")["Username"]
-            ?? throw new Exception("Admin username not provided");
-        string password = config.GetSection("Admin")["Password"]
-            ?? throw new Exception("Admin password not provided");
-
-        User basedAdmin = new()
-        {
-            Username = username,
-            Password = PasswordHasher.HashPassword(password),
-            IsAdmin = true
-        };
-
-        Save(basedAdmin).ConfigureAwait(false);
-    }
-
-    public static async Task<T> Save<T>(T record) where T : IMongoModel
+    public static Task<T> Save<T>(T record) where T : IMongoModel
     {
         // use the classname of the passed object as the table name
         // fullstack_portfolio.Models.User -> user
@@ -68,14 +47,30 @@ public class MongoContext
             // use the upsert option. If the record is not found, it will be inserted
             var usingUpsert = new ReplaceOptions { IsUpsert = true };
             // upsert the record (update-insert)
-            await mongoCollection?.ReplaceOneAsync(filter, record, usingUpsert)!;
+            mongoCollection?.ReplaceOneAsync(filter, record, usingUpsert);
         }
         catch (Exception e)
         {
             Console.WriteLine("Skill Issue - Saving record failed");
             Console.WriteLine(e.Message);
         }
-        return record;
+        return Task.FromResult(record);
+    }
+
+    public static Task SaveMultiple<T>(List<T> records) where T : IMongoModel
+    {
+        var table = GetCollectionName<T>(default);
+        try
+        {
+            var mongoCollection = Database?.GetCollection<T>(table);
+            mongoCollection?.InsertManyAsync(records);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Skill Issue - Saving multiple records failed");
+            Console.WriteLine(e.Message);
+        }
+        return Task.CompletedTask;
     }
 
     public static T? Get<T>(string? id) where T : IMongoModel
