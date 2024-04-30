@@ -20,13 +20,14 @@ var id = @Model.GetType().GetProperty("_id")?.GetValue(Model);
     <div id="Links" class="string-list-container">
       @foreach (int index in Enumerable.Range(0, Model.Links.Count()))
       {
-        <div>
-          <button type="button">@Model.Links[index] x</button>
-          <input asp-for="@Model.Links[index]" hidden>
-        </div>
+      <div>
+        <button type="button">@Model.Links[index] x</button>
+        <input asp-for="@Model.Links[index]" hidden>
+      </div>
       }
     </div>
-    <input name="links-mock" type="text" placeholder="New Skill...">
+    <input name="links-mock" type="text" placeholder="New Tag..."
+      class="string-list">
     <span asp-validation-for="@Model.Links" class="text-accent-400"></span>
 
     <button type="submit">Save</button>

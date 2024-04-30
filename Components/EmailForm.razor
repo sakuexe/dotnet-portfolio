@@ -1,3 +1,4 @@
+@using System.ComponentModel.DataAnnotations
 @using fullstack_portfolio.Data
 @using fullstack_portfolio.Models
 @using fullstack_portfolio.Components
@@ -8,9 +9,11 @@
 @inject IConfiguration Configuration
 
 
-<form id="ContactForm" @onsubmit="() => SendEmail()" class="flex flex-col gap-2 relative">
+<EditForm Model="model" OnValidSubmit="SendEmail" FormName="EmailForm" class="flex flex-col gap-2 relative">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
 
-	@if (IsSent)
+	@if (Success)
 	{
 		<div class="grid place-items-center w-full h-full absolute top-0 left-0 bg-primary/85">
 			<div class="outline outline-current text-secondary-400 bg-primary/75 backdrop-blur
@@ -34,36 +37,32 @@
 		</div>
 	}
 
-	<div class="flex flex-col">
-		<label for="Name">Name</label>
-		<input type="text" id="Name" name="Name" placeholder="Firstname Lastname" required @bind="Name"
+	<label class="flex flex-col">
+		Name
+		<InputText @bind-Value="model.Name" class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-md" />
+	</label>
+
+	<label class="flex flex-col">
+		Email
+		<InputText @bind-Value="model.FromAddress"
 			class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-md" />
-		<span asp-validation-for="Name"></span>
-	</div>
+	</label>
 
-	<div class="flex flex-col">
-		<label for="Email">Email</label>
-		<input type="text" id="Email" name="Email" placeholder="email@address.com" required @bind="Email"
+	<label class="flex flex-col">
+		Subject
+		<InputText @bind-Value="model.Subject"
 			class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-md" />
-		<span asp-validation-for="Email"></span>
-	</div>
+	</label>
 
-	<div class="flex flex-col">
-		<label for="Subject">Subject</label>
-		<input type="text" id="Subject" name="Subject" placeholder="Subject..." required @bind="Subject"
+	<label class="flex flex-col">
+		Message
+		<InputTextArea @bind-Value="model.Message"
 			class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-md" />
-		<span asp-validation-for="Subject"></span>
-	</div>
+	</label>
 
-	<div class="flex flex-col">
-		<label for="Message">Message</label>
-		<textarea id="Message" name="Message" placeholder="Message..." required rows="5" @bind="Message"
-			class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-md">
-		  </textarea>
-		<span asp-validation-for="Message"></span>
-	</div>
+	<InputText @bind-Value="model.HoneyPot" class="hidden" />
 
-	<input type="text" id="HoneyPot" name="HoneyPot" class="hidden" @bind="HoneyPot">
+	<hr class="border-primary-700 my-4 opacity-75" />
 
 	<button type="submit" class="bg-gradient-to-r from-secondary-900 to-accent rounded-md px-4 py-2">
 		Send
@@ -88,31 +87,50 @@
 			<p>Hold on tight, sunshine</p>
 		</div>
 	}
-</form>
+	</EditForm>
 
-@code {
-	public string Name { get; set; } = string.Empty;
-	public string Email { get; set; } = string.Empty;
-	public string Subject { get; set; } = string.Empty;
-	public string Message { get; set; } = string.Empty;
-	public string HoneyPot { get; set; } = string.Empty;
+	@code {
+	[SupplyParameterFromForm]
+	public Email model { get; set; } = new Email();
+
+	public class Email
+	{
+		[Required]
+		[DataType(DataType.Text)]
+		[MinLength(3)]
+		public string Name { get; set; } = "";
+		[Required]
+		[DataType(DataType.EmailAddress)]
+		public string FromAddress { get; set; } = "";
+		[Required]
+		[MinLength(3)]
+		[DataType(DataType.Text)]
+		public string Subject { get; set; } = "";
+		[Required]
+		[MinLength(10)]
+		[MaxLength(2048)]
+		[DataType(DataType.MultilineText)]
+		public string Message { get; set; } = "";
+		public string HoneyPot { get; set; } = "";
+	}
 
 	// configuration variables
 	private string? _email => Configuration["Email:Address"];
 	private string? _password => Configuration["Email:Password"];
 	private string? _recipient => Configuration["Email:Recipient"];
 
-	// state variables
+	// state variables>
 	private bool IsLoading { get; set; }
-	public void ToggleLoading() => IsLoading = !IsLoading;
-	private bool IsSent { get; set; }
-	public void ToggleSent() => IsSent = !IsSent;
+	private bool Success { get; set; }
 
-	public async Task SendEmail()
+	public async void SendEmail()
 	{
-		if (!ValidateEmail())
-			return;
-		ToggleLoading();
+		if (!string.IsNullOrWhiteSpace(model.HoneyPot))
+		{
+			Console.WriteLine("HoneyPot was filled");
+		}
+		IsLoading = true;
+		StateHasChanged();
 		SmtpClient _smtpClient = new("smtp.gmail.com")
 			{
 				Port = 587,
@@ -123,21 +141,23 @@
 		MailMessage mailMessage = await ComposeMessage();
 
 		await _smtpClient.SendMailAsync(mailMessage);
-		ToggleLoading();
-		ToggleSent();
+		Console.WriteLine("email sent");
+		IsLoading = false;
+		Success = true;
+		StateHasChanged();
 	}
 
 	public bool ValidateEmail()
 	{
-		if (!string.IsNullOrWhiteSpace(HoneyPot))
+		if (!string.IsNullOrWhiteSpace(model.HoneyPot))
 			return false;
-		if (string.IsNullOrWhiteSpace(Name))
+		if (string.IsNullOrWhiteSpace(model.Name))
 			return false;
-		if (string.IsNullOrWhiteSpace(Email))
+		if (string.IsNullOrWhiteSpace(model.FromAddress))
 			return false;
-		if (string.IsNullOrWhiteSpace(Subject))
+		if (string.IsNullOrWhiteSpace(model.Subject))
 			return false;
-		if (string.IsNullOrWhiteSpace(Message))
+		if (string.IsNullOrWhiteSpace(model.Message))
 			return false;
 
 		return true;
@@ -151,8 +171,8 @@
 		MailMessage mailMessage = new()
 			{
 				From = new MailAddress(_email),
-				Subject = Subject,
-				Body = Message,
+				Subject = model.Subject,
+				Body = model.Message,
 				IsBodyHtml = false,
 			};
 
@@ -183,13 +203,13 @@
 		{
 			var dict = new Dictionary<string, object?>
 			{
-{ "Name", Name },
-{ "SenderEmail", Email },
-{ "Subject", Subject },
-{ "Message", Message },
+{ "Name", model.Name },
+{ "SenderEmail", model.FromAddress },
+{ "Subject", model.Subject },
+{ "Message", model.Message },
 			};
 			var parameters = ParameterView.FromDictionary(dict);
-			var output = await renderer.RenderComponentAsync<Email>(parameters);
+			var output = await renderer.RenderComponentAsync<EmailBase>(parameters);
 
 			return output.ToHtmlString();
 		});

@@ -24,7 +24,7 @@
         </p>
       </div>
       <div class="space-y-4">
-        <p><a href="@Model.ContactInfo.Email">@Model.ContactInfo.Email</a></p>
+        <p><a href="mailto:@Model.ContactInfo.Email" target="_blank">@Model.ContactInfo.Email</a></p>
         <div id="Links" class="string-list-container flex flex-wrap gap-2">
           @foreach (var link in Model.ContactInfo.Links)
           {

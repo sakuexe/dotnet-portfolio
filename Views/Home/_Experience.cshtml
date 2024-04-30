@@ -30,7 +30,7 @@ return path.Split("wwwroot/")[1];
     {
     <div class="grid gap-4 lg:grid-cols-2">
       <div class="exp-header flex flex-col justify-center py-4 overflow-clip relative section-padding
-        @(index % 2 == 0 ? "" : "order-last")">
+        @(index % 2 == 0 ? "" : "lg:order-last")">
         <div class="timespan flex gap-2 text-secondary-400">
           //
           <p>@exp.StartDate.ToString("MM.yyyy")</p>

@@ -35,38 +35,29 @@ public class Project : IMongoModel
     public ObjectId _id { get; set; } = ObjectId.GenerateNewId();
     [Required]
     [MaxLength(64)]
-    [BsonElement("title")]
     [DataType(DataType.Text)]
     public string Title { get; set; }
     [Required]
-    [BsonElement("category")]
     [EnumDataType(typeof(CategoryType))]
     public CategoryType Category { get; set; }
     [MaxLength(5012)]
-    [BsonElement("description")]
     [DataType(DataType.MultilineText)]
     public string? Description { get; set; }
     [Required]
     [DataType(DataType.Date)]
-    [BsonElement("finishedAt")]
     [Display(Name = "Finished At")]
     public DateOnly? FinishedAt { get; set; }
 
-    [BsonElement("tags")]
     public List<string> Tags { get; set; }
-    [BsonElement("team")]
     [Display(Name = "Team Members")]
     public List<TeamMember> Team { get; set; }
 
-    [BsonElement("imageUrl")]
     [DataType(DataType.ImageUrl)]
     [Display(Name = "Image URL")]
     public string? ImageUrl { get; set; }
     [DataType(DataType.Text)]
-    [BsonElement("altText")]
     [Display(Name = "Alternative Image Text")]
     public string? AltText { get; set; }
-    [BsonElement("isLarge")]
     [Display(Name = "Is Large?")]
     public bool IsLarge { get; set; }
 
