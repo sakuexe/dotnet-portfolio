@@ -13,8 +13,10 @@
   }
 }
 
-<section class="no-container mt-20">
-  <div class="max-h-80 overflow-clip relative w-full aspect-[3/2]">
+<section class="no-container">
+
+  <div class="max-h-96 overflow-clip relative w-full 
+    shadow-inner motion-safe:transition-[max-height]">
     @if (GetImageUrl(Model.ImageUrl) == null)
     {
       <div class="bg-gradient-to-tr from-black to-primary-900 
@@ -28,11 +30,19 @@
     else
     {
       <img src="@GetImageUrl(Model.ImageUrl)" loading="lazy" decoding="async"
+        id="portfolio-image"
         alt="@(Model.AltText ?? $"Image of the {Model.Title} project")"
         class="w-full h-full object-cover saturate-0
         motion-safe:transition-all motion-safe:group-hover:scale-110 group-hover:saturate-50">
+      <button type="button" id="expand" 
+        class="absolute bottom-0 left-0 bg-primary px-6 py-2 rounded-tr-xl z-10">Expand</button>
     }
+    <!-- Color the black and white images to match the theme -->
+    <div class="bg-secondary h-full w-full opacity-25 mix-blend-multiply
+    absolute bottom-0 left-0 motion-safe:transition-all group-hover:opacity-25">
+    </div>
   </div>
+
   <div class="px-5 py-8 space-y-6 sm:px-10">
     <div class="subheader">
       <p><span>//</span> Project</p>
@@ -67,6 +77,10 @@
           <p><span class="text-secondary-400">//</span> Credits</p>
           <h2 class="text-4xl font-bold font-sans">The Team</h2>
         </div>
+        @if (Model.Team.Count == 0)
+        {
+          <p>Just me</p>
+        }
         @foreach (var role in Model.Team.GroupBy(m => m.Role).OrderByDescending(r => r.Count()))
         {
           <p>@role.First().Role:</p>
@@ -96,3 +110,7 @@
 
   </div>
 </section>
+
+@section Scripts {
+  <script src="~/js/expandimage.js" defer></script>
+}

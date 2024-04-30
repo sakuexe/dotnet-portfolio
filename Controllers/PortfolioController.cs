@@ -9,9 +9,7 @@ public class PortfolioController : Controller
     [Route("[controller]/{id}")]
     public IActionResult Index(string id)
     {
-        Console.WriteLine(id);
         Project? project = MongoContext.Get<Project>(id);
-        Console.WriteLine(project?.Title);
         if (project == null)
             return NotFound();
 

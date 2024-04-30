@@ -11,6 +11,10 @@
       return null;
     return Url.Content(rawUrl.Split("wwwroot")[1]);
   }
+  // get the categories and their count
+  var Categories = Model.GroupBy(p => p.Category)
+    .Select(g => new { Category = g.Key, Count = g.Count()})
+    .ToList();
 }
 
 <section class="grid gap-6 max-w-content mx-auto md:grid-cols-2">
@@ -47,19 +51,31 @@
 
   <div class="md:col-span-full">
     <p>Filter by:</p>
-    <ul class="flex flex-wrap gap-2">
-      <li class="text-secondary">All <span>[10]</span></li>
+    <ul id="portfolio-filter" class="flex flex-wrap gap-2">
+      <li class="cursor-pointer text-secondary-400 underline-offset-8 
+        decoration-4 decoration-secondary">
+        All 
+      </li>
+      <sup class="text-base text-secondary-400">[@Model.Count()]</sup>
       <li>/</li>
-      <li>Web Development <span>[7]</span></li>
-      <li>/</li>
-      <li>Graphic Design <span>[3]</span></li>
+      @foreach (var (category, index) in Categories.Select((c, i) => (c, i)))
+      {
+        <li data-category="@category.Category"
+          class="cursor-pointer underline underline-offset-8 decoration-4 decoration-secondary">
+          @Html.DisplayTextFor(m => category.Category)
+        </li>
+        <sup class="text-base text-secondary-400">[@category.Count.ToString("D2")]</sup>
+        @if (index == Categories.Count() - 1)
+          continue;
+        <li>/</li>
+      }
     </ul>
   </div>
 
-  <div class="grid grid-cols-fluid gap-4 md:col-span-2">
+  <div id="portfolio-items" class="grid grid-cols-fluid gap-4 md:col-span-2">
     @foreach (var project in Model.OrderByDescending(p => p.FinishedAt))
     {
-      <a href="/portfolio/@project._id"
+      <a href="/portfolio/@project._id" data-category="@project.Category"
       class="block w-full aspect-[3/2] relative overflow-clip shadow-primary/50 drop-shadow-lg group
         @(project.IsLarge ? "md:row-span-2 md:aspect-auto" : "")">
 
@@ -90,10 +106,12 @@
         absolute bottom-0 left-0 mix-blend-multiply opacity-95">
         </div>
         <!-- Color the black and white images to match the theme -->
-        <div class="bg-secondary h-full w-full opacity-50 mix-blend-multiply
+        <div class="bg-secondary h-full w-full opacity-25 mix-blend-multiply
         absolute bottom-0 left-0 motion-safe:transition-all group-hover:opacity-25">
         </div>
       </a>
     }
   </div>
 </section>
+
+<script src="~/js/portfoliofilter.js" defer></script>
