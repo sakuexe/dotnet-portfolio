@@ -59,8 +59,8 @@
   <div class="grid grid-cols-fluid gap-4 md:col-span-2">
     @foreach (var project in Model.OrderByDescending(p => p.FinishedAt))
     {
-      <div 
-      class="w-full aspect-[3/2] relative overflow-clip shadow-primary/50 drop-shadow-lg group
+      <a href="/portfolio/@project._id"
+      class="block w-full aspect-[3/2] relative overflow-clip shadow-primary/50 drop-shadow-lg group
         @(project.IsLarge ? "md:row-span-2 md:aspect-auto" : "")">
 
         @if (GetImageUrl(project.ImageUrl) != null)
@@ -93,7 +93,7 @@
         <div class="bg-secondary h-full w-full opacity-50 mix-blend-multiply
         absolute bottom-0 left-0 motion-safe:transition-all group-hover:opacity-25">
         </div>
-      </div>
+      </a>
     }
   </div>
 </section>

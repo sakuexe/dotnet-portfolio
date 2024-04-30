@@ -1,0 +1,98 @@
+@using fullstack_portfolio.Models
+@using fullstack_portfolio.Utils
+@model Project
+
+@{
+  string? GetImageUrl(string? rawUrl)
+  {
+    if (string.IsNullOrWhiteSpace(rawUrl))
+      return null;
+    if (!System.IO.File.Exists(rawUrl))
+      return null;
+    return Url.Content(rawUrl.Split("wwwroot")[1]);
+  }
+}
+
+<section class="no-container mt-20">
+  <div class="max-h-80 overflow-clip relative w-full aspect-[3/2]">
+    @if (GetImageUrl(Model.ImageUrl) == null)
+    {
+      <div class="bg-gradient-to-tr from-black to-primary-900 
+          absolute top-0 left-0 w-full h-full isolate">
+        <div 
+          class="grid-pattern opacity-50 w-full h-full 
+          motion-safe:transition-all motion-safe:group-hover:scale-110">
+        </div>
+      </div>
+    }
+    else
+    {
+      <img src="@GetImageUrl(Model.ImageUrl)" loading="lazy" decoding="async"
+        alt="@(Model.AltText ?? $"Image of the {Model.Title} project")"
+        class="w-full h-full object-cover saturate-0
+        motion-safe:transition-all motion-safe:group-hover:scale-110 group-hover:saturate-50">
+    }
+  </div>
+  <div class="px-5 py-8 space-y-6 sm:px-10">
+    <div class="subheader">
+      <p><span>//</span> Project</p>
+      <h1>@Model.Title</h1>
+    </div>
+
+    <div>
+      @foreach (var tag in Model.Tags)
+      {
+        <span class="border border-secondary px-6 py-1.5 rounded-full cursor-default
+          capitalize motion-safe:transition-all hover:bg-secondary">@tag</span>
+      }
+    </div>
+
+    <div class="flex gap-2 items-center">
+      <span class="opacity-75 italic">@Model.FinishedAt</span>
+      <hr class="w-full border-primary-700">
+    </div>
+
+    <div class="space-y-2">
+      @foreach (var desc in Model.Description.Split("\n"))
+      {
+        <p>@desc</p>
+      }
+    </div>
+
+    <hr class="border-primary-700">
+
+    <div class="flex gap-10 flex-wrap">
+      <div>
+        <div>
+          <p><span class="text-secondary-400">//</span> Credits</p>
+          <h2 class="text-4xl font-bold font-sans">The Team</h2>
+        </div>
+        @foreach (var role in Model.Team.GroupBy(m => m.Role).OrderByDescending(r => r.Count()))
+        {
+          <p>@role.First().Role:</p>
+          @foreach (var member in role)
+          {
+            <div class="flex gap-2 items-center">
+              <ul class="list-disc list-inside">
+                <li>
+                  <span>@member.Name</span>
+                  <a href="@member.Link" class="opacity-75 italic">@LinkUtils.GetDomain(member.Link ?? "")</a>
+                </li>
+              </ul>
+            </div>
+          }
+        }
+      </div>
+
+      <div>
+        <div>
+          <p><span class="text-secondary-400">//</span> Links</p>
+          <h2 class="text-4xl font-bold font-sans">Find out more</h2>
+        </div>
+        <p>TODO: add links</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
