@@ -1,3 +1,3 @@
-fs.sakukarttunen.com {
+sakukarttunen.com {
   reverse_proxy dotnet:80
 }
