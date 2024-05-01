@@ -3,6 +3,19 @@
 @using fullstack_portfolio.Utils;
 @model ContactsViewModel
 
+@{
+  string DefaultIcon = "wwwroot/icons/link.svg";
+  string GetSvgPath(string? link)
+  {
+    if (string.IsNullOrWhiteSpace(link))
+      return DefaultIcon;
+    string path = SvgUtils.GetSvgPath(link);
+    if (!System.IO.File.Exists(path))
+      return DefaultIcon;
+    return path;
+  
+}
+
 <section class="space-y-8 max-w-7xl mx-auto">
   <div class="subheader md:text-center">
     <p><span>// 04</span> Contacts</p>
@@ -30,7 +43,7 @@
           {
             <div class="flex items-center gap-2">
               <div class="fill-primary-100 w-8">
-                @Html.Raw(SvgUtils.SanitizeSvg(SvgUtils.GetSvgPath(link)))
+                @Html.Raw(SvgUtils.SanitizeSvg(GetSvgPath(link)))
               </div>
               <a href="@link" target="_blank" class="capitalize">@LinkUtils.GetBrand(link)</a>
             </div>

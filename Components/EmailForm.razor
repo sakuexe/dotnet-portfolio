@@ -157,12 +157,11 @@
 
 		IsLoading = true;
 		StateHasChanged();
-		SmtpClient _smtpClient = new("smtp.gmail.com")
-			{
-				Port = 587,
-				Credentials = new NetworkCredential(_email, _password),
-				EnableSsl = true
-			};
+		using SmtpClient _smtpClient = new("smtp.gmail.com");
+		_smtpClient.UseDefaultCredentials = false;
+		_smtpClient.Port = 587;
+		_smtpClient.Credentials = new NetworkCredential(_email, _password);
+		_smtpClient.EnableSsl = true;
 
 		MailMessage mailMessage;
 		try

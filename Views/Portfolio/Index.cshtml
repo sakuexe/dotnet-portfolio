@@ -76,7 +76,7 @@
         <hr class="w-full border-primary-700">
       </div>
 
-      <div class="space-y-2">
+      <div class="space-y-6">
         @foreach (var desc in Model.Description.Split("\n"))
         {
           <p>@desc</p>
@@ -98,7 +98,7 @@
         }
         @foreach (var role in Model.Team.GroupBy(m => m.Role).OrderByDescending(r => r.Count()))
         {
-          <p class="capitalize">@(role.First().Role)s:</p>
+          <p class="capitalize">@(role.First().Role):</p>
           @foreach (var member in role)
           {
             <div class="flex gap-2 items-center">
