@@ -2,10 +2,12 @@ using System.Reflection;
 using System.Text.Json;
 using fullstack_portfolio.Data;
 using fullstack_portfolio.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fullstack_portfolio.Controllers;
 
+[Authorize]
 [Route("Dashboard/[controller]")]
 public class GenericController<T> : Controller where T : IMongoModel, new()
 {

@@ -11,27 +11,36 @@
   <form asp-action="Index" method="post" class="space-y-4">
 
     <div class="flex flex-col">
-      <label asp-for="Username">@Html.DisplayFor(m => m.Username)</label>
-      <input asp-for="Username" placeholder="Iceman7"
-        class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-md">
-      <span asp-validation-for="@Model.Username" class="text-red-500"></span>
+      <label asp-for="Username">@Html.DisplayNameFor(m => m.Username)</label>
+      <input asp-for="Username" placeholder="Iceman7" class="bg-transparent border-2
+        border-primary-700 px-4 py-2 rounded-md motion-safe:transition-all
+        focus:outline focus:outline-1 focus:outline-accent-200">
+      <span asp-validation-for="@Model.Username" class="text-accent"></span>
     </div>
 
     <div class="flex flex-col">
-      <label asp-for="@Model.Password">@Html.DisplayFor(m => m.Password)</label>
-      <input asp-for="@Model.Password" placeholder="*********"
-        class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-md">
-      <span asp-validation-for="@Model.Password" class="text-red-500"></span>
+      <label asp-for="@Model.Password">@Html.DisplayNameFor(m => m.Password)</label>
+      <div class="flex rounded-md focus-within:outline focus-within:outline-1 focus-within:outline-accent-200">
+        <input asp-for="@Model.Password" type="password" placeholder="*********" 
+          class="bg-transparent border-2 border-primary-700 px-4 py-2 rounded-l-md grow outline-none">
+        <button type="button" class="px-4 py-2 bg-primary-700 rounded-r-md motion-safe:transition-all
+          hover:bg-accent">👀</button>
+      </div>
+      <span asp-validation-for="@Model.Password" class="text-accent"></span>
     </div>
 
     <hr class="border-primary-700 opacity-75">
 
     <div class="grid gap-4">
       <button type="submit" class="bg-gradient-to-r from-secondary-900 to-accent rounded-md 
-        px-4 py-2 motion-safe:transition-all hover:brightness-125">Login</button>
+        px-4 py-2 drop-shadow-xl motion-safe:transition-all hover:brightness-125">Login</button>
       <button type="reset" class="border-2 border-primary-700 rounded-md px-4 py-2 
         motion-safe:transition-all hover:bg-primary-700">Clear</button>
     </div>
 
   </form>
 </section>
+
+@section Scripts {
+<script src="~/js/togglepassword.js" defer></script>
+}
