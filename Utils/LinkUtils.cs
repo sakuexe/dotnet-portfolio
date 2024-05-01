@@ -23,4 +23,20 @@ public static class LinkUtils
         string brand = domain.Split(".")[^2];
         return brand.ToLower();
     }
+
+    // used for splitting project links that include names
+    // and urls in the same string
+    public static (string name, string url)? SplitLink(string link, string seperator = ";")
+    {
+        try
+        {
+            var split = link.Split(seperator);
+            return (split[0], split[1]);
+        }
+        catch
+        {
+            Console.WriteLine($"Failed to split link: {link}");
+            return null;
+        }
+    }
 }

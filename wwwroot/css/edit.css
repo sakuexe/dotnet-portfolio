@@ -26,9 +26,8 @@ textarea{
   border: 2px solid var(--border-color);
   border-radius: var(--border-radius);
   background-color: transparent;
-  transition: all 0.2s ease-in-out;
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
+  @media (prefers-reduced-motion: no-preference) {
+    transition: all 0.2s ease-in-out;
   }
 }
 
@@ -42,6 +41,16 @@ textarea:active {
   border-color: var(--active-color);
   /* add some glow to the active element */
   box-shadow: 0 0 5px var(--active-color);
+}
+
+/* Label */
+label > * {
+  margin-top: 0.25rem;
+}
+
+label > span {
+  opacity: 0.75;
+  font-style: italic;
 }
 
 /* Select */
@@ -77,9 +86,8 @@ label[for="file"]:has(> p) {
   border-radius: var(--border-radius);
   background-color: transparent;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
+  @media (prefers-reduced-motion: no-preference) {
+    transition: all 0.2s ease-in-out;
   }
 }
 
@@ -140,31 +148,30 @@ input[type="checkbox"]:not(:checked)::after {
 }
 
 /* String List */
-form > .string-list-container {
+form > label > .string-list-container {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-form > .string-list-container > div {
+form > label > .string-list-container > div {
   gap: 0.5rem;
   padding: calc(var(--padding-y) * 0.75) calc(var(--padding-x) * 0.75);
   border: none;
   border-radius: var(--border-radius);
   background-color: var(--border-color);
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
+  @media (prefers-reduced-motion: no-preference) {
+    transition: all 0.2s ease-in-out;
   }
 }
 
-form > .string-list-container > .unsaved {
+form > label > .string-list-container > .unsaved {
   background-color: transparent;
   border: 2px solid var(--border-color);
 }
 
-form > .string-list-container > div:hover {
+form > label > .string-list-container > div:hover {
   filter: brightness(1.25);
 }
 
@@ -183,9 +190,8 @@ form > button {
   border-radius: var(--border-radius);
   border: 2px solid var(--border-color);
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
+  @media (prefers-reduced-motion: no-preference) {
+    transition: all 0.2s ease-in-out;
   }
 }
 
@@ -193,16 +199,15 @@ form > button:hover {
   background-color: var(--border-color);
 }
 
-form > button:first-of-type {
+form > button[type="submit"] {
   background: linear-gradient(90deg, var(--gradient-start) 12%, var(--gradient-end) 100%);
   border: none;
   font-weight: 600;
-  transition: all 0.2s ease-in-out;
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
+  @media (prefers-reduced-motion: no-preference) {
+    transition: all 0.2s ease-in-out;
   }
 }
 
-form > button:first-of-type:hover {
+form > button[type="submit"]:hover {
   filter: brightness(1.25);
 }

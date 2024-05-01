@@ -11,26 +11,33 @@ var id = @Model.GetType().GetProperty("_id")?.GetValue(Model);
     <input asp-for="@Model._id" value="@id" hidden aria-hidden="true" />
 
     <!-- Title -->
-    <label asp-for="@Model.Email">Email</label>
-    <input asp-for="@Model.Email" />
+    <label>
+      @Html.DisplayNameFor(m => m.Email)
+      <input asp-for="@Model.Email" />
+    </label>
     <span asp-validation-for="@Model.Email" class="text-accent-400"></span>
 
     <!-- Links -->
-    <label for="links-mock">Links</label>
-    <div id="Links" class="string-list-container">
-      @foreach (int index in Enumerable.Range(0, Model.Links.Count()))
-      {
-      <div>
-        <button type="button">@Model.Links[index] x</button>
-        <input asp-for="@Model.Links[index]" hidden>
+    <label>
+      Links
+      <div id="Links" class="string-list-container">
+        @foreach (int index in Enumerable.Range(0, Model.Links.Count()))
+        {
+        <div>
+          <button type="button">@Model.Links[index] x</button>
+          <input asp-for="@Model.Links[index]" hidden>
+        </div>
+        }
       </div>
-      }
-    </div>
-    <input name="links-mock" type="text" placeholder="New Tag..."
-      class="string-list">
+      <input name="links-mock" type="text" placeholder="New Tag..."
+        class="string-list">
+    </label>
     <span asp-validation-for="@Model.Links" class="text-accent-400"></span>
 
+    <hr>
+
     <button type="submit">Save</button>
+    <button type="reset">Clear</button>
 
   </form>
 </section>

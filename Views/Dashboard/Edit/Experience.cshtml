@@ -14,76 +14,90 @@ string skills = string.Join(", ", Model.Skills);
     <input asp-for="@Model._id" value="@id" hidden aria-hidden="true" />
 
     <!-- Title -->
-    <label asp-for="@Model.Title">Title</label>
-    <input asp-for="@Model.Title" />
+    <label>
+      @Html.DisplayNameFor(model => model.Title)
+      <input asp-for="@Model.Title" />
+    </label>
     <span asp-validation-for="@Model.Title" class="text-accent-400"></span>
 
     <!-- Subtitle -->
-    <label asp-for="@Model.Subtitle">Subtitle</label>
-    <input asp-for="@Model.Subtitle" />
+    <label>
+      @Html.DisplayNameFor(model => model.Subtitle)
+      <input asp-for="@Model.Subtitle" />
+    </label>
     <span asp-validation-for="@Model.Subtitle" class="text-accent-400"></span>
 
     <!-- Start Date -->
-    <label asp-for="@Model.StartDate">Start Date</label>
-    <input asp-for="@Model.StartDate" />
+    <label>
+      @Html.DisplayNameFor(model => model.StartDate)
+      <input asp-for="@Model.StartDate" />
+    </label>
     <span asp-validation-for="@Model.StartDate" class="text-accent-400"></span>
 
     <!-- End Date -->
-    <label asp-for="@Model.EndDate">End date</label>
-    <input asp-for="@Model.EndDate" />
+    <label>
+      @Html.DisplayNameFor(model => model.EndDate)
+      <input asp-for="@Model.EndDate" />
+    </label>
     <span asp-validation-for="@Model.EndDate" class="text-accent-400"></span>
 
     <!-- Description -->
-    <label asp-for="@Model.Description">Description</label>
-    <textarea asp-for="@Model.Description">
-    </textarea>
+    <label>
+      @Html.DisplayNameFor(model => model.Description)
+      <textarea asp-for="@Model.Description"></textarea>
+    </label>
     <span asp-validation-for="@Model.Description" class="text-accent-400"></span>
 
     <!-- Skills -->
-    <label for="skills-mock">Skills</label>
-    <div id="Skills" class="string-list-container">
-      @foreach (int index in Enumerable.Range(0, Model.Skills.Count()))
-      {
-        <div>
-          <button type="button">@Model.Skills[index] x</button>
-          <input asp-for="@Model.Skills[index]" hidden>
-        </div>
-      }
-    </div>
-    <input name="skills-mock" type="text" placeholder="New Skill..."
-      class="string-list">
+    <label>
+      @Html.DisplayNameFor(model => model.Skills)
+      <div id="Skills" class="string-list-container">
+        @foreach (int index in Enumerable.Range(0, Model.Skills.Count()))
+        {
+          <div>
+            <button type="button">@Model.Skills[index] x</button>
+            <input asp-for="@Model.Skills[index]" hidden>
+          </div>
+        }
+      </div>
+      <input type="text" placeholder="New Skill..." class="string-list">
+    </label>
     <span asp-validation-for="@Model.Skills" class="text-accent-400"></span>
 
-    <div>
-      <label for="file">Image</label>
+    <label>
+      @Html.DisplayNameFor(m => m.ImageUrl)
       @if (!string.IsNullOrEmpty(ImagePath))
       {
         <button type="button" class="remove-image" data-imagename="ImageUrl">Remove Current Image</button>
       }
-    </div>
-    <label for="file">
-      <p>Upload Image</p>
-      @if (!string.IsNullOrEmpty(ImagePath))
-      {
-      <p>
-        Current: <a href="@ImagePath">@ImagePath</a>
-      </p>
-      }
+      <label for="file">
+        <p>Upload Image</p>
+        @if (!string.IsNullOrEmpty(ImagePath))
+        {
+        <p>
+          Current: <a href="@ImagePath">@ImagePath</a>
+        </p>
+        }
+      </label>
     </label>
     <span data-valmsg-for="file" data-valmsg-replace="true" class="text-red-500 field-validation-valid"></span>
     <input type="file" id="file" name="file"></input>
-
     <!-- the actual image url -->
     <!-- it is added so that the url will not get removed if an empty file is passed -->
-    <input asp-for="@Model.ImageUrl" hidden />
+    <input asp-for="@Model.ImageUrl" hidden aria-hidden="true" />
     <span asp-validation-for="@Model.ImageUrl" class="text-accent-400"></span>
 
     <!-- Alt Text for the image -->
-    <label for="@Model.AltText">Alternative Text</label>
-    <input asp-for="@Model.AltText" placeholder="Description of the image, for screenreaders"></input>
+    <label>
+      @Html.DisplayNameFor(m => m.AltText)
+      <input asp-for="@Model.AltText" />
+    </label>
     <span asp-validation-for="@Model.AltText" class="text-accent-400"></span>
 
+    <hr>
+
     <button type="submit">Save</button>
+    <button type="reset">Clear</button>
 
     <span id="general-error" class="text-accent-400"></span>
 

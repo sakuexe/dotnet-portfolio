@@ -1,3 +1,4 @@
+/** @type {NodeListOf<HTMLInputElement>} */
 const mockFields = document.querySelectorAll('input.string-list');
 const containers = document.querySelectorAll('.string-list-container');
 const deleteButtons = document.querySelectorAll('.string-list-container button');
@@ -6,7 +7,6 @@ mockFields?.forEach((field, index) => {
   field.addEventListener("change", () => {
     const values = splitStrings(/** @type {HTMLInputElement}*/(field));
     values.map((value) => addInputField(value, containers[index]));
-    // @ts-ignore
     field.value = "";
   });
 });
@@ -17,11 +17,22 @@ deleteButtons?.forEach((button) => {
 
 /** @param {Element} button */
 function addRemoveButtonFunctionality(button) {
-  button.addEventListener("click", () => {
+  button.addEventListener("click", (event) => {
+    // fuck microsoft on god frfr
+    // these two lines need to be added for the
+    // deletion not to run twice on edge...
+    // I swear to god, I spent like 45 mins trying
+    // to fix this shit. fuck you bill
+    event.stopPropagation();
+    event.preventDefault();
     const div = button.parentElement;
     const propertyGroup = div?.parentElement;
     if (!div) {
       console.error("the following button has no parent element", button);
+      return
+    }
+    if (!propertyGroup) {
+      console.error("the following div has no parent element", div);
       return
     }
     div.remove();

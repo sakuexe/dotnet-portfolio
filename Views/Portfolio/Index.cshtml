@@ -103,7 +103,23 @@
           <p><span class="text-secondary-400">//</span> Links</p>
           <h2 class="text-4xl font-bold font-sans">Find out more</h2>
         </div>
-        <p>TODO: add links</p>
+        <ul>
+          @if (Model.Links.Count == 0)
+          {
+            <li>No links found</li>
+          }
+          @foreach (var link in Model.Links)
+          {
+            var result = LinkUtils.SplitLink(link);
+            if (result == null)
+              continue;
+            (string name, string url) = result.Value;
+            <li>
+              @name:
+              <a href="@url">@LinkUtils.GetDomain(url)</a>
+            </li>
+          }
+        </ul>
       </div>
 
     </div>

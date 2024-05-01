@@ -51,6 +51,7 @@ public class Project : IMongoModel
     public List<string> Tags { get; set; }
     [Display(Name = "Team Members")]
     public List<TeamMember> Team { get; set; }
+    public List<string> Links { get; set; }
 
     [DataType(DataType.ImageUrl)]
     [Display(Name = "Image URL")]
@@ -67,5 +68,6 @@ public class Project : IMongoModel
         Category = CategoryType.Other;
         Tags = new List<string>();
         Team = new List<TeamMember>();
+        Links = new List<string>();
     }
 }
