@@ -14,7 +14,7 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
     public virtual int ImageWidth { get; set; } = 0;
     public virtual int ImageHeight { get; set; } = 0;
     public virtual string? ImageProperty { get; set; }
-    public virtual string EditView { get; set; } = "Views/Dashboard/Edit.cshtml";
+    public virtual string EditView { get; set; } = "Views/Dashboard/Edit/Generic.cshtml";
 
     // I tried using a struct, but when I do, the result is always empty
     protected class Error

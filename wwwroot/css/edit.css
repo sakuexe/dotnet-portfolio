@@ -211,3 +211,20 @@ form > button[type="submit"] {
 form > button[type="submit"]:hover {
   filter: brightness(1.25);
 }
+
+/* Passwords */
+form > label > div:has(> input.password) {
+  display: flex;
+}
+
+form > label > div:has(> input.password) > input {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+form > label > div:has(> input.password) > button {
+  padding: var(--padding-y) var(--padding-x);
+  background-color: var(--border-color);
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}

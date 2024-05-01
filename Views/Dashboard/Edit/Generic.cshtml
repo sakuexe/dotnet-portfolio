@@ -71,6 +71,18 @@
         </div>
       }
 
+      // if password
+      else if (EditUtils.IsPassword(field))
+      {
+        <label>
+          @Html.DisplayNameFor(model => field)
+          <div>
+            <input asp-for="@field" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name" type="password" class="password" />
+            <button type="button">👀</button>
+          </div>
+        </label>
+      }
+
       else
       {
         <label>
@@ -92,6 +104,7 @@
 @section Scripts {
   <script src="~/js/savechanges.js" defer></script>
   <script src="~/js/stringlist.js" defer></script>
+  <script src="~/js/togglepassword.js" defer></script>
 }
 
 @section Styles {

@@ -38,4 +38,12 @@ public static class EditUtils
             return false;
         return dataTypeAttribute.DataType == DataType.MultilineText;
     }
+
+    public static bool IsPassword(PropertyInfo property)
+    {
+        var dataTypeAttribute = property.GetCustomAttribute<DataTypeAttribute>();
+        if (dataTypeAttribute == null)
+            return false;
+        return dataTypeAttribute.DataType == DataType.Password;
+    }
 }
