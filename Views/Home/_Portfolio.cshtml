@@ -79,7 +79,7 @@
       class="block w-full aspect-[3/2] relative overflow-clip shadow-primary/50 drop-shadow-lg group
         @(project.IsLarge ? "md:row-span-2 md:aspect-auto" : "")">
 
-        @if (GetImageUrl(project.ImageUrl) != null)
+        @if (GetImageUrl(project.ThumbnailUrl) != null)
         {
           <img src="@GetImageUrl(project.ThumbnailUrl)" loading="lazy" decoding="async"
             alt="@(project.AltText ?? $"Image of the {project.Title} project")"
