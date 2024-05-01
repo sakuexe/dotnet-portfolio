@@ -86,7 +86,7 @@
 
     <hr class="border-primary-700 xl:hidden">
 
-    <div class="flex gap-y-6 gap-x-16 flex-wrap py-6 px-4 border-primary-700 rounded-lg">
+    <div class="flex gap-y-6 gap-x-16 flex-wrap content-start py-6 px-4 border-primary-700 rounded-lg">
       <div>
         <div>
           <p><span class="text-secondary-400">//</span> Credits</p>
@@ -105,7 +105,7 @@
               <ul>
                 <li>
                   <span class="capitalize">@member.Name</span> -
-                  <a href="@member.Link" class="italic">@LinkUtils.GetDomain(member.Link ?? "")</a>
+                  <a href="@member.Link" target="_blank" class="italic">@LinkUtils.GetDomain(member.Link ?? "")</a>
                 </li>
               </ul>
             </div>
