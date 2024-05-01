@@ -14,9 +14,9 @@ services:
       # the base(d) admin user for the application
       - Admin__Username=root
       - Admin__Password=rootroot
-      # email settings
+      # email settings - do NOT use double quotes in the value (fuck)
       - Email__Address=example@email.com
-      - Email__Password="one two three four"
+      - Email__Password=one two three four
       - Email__Recipient=me@gmail.com
       # logging settings
       - Logging__LogLevel__Default=Information
