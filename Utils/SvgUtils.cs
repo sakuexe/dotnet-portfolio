@@ -41,7 +41,7 @@ public static class SvgUtils
     {
         // matches width and height properties, first group is the name
         // second group is the actual numeric value
-        string FindWidthAndHeightPattern = @"(width|height)=""\d*""";
+        string FindWidthAndHeightPattern = @"(width|height)=""\d+\S+""";
         // builds a new property using the first match group
         // as the name
         string replacePattern = "$1=\"100%\"";

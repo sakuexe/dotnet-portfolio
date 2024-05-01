@@ -11,9 +11,22 @@
       return null;
     return Url.Content(rawUrl.Split("wwwroot")[1]);
   }
+
+  string DefaultIcon = "wwwroot/icons/link.svg";
+
+  string GetSvgPath(string? name)
+  {
+    if (string.IsNullOrWhiteSpace(name))
+      return null;
+    name = name.Replace(" ", "-");
+    var path = "wwwroot/icons/" + name.ToLower() + ".svg";
+    if (!System.IO.File.Exists(path))
+      return DefaultIcon;
+    return path;
+  }
 }
 
-<section class="no-container mt-12">
+<section class="no-container mt-12 max-w-content mx-auto">
 
   <div class="max-h-96 overflow-clip relative w-full 
     shadow-inner motion-safe:transition-[max-height]">
@@ -43,35 +56,37 @@
     </div>
   </div>
 
-  <div class="px-5 py-8 space-y-6 sm:px-10">
-    <div class="subheader">
-      <p><span>//</span> Project</p>
-      <h1>@Model.Title</h1>
+  <div class="px-5 py-8 grid gap-y-6 gap-x-16 sm:px-10 xl:grid-cols-3">
+    <div class="space-y-6 xl:col-span-2">
+      <div class="subheader">
+        <p><span>//</span> Project</p>
+        <h1>@Model.Title</h1>
+      </div>
+
+      <div>
+        @foreach (var tag in Model.Tags)
+        {
+          <span class="border border-secondary px-6 py-1.5 rounded-full cursor-default
+            select-none capitalize motion-safe:transition-all hover:bg-secondary">@tag</span>
+        }
+      </div>
+
+      <div class="flex gap-2 items-center">
+        <span class="opacity-75 italic">@Model.FinishedAt</span>
+        <hr class="w-full border-primary-700">
+      </div>
+
+      <div class="space-y-2">
+        @foreach (var desc in Model.Description.Split("\n"))
+        {
+          <p>@desc</p>
+        }
+      </div>
     </div>
 
-    <div>
-      @foreach (var tag in Model.Tags)
-      {
-        <span class="border border-secondary px-6 py-1.5 rounded-full cursor-default
-          capitalize motion-safe:transition-all hover:bg-secondary">@tag</span>
-      }
-    </div>
+    <hr class="border-primary-700 xl:hidden">
 
-    <div class="flex gap-2 items-center">
-      <span class="opacity-75 italic">@Model.FinishedAt</span>
-      <hr class="w-full border-primary-700">
-    </div>
-
-    <div class="space-y-2">
-      @foreach (var desc in Model.Description.Split("\n"))
-      {
-        <p>@desc</p>
-      }
-    </div>
-
-    <hr class="border-primary-700">
-
-    <div class="flex gap-10 flex-wrap">
+    <div class="flex gap-y-6 gap-x-16 flex-wrap py-6 px-4 border-primary-700 rounded-lg">
       <div>
         <div>
           <p><span class="text-secondary-400">//</span> Credits</p>
@@ -83,14 +98,14 @@
         }
         @foreach (var role in Model.Team.GroupBy(m => m.Role).OrderByDescending(r => r.Count()))
         {
-          <p>@role.First().Role:</p>
+          <p class="capitalize">@(role.First().Role)s:</p>
           @foreach (var member in role)
           {
             <div class="flex gap-2 items-center">
-              <ul class="list-disc list-inside">
+              <ul>
                 <li>
-                  <span>@member.Name</span>
-                  <a href="@member.Link" class="opacity-75 italic">@LinkUtils.GetDomain(member.Link ?? "")</a>
+                  <span class="capitalize">@member.Name</span> -
+                  <a href="@member.Link" class="italic">@LinkUtils.GetDomain(member.Link ?? "")</a>
                 </li>
               </ul>
             </div>
@@ -103,7 +118,7 @@
           <p><span class="text-secondary-400">//</span> Links</p>
           <h2 class="text-4xl font-bold font-sans">Find out more</h2>
         </div>
-        <ul>
+        <ul class="space-y-2">
           @if (Model.Links.Count == 0)
           {
             <li>No links found</li>
@@ -114,9 +129,14 @@
             if (result == null)
               continue;
             (string name, string url) = result.Value;
-            <li>
-              @name:
-              <a href="@url">@LinkUtils.GetDomain(url)</a>
+            <li class="flex gap-2 flex-wrap">
+              <div class="flex gap-2 items-center">
+                <div class="w-7 h-7 fill-secondary-400">
+                  @Html.Raw(SvgUtils.SanitizeSvg(GetSvgPath(name)))
+                </div>
+                <span class="capitalize">@name:</span>
+              </div>
+              <a href="@url" target="_blank">@LinkUtils.GetDomain(url)</a>
             </li>
           }
         </ul>
