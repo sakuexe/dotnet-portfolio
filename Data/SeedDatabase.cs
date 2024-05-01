@@ -14,6 +14,7 @@ public static class SeedDatabase
         AddSkills();
         AddProjects(); // Add default descriptions
         AddExperiences();
+        AddContactInfo();
     }
 
     private static void AddAdminUser()
@@ -243,6 +244,8 @@ public static class SeedDatabase
             Links = new List<string> { "source code;https://github.com/sakuexe/fullstack-portfolio",
             "website;https://www.sakukarttunen.com/" },
         });
+
+        MongoContext.SaveMultiple(projects);
     }
 
     public static void AddExperiences()
