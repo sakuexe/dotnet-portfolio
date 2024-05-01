@@ -18,6 +18,9 @@ services:
       - Email__Address=example@email.com
       - Email__Password="one two three four"
       - Email__Recipient=me@gmail.com
+      # logging settings
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__Microsoft.AspNetCore=Warning
     depends_on:
       - mongodb
     networks:

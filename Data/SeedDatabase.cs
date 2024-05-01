@@ -12,7 +12,7 @@ public static class SeedDatabase
         AddAdminUser();
         AddExpertises();
         AddSkills();
-        AddProjects(); // finish this
+        AddProjects(); // Add default descriptions
         AddExperiences();
     }
 
@@ -139,7 +139,110 @@ public static class SeedDatabase
             return;
 
         List<Project> projects = new();
-        // TODO: Add projects after the model is done
+
+        projects.Add(new Project
+        {
+            Title = "Kantolan KunnonSali",
+            Category = CategoryType.WebDevelopment,
+            FinishedAt = new DateOnly(2022, 07, 31),
+            Tags = new List<string> { "HTML/CSS", "Bootstrap", "Frontend", "cSchool HAMK" },
+            Links = new List<string> { "source code;https://github.com/sakuexe/KantolanKunnonsali",
+            "website;https://www.kantolankunnonsali.com/" },
+            Team = new List<TeamMember> {
+                new TeamMember { Name = "Wais Atifi", Role = "Developer" },
+            },
+        });
+        projects.Add(new Project
+        {
+            Title = "Business Card",
+            Category = CategoryType.GraphicDesign,
+            FinishedAt = new DateOnly(2022, 04, 8),
+            Tags = new List<string> { "Illustrator", "Branding", "Persona 5" },
+            Links = new List<string> { "Image:https://www.linkedin.com/in/sakukarttunen/overlay/1635517772774/single-media-viewer/?profileId=ACoAADU3PKcBlKR8STr21xA4S4qQ30-TvoFE4EM" },
+        });
+        projects.Add(new Project
+        {
+            Title = "Joat Rakennus Oy",
+            Category = CategoryType.WebDevelopment,
+            FinishedAt = new DateOnly(2022, 10, 15),
+            Tags = new List<string> { "HTML/CSS", "Bootstrap", "Frontend", "Freelance" },
+            Links = new List<string> { "website;https://www.joat.fi/" },
+        });
+        projects.Add(new Project
+        {
+            Title = "He-Ti Huolto",
+            Category = CategoryType.WebDevelopment,
+            FinishedAt = new DateOnly(2023, 9, 12),
+            Tags = new List<string> { "AstroJS", "TailwindCSS", "Frontend", "Freelance" },
+            Links = new List<string> { "source code;https://github.com/sakuexe/he-tihuolto",
+            "website;https://hetihuolto.com/" },
+            Team = new List<TeamMember> {
+                new TeamMember { Name = "Miia Raussi", Role = "Content Manager",
+                Link = "https://www.linkedin.com/in/miia-raussi-ba3814187/" },
+            },
+        });
+        projects.Add(new Project
+        {
+            Title = "Korpilahden Kesäralli 2021",
+            Category = CategoryType.GraphicDesign,
+            FinishedAt = new DateOnly(2021, 2, 28),
+            Tags = new List<string> { "Illustrator", "Sketching", "Poster Design", "Freelance" },
+            Links = new List<string> { "Images;https://jesseetelaniemi.kuvat.fi/kuvat/2021+Kuvat/Korpilahden+Kes%C3%A4ralli+12.6.2021+|+HRT/",
+            "Video;https://www.youtube.com/watch?v=cvHvETl9ryY" },
+            Team = new List<TeamMember> {
+                new TeamMember { Name = "Pentti Nikander", Role = "Rally Expert" },
+            },
+        });
+        projects.Add(new Project
+        {
+            Title = "Miia Raussi - Juontaja",
+            Category = CategoryType.WebDevelopment,
+            FinishedAt = new DateOnly(2023, 6, 12),
+            Tags = new List<string> { "AstroJS", "TailwindCSS", "Frontend", "Freelance" },
+            Links = new List<string> { "source code;https://github.com/sakuexe/miiajuonto",
+            "website;https://miiaraussi.com/" },
+            Team = new List<TeamMember> {
+                new TeamMember { Name = "Miia Raussi", Role = "Content Manager",
+                Link = "https://www.linkedin.com/in/miia-raussi-ba3814187/" },
+            },
+        });
+        projects.Add(new Project
+        {
+            Title = "Helmiälä Puoti",
+            Category = CategoryType.WebDevelopment,
+            FinishedAt = new DateOnly(2024, 3, 21),
+            Tags = new List<string> { "Django", "TailwindCSS", "Fullstack", "CMS", "Docker", "SEO" },
+            Links = new List<string> { "source code;https://github.com/sakuexe/helmiala-puoti",
+            "website;https://www.helmiala.com/" },
+            Team = new List<TeamMember> {
+                new TeamMember { Name = "Teemu Vilkman", Role = "Photography", Link = "https://www.instagram.com/vilkmedia/" },
+                new TeamMember { Name = "Pia Vilkman", Role = "Ideas & Content" },
+                new TeamMember { Name = "Minna Taiponen", Role = "Ideas & Content" },
+            },
+        });
+        projects.Add(new Project
+        {
+            Title = "Fullstack Portfolio",
+            Category = CategoryType.WebDevelopment,
+            Description = @"The website you are currently viewing. I made the initial version in AstroJS,
+            but later I got the chance to dedicate a lot more time to it at school. I then chose to develop
+            it as my fullstack project in the Fullstack Web Development -course.
+
+            The website is made with .NET Core and it utilizes MongoDB as its database. In the Frontend
+            I used TailwindCSS and vanilla CSS. The website is hosted on three docker containers, running
+            on a virtual machine. This is organized by utilizing Docker Compose, which makses it easy to
+            manage the multiple containers that I have running. These are the dotnet webapp, the mongodb 
+            database and caddy as the reverse proxy. Caddy also takes care of SSL certificates.
+
+            There is an admin dashboard which lets me easily manage the content on the website. It is
+            behing authorization, so only I can access it. The passwords are also hashed and salted for
+            security reasons. Let me know how you like the website through the contact form! (written in
+            blazor btw)",
+            FinishedAt = new DateOnly(2024, 5, 5),
+            Tags = new List<string> { ".NetCore", "TailwindCSS", "Fullstack", "CMS", "Docker" },
+            Links = new List<string> { "source code;https://github.com/sakuexe/fullstack-portfolio",
+            "website;https://www.sakukarttunen.com/" },
+        });
     }
 
     public static void AddExperiences()
