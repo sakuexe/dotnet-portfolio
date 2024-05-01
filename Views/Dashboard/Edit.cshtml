@@ -25,37 +25,42 @@
         <input asp-for="@field" name="@field.Name" value="@id" hidden aria-hidden="true" />
         continue;
       }
-      <div class="flex flex-col">
 
       @if (field.PropertyType.IsEnum)
       {
-        <label for="@field.Name">@field.Name</label>
-        @Html.DropDownList(field.Name, new SelectList(Enum.GetValues(field.PropertyType)),
+        <label>
+          @field.Name
+          @Html.DropDownList(field.Name, new SelectList(Enum.GetValues(field.PropertyType)),
                "Select " + field.Name, new { @class = "bg-primary" })
+        </label>
       }
 
       else if (EditUtils.IsTextArea(field))
       {
-        <label for="@field.Name">@field.Name</label>
-        @Html.TextArea(field.Name, field.GetValue(Model)?.ToString())
+        <label>
+          @field.Name
+          @Html.TextArea(field.Name, field.GetValue(Model)?.ToString())
+        </label>
       }
 
       else if (EditUtils.IsFile(field))
       {
-        <label for="file">@field.Name</label>
-        <label for="file">
-          <p>Upload Image</p>
-          @if (!string.IsNullOrEmpty(EditUtils.TrimPath(field, Model)))
-          {
-            <p>
-              Current: <a href="@EditUtils.TrimPath(field, Model)">@EditUtils.TrimPath(field, Model)</a>
-            </p>
-          }
+        <label>
+          @field.Name
+          <label for="file">
+            <p>Upload Image</p>
+            @if (!string.IsNullOrEmpty(EditUtils.TrimPath(field, Model)))
+            {
+              <p>
+                Current: <a href="@EditUtils.TrimPath(field, Model)">@EditUtils.TrimPath(field, Model)</a>
+              </p>
+            }
+          </label>
+          <input type="file" id="file" name="file" value="@field.GetValue(Model)"></input>
+          <!-- the actual image url -->
+          <!-- it is added so that the url will not get removed if an empty file is passed -->
+          <input name="@field.Name" value="@field.GetValue(Model)" hidden aria-hidden="true" />
         </label>
-        <input type="file" id="file" name="file" value="@field.GetValue(Model)"></input>
-        <!-- the actual image url -->
-        <!-- it is added so that the url will not get removed if an empty file is passed -->
-        <input name="@field.Name" value="@field.GetValue(Model)" hidden aria-hidden="true" />
       }
 
       else if (field.PropertyType.ToString() == "System.Boolean")
@@ -68,11 +73,12 @@
 
       else
       {
-        <label for="@field.Name">@field.Name</label>
-        <input asp-for="@field" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name" />
+        <label>
+          @field.Name
+          <input asp-for="@field" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name" />
+        </label>
       }
       <span data-valmsg-for="@field.Name" data-valmsg-replace="true" class="text-red-500 field-validation-valid"></span>
-    </div>
     }
 
     <hr>
