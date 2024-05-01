@@ -26,19 +26,17 @@
   }
 }
 
-<section class="no-container mt-12 max-w-content mx-auto">
+<section class="no-container mt-16 max-w-content mx-auto">
 
   <div class="max-h-96 overflow-clip relative w-full 
-    shadow-inner motion-safe:transition-[max-height]">
-    @if (GetImageUrl(Model.ImageUrl) == null)
+    sh-full hadow-inner motion-safe:transition-[max-height]">
+    @if (GetImageUrl(Model.ImageUrl) is null)
     {
-      <div class="bg-gradient-to-tr from-black to-primary-900 
-          absolute top-0 left-0 w-full h-full isolate">
-        <div 
-          class="grid-pattern opacity-50 w-full h-full 
-          motion-safe:transition-all motion-safe:group-hover:scale-110">
-        </div>
+      <div 
+        class="grid-pattern opacity-50 w-full aspect-video">
       </div>
+      <div class="w-full h-1/2 bg-gradient-to-t from-primary to-transparent 
+      absolute bottom-0 left-0 z-10"></div>
     }
     else
     {
@@ -48,7 +46,9 @@
         class="w-full h-full object-cover saturate-0
         motion-safe:transition-all motion-safe:group-hover:scale-110 group-hover:saturate-50">
       <button type="button" id="expand" 
-        class="absolute bottom-0 left-0 bg-primary px-6 py-2 rounded-tr-xl z-10">Expand</button>
+        class="absolute bottom-0 right-0 bg-primary px-6 py-2 rounded-tl-xl z-20 ">Expand</button>
+      <div class="w-full h-1/2 bg-gradient-to-t from-primary to-transparent 
+      absolute bottom-0 left-0 z-10 max-h-40 opacity-50"></div>
     }
     <!-- Color the black and white images to match the theme -->
     <div class="bg-secondary h-full w-full opacity-25 mix-blend-multiply
@@ -63,7 +63,7 @@
         <h1>@Model.Title</h1>
       </div>
 
-      <div>
+      <div class="flex flex-wrap gap-2">
         @foreach (var tag in Model.Tags)
         {
           <span class="border border-secondary px-6 py-1.5 rounded-full cursor-default

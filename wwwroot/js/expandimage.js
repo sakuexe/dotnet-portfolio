@@ -3,6 +3,9 @@ const expandButton = document.querySelector('button#expand');
 
 expandButton?.addEventListener('click', () => {
   toggleExpand();
+  expandButton.textContent = expandButton.textContent === 'Expand'
+    ? 'Collapse'
+    : 'Expand';
 });
 
 function toggleExpand() {

@@ -107,17 +107,12 @@ label[for="file"] > p {
 }
 
 /* Remove current file button */
-div:has(label[for="file"] + div) {
-  display: flex;
-  gap: 0.5rem;
-}
-
-label[for="file"] + div > button {
+label:has(> label[for="file"]) > button {
   font-size: 1rem;
   opacity: 0.75;
 }
 
-label[for="file"] + div > button:before {
+label:has(> label[for="file"]) > button::before {
   content: "✕ ";
 }
 
