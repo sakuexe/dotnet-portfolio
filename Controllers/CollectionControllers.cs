@@ -1,6 +1,7 @@
 using System.Text.Json;
 using fullstack_portfolio.Data;
 using fullstack_portfolio.Models;
+using fullstack_portfolio.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fullstack_portfolio.Controllers;
@@ -20,7 +21,8 @@ public class ProjectController : GenericController<Project>
 { 
     public override string EditView { get; set; } = "Views/Dashboard/Edit/Project.cshtml";
     public override string? ImageProperty { get; set; } = "ImageUrl";
-    public override int ImageWidth { get; set; } = 512;
+    public override int ImageWidth { get; set; } = 1500;
+    public override int ThumbnailWidth { get; set; } = 512;
 }
 
 public class ExperienceController : GenericController<Experience> 

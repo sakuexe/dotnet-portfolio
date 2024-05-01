@@ -59,6 +59,9 @@ public class Project : IMongoModel
     [DataType(DataType.Text)]
     [Display(Name = "Alternative Image Text")]
     public string? AltText { get; set; }
+    [DataType(DataType.ImageUrl)]
+    [Display(Name = "Thumbnail URL")]
+    public string? ThumbnailUrl { get; set; }
     [Display(Name = "Is Large?")]
     public bool IsLarge { get; set; }
 

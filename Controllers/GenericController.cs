@@ -13,6 +13,7 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
 {
     public virtual int ImageWidth { get; set; } = 0;
     public virtual int ImageHeight { get; set; } = 0;
+    public virtual int ThumbnailWidth { get; set; } = 0;
     public virtual string? ImageProperty { get; set; }
     public virtual string EditView { get; set; } = "Views/Dashboard/Edit/Generic.cshtml";
 
@@ -112,6 +113,14 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
         {
             Error[] errors = { new Error { Field = ImageProperty, Messages = new string[] { resizeResult } } };
             return BadRequest(JsonSerializer.Serialize(errors));
+        }
+
+        // generate a thumbnail if the iamge is not svg and thumbnail width is set
+        if (filetype != ".svg" && ThumbnailWidth > 0 && file is not null)
+        {
+            string? thumbnailPath = await FileUtils.GenerateThumbnail(savedPath, ThumbnailWidth);
+            if (thumbnailPath != null)
+                model.GetType().GetProperty("ThumbnailUrl")?.SetValue(model, thumbnailPath);
         }
 
         T? currentModelData = MongoContext.Get<T>(model._id.ToString());
