@@ -1,3 +1,6 @@
+@using fullstack_portfolio.Models
+@model Bio
+
 <section class="grid max-w-6xl mx-auto md:grid-cols-3">
   <div class="space-y-4 col-span-2">
     <div class="subheader">
@@ -5,15 +8,33 @@
       <h2>Who Am I?</h2>
     </div>
     <p>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem, iste corporis corrupti
-      <a href="/">Test Link</a> quidem, voluptates, quas quos quia quibusdam doloribus
-      explicabo omnis voluptates voluptate placeat praesentium, beatae a cumque consequatur ratione modi minus molestias
-      non similique.
+      @Model.Description
     </p>
-    <a href="/" class="btn bg-secondary w-max hover:bg-secondary-700">Download CV</a>
+    <p>
+      Thank you for visiting! If you have any further questions or would like to work with me, feel free to
+      contact me through the <a href="#contactform">form</a> below, by 
+      <a href="@Model.Email" class="email">email</a> or through my social media 
+      <a href="#contactinfo">listed below</a>.
+    </p>
   </div>
   <div class="relative scale-150 hidden -z-10 md:block">
     <img src="~/images/sklogo.svg" alt="My logo with the letters S and K" class="h-full w-full opacity-50">
       <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-primary to-transparent"></div>
   </div>
 </section>
+
+<script defer>
+  const emailLink = document.querySelector('a.email');
+  emailLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    const email = emailLink.href.split("/").pop();
+    // copy to clipboard
+    navigator.clipboard.writeText(email);
+    // indicate that the email has been copied
+    const originalText = emailLink.textContent;
+    emailLink.textContent = "email copied!";
+    setTimeout(() => {
+      emailLink.textContent = originalText;
+    }, 3000);
+  });
+</script>

@@ -1,0 +1,46 @@
+@using fullstack_portfolio.Models;
+@model Bio
+
+@{
+string collection = ViewBag.Collection;
+}
+
+<section>
+  <form id="edit" action="/dashboard/@collection/@Model._id/save" method="post" enctype="multipart/form-data" class="grid">
+
+    <input asp-for="@Model._id" value="@Model._id" hidden aria-hidden="true" />
+
+    <!-- Updated At -->
+    <input asp-for="@Model.UpdatedAt" value="@Model.UpdatedAt" hidden aria-hidden="true" />
+    <span asp-validation-for="@Model.UpdatedAt" class="text-accent-400"></span>
+
+    <label>
+      @Html.DisplayNameFor(m => m.Description)
+      <textarea asp-for="@Model.Description">
+        @Model.Description
+      </textarea>
+    </label>
+    <span asp-validation-for="@Model.Description" class="text-accent-400"></span>
+
+    <label>
+      @Html.DisplayNameFor(m => m.Email)
+      <input asp-for="@Model.Email" />
+    </label>
+    <span asp-validation-for="@Model.Email" class="text-accent-400"></span>
+
+    <hr>
+
+    <button type="submit">Save</button>
+    <button type="reset">Clear</button>
+
+  </form>
+</section>
+
+@section Scripts {
+  <script src="~/js/stringlist.js"></script>
+  <script src="~/js/savechanges.js"></script>
+}
+
+@section Styles {
+  <link rel="stylesheet" href="~/css/edit.css" />
+}

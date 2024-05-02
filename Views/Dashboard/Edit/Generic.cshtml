@@ -83,6 +83,11 @@
         </label>
       }
 
+      else if (field.GetCustomAttribute<HiddenInputAttribute>() != null)
+      {
+        <input asp-for="@field" name="@field.Name" value="@field.GetValue(Model)" hidden aria-hidden="true" />
+      }
+
       else
       {
         <label>

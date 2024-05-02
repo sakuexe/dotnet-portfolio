@@ -2,7 +2,7 @@
 @model HomeViewModel
 
 <partial name="_Hero.cshtml"></partial>
-<partial name="_AboutMe.cshtml"></partial>
+<partial name="_AboutMe.cshtml" model="@Model.Bio"></partial>
 <partial name="_Expertise.cshtml" model="@Model.Expertises"></partial>
 <partial name="_Skills.cshtml" model="@Model.Skills"></partial>
 <partial name="_Portfolio.cshtml" model="@Model.Portfolio"></partial>
