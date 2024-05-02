@@ -5,10 +5,16 @@
       <h2>Who Am I?</h2>
     </div>
     <p>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem, iste corporis corrupti
-      <a href="/">Test Link</a> quidem, voluptates, quas quos quia quibusdam doloribus
-      explicabo omnis voluptates voluptate placeat praesentium, beatae a cumque consequatur ratione modi minus molestias
-      non similique.
+      Hello there, I am Saku and I am a fullstack web developer with a background in design. I have a 
+      passion for creating and solving problems. I enjoy working with modern tehnologies and learning new
+      ones. This is my portfolio website where you can see some of my projects and learn more about what 
+      I do best.
+    </p>
+    <p>
+      Thank you for visiting! If you have any further questions or would like to work with me, feel free to
+      contact me through the <a href="#contactform">form</a> below, by 
+      <a href="saku.karttunen@gmail.com" class="email">email</a> or through my social media 
+      <a href="#contactinfo">listed below</a>.
     </p>
     <a href="/" class="btn bg-secondary w-max hover:bg-secondary-700">Download CV</a>
   </div>
@@ -17,3 +23,19 @@
       <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-primary to-transparent"></div>
   </div>
 </section>
+
+<script>
+  const emailLink = document.querySelector('a.email');
+  emailLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    const email = emailLink.href.split("/").pop();
+    // copy to clipboard
+    navigator.clipboard.writeText(email);
+    // indicate that the email has been copied
+    const originalText = emailLink.textContent;
+    emailLink.textContent = "email copied!";
+    setTimeout(() => {
+      emailLink.textContent = originalText;
+    }, 3000);
+  });
+</script>
