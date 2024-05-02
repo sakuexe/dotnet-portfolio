@@ -14,5 +14,5 @@ function toggleExpand() {
     return;
   }
   image?.parentElement?.classList.toggle('max-h-[1440px]');
-  image?.classList.toggle('object-cover');
+  image?.parentElement?.classList.toggle('aspect-video');
 }

@@ -29,7 +29,7 @@
 <section class="no-container mt-16 max-w-content mx-auto">
 
   <div class="max-h-96 overflow-clip relative w-full 
-    sh-full hadow-inner motion-safe:transition-[max-height]">
+    h-full shadow-inner aspect-video motion-safe:transition-[max-height]">
     @if (GetImageUrl(Model.ImageUrl) is null)
     {
       <div 
@@ -86,7 +86,8 @@
 
     <hr class="border-primary-700 xl:hidden">
 
-    <div class="flex gap-y-6 gap-x-16 flex-wrap content-start py-6 px-4 border-primary-700 rounded-lg">
+    <div class="flex gap-y-6 gap-x-16 flex-wrap content-start py-6 px-4 
+      border-primary-700 rounded-lg">
       <div>
         <div>
           <p><span class="text-secondary-400">//</span> Credits</p>
@@ -104,8 +105,12 @@
             <div class="flex gap-2 items-center">
               <ul>
                 <li>
-                  <span class="capitalize">@member.Name</span> -
+                  <span class="capitalize">@member.Name</span> 
+                  @if (!string.IsNullOrWhiteSpace(member.Link))
+                  {
+                  <span>-</span>
                   <a href="@member.Link" target="_blank" class="italic">@LinkUtils.GetDomain(member.Link ?? "")</a>
+                  }
                 </li>
               </ul>
             </div>
