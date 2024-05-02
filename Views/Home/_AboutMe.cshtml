@@ -1,3 +1,6 @@
+@using fullstack_portfolio.Models
+@model Bio
+
 <section class="grid max-w-6xl mx-auto md:grid-cols-3">
   <div class="space-y-4 col-span-2">
     <div class="subheader">
@@ -5,18 +8,14 @@
       <h2>Who Am I?</h2>
     </div>
     <p>
-      Hello there, I am Saku and I am a fullstack web developer with a background in design. I have a 
-      passion for creating and solving problems. I enjoy working with modern tehnologies and learning new
-      ones. This is my portfolio website where you can see some of my projects and learn more about what 
-      I do best.
+      @Model.Description
     </p>
     <p>
       Thank you for visiting! If you have any further questions or would like to work with me, feel free to
       contact me through the <a href="#contactform">form</a> below, by 
-      <a href="saku.karttunen@gmail.com" class="email">email</a> or through my social media 
+      <a href="@Model.Email" class="email">email</a> or through my social media 
       <a href="#contactinfo">listed below</a>.
     </p>
-    <a href="/" class="btn bg-secondary w-max hover:bg-secondary-700">Download CV</a>
   </div>
   <div class="relative scale-150 hidden -z-10 md:block">
     <img src="~/images/sklogo.svg" alt="My logo with the letters S and K" class="h-full w-full opacity-50">
@@ -24,7 +23,7 @@
   </div>
 </section>
 
-<script>
+<script defer>
   const emailLink = document.querySelector('a.email');
   emailLink.addEventListener('click', (e) => {
     e.preventDefault();

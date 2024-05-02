@@ -11,7 +11,8 @@ public static class EditUtils
         var dataTypeAttribute = property.GetCustomAttribute<DataTypeAttribute>();
         if (dataTypeAttribute == null)
             return false;
-        bool isFile = dataTypeAttribute.DataType == DataType.ImageUrl;
+        bool isFile = dataTypeAttribute.DataType == DataType.ImageUrl
+            || dataTypeAttribute.DataType == DataType.Upload;
         return isFile;
     }
 
