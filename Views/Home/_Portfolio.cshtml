@@ -15,6 +15,17 @@
   var Categories = Model.GroupBy(p => p.Category)
     .Select(g => new { Category = g.Key, Count = g.Count()})
     .ToList();
+  // highly advanced algorithm that selects a project
+  // to be featured based on science and magic
+  Project GetFeaturedProject()
+  {
+    // get the 5 newest projects and return one at random
+    return Model.OrderByDescending(p => p.FinishedAt)
+      .Take(5)
+      .OrderBy(p => Guid.NewGuid())
+      .First();
+  }
+  Project FeaturedProject = GetFeaturedProject();
 }
 
 <section class="grid gap-6 max-w-content mx-auto md:grid-cols-2">
@@ -39,9 +50,10 @@
         <h3 
           class="text-5xl font-bold max-w-xs bg-primary-900/70 px-4 py-2 
           outline outline-1 outline-primary-100/20 rounded-md backdrop-blur-sm">
-          Kantolan KunnonSali
+          @FeaturedProject.Title
         </h3>
-        <a href="" class="btn bg-secondary w-max mt-4">View Project</a>
+        <a href="/portfolio/@FeaturedProject._id" 
+          class="btn bg-secondary w-max mt-4">View Project</a>
       </div>
       <img src="~/images/placeholder-phone.png" alt="placeholder phone"
         class="absolute top-0 right-0 -z-10 h-full">
