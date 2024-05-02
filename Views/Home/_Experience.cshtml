@@ -52,12 +52,14 @@ return path.Split("wwwroot/")[1];
         </div>
       </div>
 
-      <div class="exp-body section-padding flex flex-col gap-4 justify-center md:px-4">
+      <div class="exp-body section-padding flex flex-col gap-4 justify-center 
+        px-5 sm:px-10">
         <p>@exp.Description</p>
         <div class="flex gap-2 flex-wrap">
           @foreach (var skill in exp.Skills)
           {
           <span class="border border-secondary px-6 py-1.5 rounded-full 
+            select-none pointer-default
             capitalize motion-safe:transition-all hover:bg-secondary">@skill</span>
           }
         </div>
