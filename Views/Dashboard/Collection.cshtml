@@ -22,10 +22,10 @@
   </a>
 
   <!-- Mobile List -->
-  <div id="mobile-list" class="grid gap-4 grid-flow-row lg:grid-cols-2">
+  <div id="mobile-list" class="grid gap-4 grid-flow-row lg:grid-cols-2 2xl:grid-cols-3">
     @foreach (var item in Model)
     {
-    <div class="border-2 border-primary-700 rounded-lg max-w-xl">
+    <div class="border-2 border-primary-700 h-max rounded-lg max-w-xl">
 
       <div class="record-header bg-primary-700 px-4 py-2 rounded-md flex justify-between 
         cursor-pointer select-none">
@@ -59,7 +59,7 @@
 
       <div>
         <p class="opacity-75">@prop.Name:</p>
-        <p>@prop.GetValue(item)</p>
+        <p class="line-clamp-5">@prop.GetValue(item)</p>
       </div>
 
       @if (index <= item.GetType().GetProperties().Length - 2) { <hr class="opacity-25"> }

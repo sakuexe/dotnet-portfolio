@@ -17,7 +17,7 @@ public static class FileUtils
                 return null;
 
             if (!Directory.Exists(Path.GetDirectoryName(thumbnailPath)))
-                Directory.CreateDirectory(Path.GetDirectoryName(thumbnailPath)!);
+                Directory.CreateDirectory(Path.GetDirectoryName(thumbnailPath));
 
             using var image = await Image.LoadAsync(PathToOriginal);
             image.Mutate(x => x.Resize(width, 0));

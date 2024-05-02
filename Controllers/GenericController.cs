@@ -14,7 +14,8 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
     public virtual int ImageWidth { get; set; } = 0;
     public virtual int ImageHeight { get; set; } = 0;
     public virtual int ThumbnailWidth { get; set; } = 0;
-    public virtual string? ImageProperty { get; set; }
+    public virtual string ImageProperty { get; set; } = "ImageUrl";
+    public virtual string ThumbnailProperty { get; set; } = "ThumbnailUrl";
     public virtual string EditView { get; set; } = "Views/Dashboard/Edit/Generic.cshtml";
 
     // I tried using a struct, but when I do, the result is always empty
@@ -89,40 +90,33 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
             return Ok();
         }
 
-        // check that the ImageProperty is set if the file is sent
-        if (string.IsNullOrEmpty(ImageProperty))
-        {
-            Error[] errors = { new Error {
-                Field = "general-error",
-                Messages = new string[] { "ImageProperty variable is not set inside controller" } } };
-            return BadRequest(JsonSerializer.Serialize(errors));
-        }
-
         // save to disk if the icon is given
-        string? savedPath = await FileUtils.SaveFile(file);
-        if (savedPath == null)
-        {
-            Error[] errors = { new Error { Field = ImageProperty, Messages = new string[] { "File could not be saved" } } };
+        string? savedPath;
+        try {
+            savedPath = await ImageManipulator.SaveImage(file, ImageWidth);
+        } catch (Exception e) {
+            Console.WriteLine($"Error saving file: {e.Message}");
+            Error[] errors = { new Error { Field = ImageProperty, Messages = new string[] { e.Message } } };
             return BadRequest(JsonSerializer.Serialize(errors));
         }
 
-        // resize the image (svgs not supported)
-        string filetype = Path.GetExtension(savedPath);
-        string? resizeResult = FileUtils.ResizeImage(savedPath, ImageWidth, ImageHeight);
-        if (filetype != ".svg" && !string.IsNullOrEmpty(resizeResult))
+
+        // generate a thumbnail if the width is set
+        string? thumbnailPath = null;
+        if (ThumbnailWidth > 0)
         {
-            Error[] errors = { new Error { Field = ImageProperty, Messages = new string[] { resizeResult } } };
-            return BadRequest(JsonSerializer.Serialize(errors));
+            try {
+                thumbnailPath = await ImageManipulator.GenerateThumbnail(file, ThumbnailWidth);
+                if (thumbnailPath == null)
+                    throw new Exception($"Error generating thumbnail: {thumbnailPath}");
+            } catch (Exception e) {
+                Console.WriteLine($"Error generating thumbnail: {e.Message}");
+                Error[] errors = { new Error { Field = ImageProperty, Messages = new string[] { e.Message } } };
+                return BadRequest(JsonSerializer.Serialize(errors));
+            }
         }
 
-        // generate a thumbnail if the iamge is not svg and thumbnail width is set
-        if (filetype != ".svg" && ThumbnailWidth > 0 && file is not null)
-        {
-            string? thumbnailPath = await FileUtils.GenerateThumbnail(savedPath, ThumbnailWidth);
-            if (thumbnailPath != null)
-                model.GetType().GetProperty("ThumbnailUrl")?.SetValue(model, thumbnailPath);
-        }
-
+        // check if the image is used by another item
         T? currentModelData = MongoContext.Get<T>(model._id.ToString());
         string? currentIcon = currentModelData?.GetType().GetProperty(ImageProperty)?.GetValue(currentModelData) as string;
         if (currentIcon != null)
@@ -138,7 +132,7 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
         PropertyInfo? prop = model.GetType().GetProperty(ImageProperty ?? "");
         if (prop == null)
         {
-            Console.WriteLine("No property with imageurl found");
+            Console.WriteLine($"No variable ({ImageProperty}) could be found in the model {model.GetType().Name}");
             Error[] errors = { new Error {
                 Field = "general-error",
                 Messages = new string[] {
@@ -150,6 +144,23 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
 
         // finally, if all is well, save the path to the model and save the model
         prop.SetValue(model, savedPath);
+        // save the thumbnail path if it's set
+        if (thumbnailPath is not null)
+        {
+            PropertyInfo? thumbnailProp = model.GetType().GetProperty(ThumbnailProperty ?? "");
+            if (thumbnailProp is null)
+            {
+                Error[] errors = { new Error {
+                    Field = "general-error",
+                    Messages = new string[] {
+                        $"No variable ({ThumbnailProperty}) could be found in the model {model.GetType().Name}"
+                    }}
+                };
+                return BadRequest(JsonSerializer.Serialize(errors));
+            }
+            Console.WriteLine($"Setting thumbnail to {thumbnailPath}");
+            thumbnailProp.SetValue(model, thumbnailPath);
+        }
         await MongoContext.Save(model);
         return Ok();
     }
