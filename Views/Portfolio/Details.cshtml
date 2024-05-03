@@ -158,8 +158,8 @@
 }
 
 @section MetaTags {
-  <meta name="description" content="@Model.Description">
-  <meta name="og:description" content="@Model.Description">
+  <meta name="description" content="@Model.Description.Substring(0, 160)...">
+  <meta name="og:description" content="@Model.Description.Substring(0, 160)...">
   <meta name="og:title" content="@Model.Title - Saku Karttunen">
   <meta name="keywords" content="Portfolio, @String.Join(", ", Model.Tags)">
   <meta name="robots" content="index, follow">
