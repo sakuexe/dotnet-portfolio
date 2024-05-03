@@ -3,7 +3,7 @@
 
 @{
 var context = (HttpContext)Context;
-string CurrentUrl = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}";
+string CurrentUrl = $"https://{context.Request.Host}{context.Request.Path}";
 }
 
 <partial name="_Hero.cshtml"></partial>

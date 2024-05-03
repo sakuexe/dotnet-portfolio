@@ -1,6 +1,6 @@
 ﻿@{
 var context = (HttpContext)Context;
-string CurrentUrl = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}";
+string CurrentUrl = $"https://{context.Request.Host}{context.Request.Path}";
 string SeoImage = "/images/og-image.webp";
 }
 <!DOCTYPE html>
