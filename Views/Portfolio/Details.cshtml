@@ -3,6 +3,7 @@
 @model Project
 
 @{
+  var context = (HttpContext)Context;
   string? GetImageUrl(string? rawUrl)
   {
     if (string.IsNullOrWhiteSpace(rawUrl))
@@ -154,4 +155,13 @@
 
 @section Scripts {
   <script src="~/js/expandimage.js" defer></script>
+}
+
+@section MetaTags {
+  <meta name="description" content="@Model.Description">
+  <meta name="og:description" content="@Model.Description">
+  <meta name="og:title" content="@Model.Title - Saku Karttunen">
+  <meta name="keywords" content="Portfolio, @String.Join(", ", Model.Tags)">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="@(context.Request.Scheme)://@(context.Request.Host)portfolio/">
 }

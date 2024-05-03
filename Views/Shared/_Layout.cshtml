@@ -1,13 +1,36 @@
-﻿<!DOCTYPE html>
+﻿@{
+var context = (HttpContext)Context;
+string CurrentUrl = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}";
+string SeoImage = "/images/og-image.webp";
+}
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>@ViewData["Title"] - SakuK</title>
-  <link rel="icon" type="image/svg+xml" href="~/favicon.svg" />
-  <!-- Todo: Add SEO tags -->
+  <title>@ViewData["Title"] - Saku Karttunen</title>
+  <!-- SEO tags -->
+  <meta property="author" content="Saku Karttunen" />
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fi_FI" />
+  <meta property="og:site_name" content="Saku Karttunen - Portfolio" />
+  <meta property="og:url" content="@CurrentUrl" />
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="@SeoImage" />
+  <meta property="og:image:alt"
+    content="Logo with the lettes S and K in front of a spiral pattern with the text: Portfolio - Saku Karttunen" />
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:domain" content="@(context.Request.Host)">
+  <meta property="twitter:url" content="@CurrentUrl">
+  <meta name="twitter:image" content="@SeoImage">
+  <!-- Page Specific Meta Tags -->
+  @await RenderSectionAsync("MetaTags", required: false)
+  <!-- Links -->
   <link rel="stylesheet" href="~/css/tailwind.css" asp-append-version="true" />
+  <link rel="icon" type="image/svg+xml" href="~/favicon.svg" />
   <!-- <link rel="stylesheet" href="~/fullstack_portfolio.styles.css" asp-append-version="true" /> -->
   @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -19,14 +42,14 @@
       <li><a asp-controller="Home" asp-action="Index" class="no-underline">Home</a></li>
       <li><a asp-controller="Home" asp-action="Privacy" class="no-underline">Privacy</a></li>
       <li><a asp-controller="Dashboard" asp-action="Index" class="no-underline">Dashboard</a></li>
-        @if (User.Identity.IsAuthenticated)
-        {
-          <li><a asp-controller="Login" asp-action="Logout" class="no-underline">Logout</a></li>
-        }
-        else
-        {
-          <li><a asp-controller="Login" asp-action="Index" class="no-underline">Login</a></li>
-        }
+      @if (User.Identity.IsAuthenticated)
+      {
+      <li><a asp-controller="Login" asp-action="Logout" class="no-underline">Logout</a></li>
+      }
+      else
+      {
+      <li><a asp-controller="Login" asp-action="Index" class="no-underline">Login</a></li>
+      }
     </ul>
   </nav>
   <main role="main" class="pb-20 min-h-[90svh] overflow-x-clip">
