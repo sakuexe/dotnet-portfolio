@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
@@ -11,6 +12,7 @@ public static class ImageManipulator
     {
         try
         {
+            Console.WriteLine($"Generating thumbnail: {imgFile.FileName}");
             using Image img = await Image.LoadAsync(imgFile.OpenReadStream());
             img.Mutate(x => x.Resize(width, 0));
             var thumbnailPath = GeneratePath(imgFile.FileName, "thumbnails");
@@ -26,19 +28,22 @@ public static class ImageManipulator
 
     public static async Task<string?> SaveImage(IFormFile imgFile, int width)
     {
-            string? generatedPath = GeneratePath(imgFile.FileName);
-            if (generatedPath == null)
-                throw new Exception("Generated path was null");
-            using Image img = await Image.LoadAsync(imgFile.OpenReadStream());
-            try {
-                img.Mutate(x => x.Resize(width, 0));
-                img.SaveAsWebp(generatedPath);
-            } catch {
-                // if the file does not support resizing, like .svg
-                // save the original file as is
-                img.Save(generatedPath);
-            }
-            return generatedPath;
+        string? generatedPath = GeneratePath(imgFile.FileName);
+        if (generatedPath == null)
+            throw new Exception("Generated path was null");
+        using Image img = await Image.LoadAsync(imgFile.OpenReadStream());
+        try
+        {
+            img.Mutate(x => x.Resize(width, 0));
+            Task saveAsync = img.SaveAsWebpAsync(generatedPath);
+        }
+        catch
+        {
+            // if the file does not support resizing, like .svg
+            // save the original file as is
+            img.Save(generatedPath);
+        }
+        return generatedPath;
     }
 
     public static string? GeneratePath(string fileName, string? path = null)

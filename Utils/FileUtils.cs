@@ -8,27 +8,6 @@ public static class FileUtils
 {
     public static string DefaultPath = Path.Combine("wwwroot", "uploads");
 
-    public static async Task<string?> GenerateThumbnail(string PathToOriginal, int width)
-    {
-        try {
-            var thumbnailPath = Path.Combine(DefaultPath, "thumbnails", Path.GetFileName(PathToOriginal));
-
-            if (string.IsNullOrWhiteSpace(PathToOriginal) || !File.Exists(PathToOriginal))
-                return null;
-
-            if (!Directory.Exists(Path.GetDirectoryName(thumbnailPath)))
-                Directory.CreateDirectory(Path.GetDirectoryName(thumbnailPath));
-
-            using var image = await Image.LoadAsync(PathToOriginal);
-            image.Mutate(x => x.Resize(width, 0));
-            image.SaveAsWebp(thumbnailPath);
-            return thumbnailPath;
-        } catch (Exception e) {
-            Debug.WriteLine($"Error generating thumbnail: {e.Message}");
-            return null;
-        }
-    }
-
     // Saves a file to disk and return the path if successful
     // on fail returns null
     public static async Task<string?> SaveFile(IFormFile file, string? path = null)
