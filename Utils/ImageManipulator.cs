@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
@@ -12,10 +11,9 @@ public static class ImageManipulator
     {
         try
         {
-            Console.WriteLine($"Generating thumbnail: {imgFile.FileName}");
             using Image img = await Image.LoadAsync(imgFile.OpenReadStream());
             img.Mutate(x => x.Resize(width, 0));
-            var thumbnailPath = GeneratePath(imgFile.FileName, "thumbnails");
+            var thumbnailPath = GeneratePath(imgFile.FileName, "webp", "thumbnails");
             img.SaveAsWebp(thumbnailPath);
             return thumbnailPath;
         }
@@ -46,13 +44,14 @@ public static class ImageManipulator
         return generatedPath;
     }
 
-    public static string? GeneratePath(string fileName, string? path = null)
+    public static string? GeneratePath(string fileName, string suffix = "webp", string? path = null)
     {
         string generatedPath;
+        string newFilename = Path.GetFileNameWithoutExtension(fileName) + "." + suffix;
         if (path == null)
-            generatedPath = Path.Combine(DefaultImagePath, fileName);
+            generatedPath = Path.Combine(DefaultImagePath, newFilename);
         else
-            generatedPath = Path.Combine(DefaultImagePath, path, fileName);
+            generatedPath = Path.Combine(DefaultImagePath, path, newFilename);
 
         // make sure that the directory exists
         string? directory = Path.GetDirectoryName(generatedPath);

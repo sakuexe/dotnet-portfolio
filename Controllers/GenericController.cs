@@ -118,14 +118,14 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
 
         // check if the image is used by another item
         T? currentModelData = MongoContext.Get<T>(model._id.ToString());
-        string? currentIcon = currentModelData?.GetType().GetProperty(ImageProperty)?.GetValue(currentModelData) as string;
-        if (currentIcon != null)
+        string? currentImage = currentModelData?.GetType().GetProperty(ImageProperty)?.GetValue(currentModelData) as string;
+        if (currentImage != null)
         {
             // fetch all the expertise items that have the same icon
-            List<T> records = await MongoContext.Filter<T>(ImageProperty!, currentIcon);
+            List<T> records = await MongoContext.Filter<T>(ImageProperty!, currentImage);
             // do not remove the file if it's being used by another item
-            if (records.Count() < 1 && currentIcon != savedPath)
-                FileUtils.DeleteFile(currentIcon ?? "");
+            if (records.Count() < 1 && currentImage != savedPath)
+                FileUtils.DeleteFile(currentImage ?? "");
         }
 
         // get the model property that has datatype of ImageUrl
