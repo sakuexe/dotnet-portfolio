@@ -23,6 +23,9 @@ services:
       - Logging__LogLevel__Microsoft.AspNetCore=Warning
     depends_on:
       - mongodb
+    volumes:
+      # maintains the files between container restarts
+      - uploaded_files:/App/wwwroot/uploads
     networks:
       - default
 
@@ -43,7 +46,7 @@ services:
       - "443:443"
       - "8080:8080" # for the development
     volumes:
-      - $PWD/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
     depends_on:
       - dotnet
     networks:
@@ -54,3 +57,4 @@ networks:
 
 volumes:
   mongodb_data:
+  uploaded_files:
