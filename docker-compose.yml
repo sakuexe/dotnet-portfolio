@@ -7,6 +7,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_HTTPS_PORT=443
       # set the environment variable to connect to the mongodb container
       # the value is in ConnectionStrings > DefaultConnection
       - ConnectionStrings__DefaultConnection=mongodb
