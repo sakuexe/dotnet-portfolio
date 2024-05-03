@@ -26,25 +26,27 @@ public static class ImageManipulator
 
     public static async Task<string?> SaveImage(IFormFile imgFile, int width)
     {
+        if (imgFile.FileName.Contains("svg"))
+        {
+            // if the file is an SVG, save it as an SVG
+            string svgPath = GeneratePath(imgFile.FileName, "svg");
+            using Stream stream = new FileStream(svgPath, FileMode.Create);
+            await imgFile.CopyToAsync(stream);
+            return svgPath;
+        }
+
         string? generatedPath = GeneratePath(imgFile.FileName);
         if (generatedPath == null)
             throw new Exception("Generated path was null");
+
+
         using Image img = await Image.LoadAsync(imgFile.OpenReadStream());
-        try
-        {
-            img.Mutate(x => x.Resize(width, 0));
-            Task saveAsync = img.SaveAsWebpAsync(generatedPath);
-        }
-        catch
-        {
-            // if the file does not support resizing, like .svg
-            // save the original file as is
-            img.Save(generatedPath);
-        }
+        img.Mutate(x => x.Resize(width, 0));
+        Task saveAsync = img.SaveAsWebpAsync(generatedPath);
         return generatedPath;
     }
 
-    public static string? GeneratePath(string fileName, string suffix = "webp", string? path = null)
+    public static string GeneratePath(string fileName, string suffix = "webp", string? path = null)
     {
         string generatedPath;
         string newFilename = Path.GetFileNameWithoutExtension(fileName) + "." + suffix;

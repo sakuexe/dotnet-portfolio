@@ -93,6 +93,7 @@ public class GenericController<T> : Controller where T : IMongoModel, new()
         // save to disk if the icon is given
         string? savedPath;
         try {
+            Console.WriteLine($"Saving file {file.FileName}");
             savedPath = await ImageManipulator.SaveImage(file, ImageWidth);
         } catch (Exception e) {
             Console.WriteLine($"Error saving file: {e.Message}");

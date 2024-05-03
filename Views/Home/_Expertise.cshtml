@@ -1,4 +1,5 @@
 @using fullstack_portfolio.Models
+@using fullstack_portfolio.Utils
 @model Expertise[]
 
 @{
@@ -27,7 +28,15 @@
       max-w-md p-6 space-y-3 drop-shadow-lg backdrop-brightness-90 backdrop-blur-sm">
         <!-- card header -->
         <div class="flex items-center gap-x-5">
+          <div class="w-16 fill-primary-100">
+          @if (expertise.Icon.EndsWith(".svg"))
+          {
+            @Html.Raw(SvgUtils.SanitizeSvg(expertise.Icon))
+          }
+          else {
           <img src="@GetIcon(expertise.Icon)" alt="@expertise.Title -icon" class="w-16" >
+          }
+          </div>
           <h3 class="text-3xl font-bold">
             @expertise.Title
           </h3>
