@@ -8,7 +8,7 @@ RUN dotnet restore
 # get the tailwindcss executable
 RUN chmod u+x ./tailwindcss
 # Run tailwindcss to generate the main css file (minified)
-RUN ./tailwindcss ./wwwroot/css/site.css -o ./wwwroot/css/tailwind.css --minify
+RUN ./tailwindcss -i ./wwwroot/css/site.css -o ./wwwroot/css/tailwind.css --minify
 # Build and publish a release
 RUN dotnet publish -c Release -o out
 
