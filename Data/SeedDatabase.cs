@@ -10,6 +10,7 @@ public static class SeedDatabase
     {
         Config = config;
         AddAdminUser();
+        AddBio();
         AddExpertises();
         AddSkills();
         AddProjects();
@@ -35,6 +36,26 @@ public static class SeedDatabase
             IsAdmin = true
         };
         MongoContext.Save(basedAdmin);
+    }
+
+    private static void AddBio()
+    {
+        if (MongoContext.GetAll<Bio>().Result.Count > 0)
+            return;
+
+        Bio bio = new()
+        {
+            UpdatedAt = DateTime.Now,
+            Email = "saku.karttunen@gmail.com",
+            Description = string.Join(" ",
+                "Hello there, I am Saku Karttunen and I am a fullstack web and software",
+                "developer from Finland. I have a passion for creating and I enjoy solving",
+                "problems with code. I mainly use Linux and enjoy working in the terminal",
+                "(Neovim, btw). This website is here to showcase my work and to provide",
+                "a look into what I do."),
+        };
+
+        MongoContext.Save(bio);
     }
 
     private static void AddExpertises()
