@@ -142,13 +142,4 @@ public class MongoContext
             return new List<T>();
         }
     }
-
-    public static List<string> GetCollectionNames()
-    {
-        var collections = Database?.ListCollectionNames().ToList();
-        // reverse the order, so that it will be in the order of appearance
-        // in the database
-        collections?.Reverse();
-        return collections ?? new List<string>();
-    }
 }

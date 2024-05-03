@@ -75,7 +75,7 @@
       else if (EditUtils.IsPassword(field))
       {
         <label>
-          @Html.DisplayNameFor(model => field)
+          @field.Name
           <div>
             <input asp-for="@field" name="@field.Name" value="@field.GetValue(Model)" id="@field.Name" type="password" class="password" />
             <button type="button">👀</button>
