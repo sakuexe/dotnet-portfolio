@@ -34,7 +34,8 @@
             @Html.Raw(SvgUtils.SanitizeSvg(expertise.Icon))
           }
           else {
-          <img src="@GetIcon(expertise.Icon)" alt="@expertise.Title -icon" class="w-16" >
+          <img src="@GetIcon(expertise.Icon)" loading="lazy" decoding="async"
+            alt="@expertise.Title -icon" class="w-16" >
           }
           </div>
           <h3 class="text-3xl font-bold">
@@ -64,7 +65,7 @@
     #expertise {
       position: relative;
       isolation: isolate;
-      background: url("/images/code.png") no-repeat -1rem center;
+      background: url("/images/code.webp") no-repeat -1rem center;
       background-size: cover;
       /* parallax effect */
       background-attachment: fixed;

@@ -53,9 +53,9 @@
           @FeaturedProject.Title
         </h3>
         <a href="/portfolio/@FeaturedProject._id" 
-          class="btn bg-secondary w-max mt-4">View Project</a>
+          class="btn bg-secondary-600 w-max mt-4">View Project</a>
       </div>
-      <img src="~/images/placeholder-phone.png" alt="placeholder phone"
+      <img src="~/images/placeholder-phone.webp" alt="placeholder phone"
         class="absolute top-0 right-0 -z-10 h-full">
     </div>
   </div>
@@ -63,19 +63,23 @@
   <div class="md:col-span-full">
     <p>Filter by:</p>
     <ul id="portfolio-filter" class="flex flex-wrap gap-2">
-      <li class="cursor-pointer text-secondary-400 underline-offset-8 
+      <li class="cursor-pointer ">
+        <span class="text-secondary-400 underline-offset-8 
         decoration-4 decoration-secondary">
-        All 
+          All 
+        </span>
+        <sup class="text-base text-secondary-400">[@Model.Count()]</sup>
       </li>
-      <sup class="text-base text-secondary-400">[@Model.Count()]</sup>
       <li>/</li>
       @foreach (var (category, index) in Categories.Select((c, i) => (c, i)))
       {
         <li data-category="@category.Category"
-          class="cursor-pointer underline underline-offset-8 decoration-4 decoration-secondary">
-          @Html.DisplayTextFor(m => category.Category)
+          class="cursor-pointer">
+          <span class="underline underline-offset-8 decoration-4 decoration-secondary">
+            @Html.DisplayTextFor(m => category.Category)
+          </span>
+          <sup class="text-base text-secondary-400">[@category.Count.ToString("D2")]</sup>
         </li>
-        <sup class="text-base text-secondary-400">[@category.Count.ToString("D2")]</sup>
         @if (index == Categories.Count() - 1)
           continue;
         <li>/</li>

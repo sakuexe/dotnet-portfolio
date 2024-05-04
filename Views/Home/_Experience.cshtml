@@ -2,7 +2,7 @@
 @model Experience[]
 
 @{
-string DefaultImage = "/images/callingcard.jpg";
+string DefaultImage = "/images/callingcard.webp";
 string GetImage(string? path)
 {
 if (string.IsNullOrWhiteSpace(path))
@@ -41,7 +41,8 @@ return path.Split("wwwroot/")[1];
         <h3 class="text-4xl font-sans mb-2">@exp.Title</h3>
         <h4 class="text-xl font-bold font-sans">@exp.Subtitle</h4>
 
-        <img src="@GetImage(exp.ImageUrl)" alt="@exp.AltText"
+        <img src="@GetImage(exp.ImageUrl)" loading="lazy" decoding="async"
+          alt="@(exp.AltText ?? "Default background image for experience")"
           class="w-full h-full absolute top-0 left-0 object-cover -z-30">
         <!-- Darken the background -->
         <div class="w-full h-full absolute top-0 left-0 bg-primary/75 -z-20">

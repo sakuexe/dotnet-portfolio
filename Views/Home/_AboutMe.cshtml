@@ -1,4 +1,5 @@
 @using fullstack_portfolio.Models
+@using fullstack_portfolio.Utils
 @model Bio
 
 <section class="grid max-w-6xl mx-auto md:grid-cols-3">
@@ -18,8 +19,10 @@
     </p>
   </div>
   <div class="relative scale-150 hidden -z-10 md:block">
-    <img src="~/images/sklogo.svg" alt="My logo with the letters S and K" class="h-full w-full opacity-50">
-      <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-primary to-transparent"></div>
+    <div class="w-full opacity-50 fill-primary-400 absolute top-1/2 -translate-y-1/2">
+      @Html.Raw(SvgUtils.SanitizeSvg("wwwroot/images/sklogo.svg"))
+    </div>
+    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-primary to-transparent"></div>
   </div>
 </section>
 

@@ -36,9 +36,11 @@ body>main>*:not(.no-container) {
 /* import fonts from the wwwroot/fonts/ folder */
 @font-face {
   font-family: "Montserrat";
-  src: url("/fonts/montserrat_variable.ttf") format("truetype");
+  src: local("Montserrat"), url("/fonts/montserrat_variable.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
+  /* prevent text not showing before font is loaded */
+  font-display: swap;
 }
 
 @font-face {
@@ -46,6 +48,8 @@ body>main>*:not(.no-container) {
   src: url("/fonts/firacode_variable.ttf") format("truetype");
   font-weight: 300 700;
   font-style: monospace;
+  /* prevent text not showing before font is loaded */
+  font-display: swap;
 }
 
 .subheader {
