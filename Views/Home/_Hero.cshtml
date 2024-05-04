@@ -1,15 +1,43 @@
-<section id="hero" class="flex items-center justify-center min-h-[80svh] relative">
+<section id="hero" class="flex items-center justify-center min-h-[80svh] relative overflow-clip">
   <div class="sm:text-center">
     <h1 class="text-header font-bold font-sans drop-shadow-md">Saku Karttunen</h1>
     <p class="mix-blend-difference font-semibold">Fullstack Developer / ICT-Engineering Student / Graphic Designer</p>
   </div>
   <!-- Gradient overlays, to add a feather effect -->
-  <div class="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-primary to-transparent mix-blend-darken"></div>
-  <div class="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-primary to-transparent mix-blend-darken"></div>
+  <div class="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-primary to-transparent"></div>
+  <div class="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-primary to-transparent"></div>
+  <!-- Background image with a parallax effect -->
+  <picture class="absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ease-in-out -z-10">
+    <!-- for screens like my big boy 32:9 monitor -->
+    <source srcset="/images/hero/floating-cubes-xl.webp" type="image/webp"
+    media="(min-width: 4096px)">
+    <!-- for screens larger than 2048px -->
+    <source srcset="/images/hero/floating-cubes-lg.webp" type="image/webp"
+    media="(min-width: 2048px)">
+    <!-- fallback and default image -->
+    <img src="/images/hero/floating-cubes.webp" loading="lazy" decoding="async"
+      alt="background image with floating cubes and simple geometries"
+      class="w-full h-full object-cover object-center"
+    >
+  </picture>
+  <div class="grid-pattern absolute top-0 left-0 w-full h-full mix-blend-lighten opacity-50 -z-20"></div>
 </section>
-<style>
-#hero {
-  background: url("/images/floating-cubes.jpg") no-repeat center center;
-  background-size: cover;
-}
-</style>
+
+<script>
+  // Add a simple parallax effect to the hero section
+  const heroImage = document.querySelector('#hero > picture');
+  const parallaxStrength = 0.25;
+  window.addEventListener('scroll', () => {
+    heroImage.style.transform = `translateY(${window.scrollY * parallaxStrength}px)`;
+  });
+
+  // When the image is loaded completely, fade it in
+  heroImage.onload = () => {
+    console.log('Hero image loaded');
+    heroImage.classList.add('opacity-100');
+  };
+
+  heroImage.onerror = () => {
+    console.error('No image found with the src path: ', heroImage.src);
+  };
+</script>
