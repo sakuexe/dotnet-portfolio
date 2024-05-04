@@ -18,7 +18,7 @@
   string GetSvgPath(string? name)
   {
     if (string.IsNullOrWhiteSpace(name))
-      return null;
+      return DefaultIcon;
     name = name.Replace(" ", "-");
     var path = "wwwroot/icons/" + name.ToLower() + ".svg";
     if (!System.IO.File.Exists(path))
@@ -78,7 +78,7 @@
       </div>
 
       <div class="space-y-6">
-        @foreach (var desc in Model.Description.Split("\n"))
+        @foreach (var desc in Model.Description?.Split("\n") ?? new string[0])
         {
           <p>@desc</p>
         }
@@ -158,7 +158,7 @@
 }
 
 @section MetaTags {
-  @if (Model.Description.Length > 160)
+  @if (Model.Description?.Length > 160)
   {
     <meta name="description" content="@Model.Description.Substring(0, 160)...">
     <meta name="og:description" content="@Model.Description.Substring(0, 160)...">

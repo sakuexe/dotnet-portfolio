@@ -42,7 +42,7 @@ string SeoImage = "/images/og-image.webp";
       <li><a asp-controller="Home" asp-action="Index" class="no-underline">Home</a></li>
       <li><a asp-controller="Home" asp-action="Privacy" class="no-underline">Privacy</a></li>
       <li><a asp-controller="Dashboard" asp-action="Index" class="no-underline">Dashboard</a></li>
-      @if (User.Identity.IsAuthenticated)
+      @if (User.Identity?.IsAuthenticated == true)
       {
       <li><a asp-controller="Login" asp-action="Logout" class="no-underline">Logout</a></li>
       }

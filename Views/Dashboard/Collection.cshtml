@@ -5,6 +5,7 @@
 @{
   var collection = ViewBag.Collection;
   bool isList(PropertyInfo? prop) {
+    if (prop == null) return false;
     return prop.PropertyType.IsGenericType && prop.PropertyType.ToString().Contains("List");
   }
 }
@@ -47,7 +48,7 @@
           <p class="opacity-75">@prop.Name:</p>
           <ul class="flex flex-wrap gap-2">
             <span class="opacity-50">|</span>
-            @foreach (var listItem in (IEnumerable<object>)prop.GetValue(item))
+            @foreach (var listItem in (IEnumerable<object>?)prop.GetValue(item) ?? new List<object>())
             {
               <li>@listItem</li>
               <span class="opacity-50">|</span>

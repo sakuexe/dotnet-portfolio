@@ -66,7 +66,7 @@
       else if (field.PropertyType.ToString() == "System.Boolean")
       {
         <div>
-          @Html.CheckBox(field.Name, (bool)field.GetValue(Model))
+          @Html.CheckBox(field.Name, (bool)(field.GetValue(Model) ?? false))
           <label for="@field.Name">@field.Name</label>
         </div>
       }
