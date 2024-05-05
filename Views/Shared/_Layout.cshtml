@@ -31,7 +31,6 @@ string SeoImage = "/images/og-image.webp";
   <!-- Links -->
   <link rel="stylesheet" href="~/css/tailwind.css" asp-append-version="true" />
   <link rel="icon" type="image/svg+xml" href="~/favicon.svg" />
-  <!-- <link rel="stylesheet" href="~/fullstack_portfolio.styles.css" asp-append-version="true" /> -->
   @await RenderSectionAsync("Styles", required: false)
 </head>
 
@@ -42,13 +41,19 @@ string SeoImage = "/images/og-image.webp";
 
   <nav class="py-4 px-5 fixed top-0 left-0 w-full z-20 bg-primary/30 backdrop-blur-lg sm:px-10">
     <ul class="flex gap-4 max-w-5xl mx-auto">
-      <li>&lt; &gt;</li>
-      <li><a asp-controller="Home" asp-action="Index" class="no-underline">Home</a></li>
-      <li><a asp-controller="Home" asp-action="Privacy" class="no-underline">Privacy</a></li>
-      <li><a asp-controller="Dashboard" asp-action="Index" class="no-underline">Dashboard</a></li>
+      <li></li>
+      <li><a asp-controller="Home" asp-action="Index" class="no-underline font-bold">&lt;SK/&gt;</a></li>
+      <li class="opacity-25">|</li>
+      <li><a href="#aboutme" class="no-underline z-10">About Me</a></li>
+      <li><a href="#expertise" class="no-underline">Expertise</a></li>
+      <li><a href="#skills" class="no-underline">Skills</a></li>
+      <li><a href="#portfolio" class="no-underline">Portfolio</a></li>
+      <li><a href="#experience" class="no-underline">Experience</a></li>
+      <li><a href="#contacts" class="no-underline">Contacts</a></li>
       @if (User.Identity?.IsAuthenticated == true)
       {
       <li><a asp-controller="Login" asp-action="Logout" class="no-underline">Logout</a></li>
+      <li><a asp-controller="Dashboard" asp-action="Index" class="no-underline">Dashboard</a></li>
       }
       else
       {
@@ -61,7 +66,7 @@ string SeoImage = "/images/og-image.webp";
   </main>
 
   <footer>
-    <div class="max-w-5xl mx-auto px-5 sm:px-10">
+    <div class="max-w-5xl mx-auto px-5 tesetaset sm:px-10">
       &copy; 2024 Saku Karttunen - <a asp-area="" asp-controller="Home" asp-action="Index">Home</a> - <a asp-area=""
         asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
