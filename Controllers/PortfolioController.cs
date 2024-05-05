@@ -13,6 +13,7 @@ public class PortfolioController : Controller
             return NotFound();
 
         Project newestProject = projects.Last();
+        ViewBag.Title = newestProject.Title;
         return RedirectToAction(nameof(Details), new { id = newestProject._id });
     }
 
@@ -23,6 +24,7 @@ public class PortfolioController : Controller
         if (project == null)
             return NotFound();
 
+        ViewBag.Title = "Portfolio";
         return View(project);
     }
 }
