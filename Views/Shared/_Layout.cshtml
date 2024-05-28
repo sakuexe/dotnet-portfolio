@@ -64,7 +64,6 @@ string SeoImage = "/images/og-image.webp";
 
       <li class="opacity-25 hidden lg:block">|</li>
 
-      <li><a href="#aboutme" class="no-underline z-10">About Me</a></li>
       <li><a href="#expertise" class="no-underline">Expertise</a></li>
       <li><a href="#skills" class="no-underline">Skills</a></li>
       <li><a href="#portfolio" class="no-underline">Portfolio</a></li>
@@ -88,10 +87,14 @@ string SeoImage = "/images/og-image.webp";
     @RenderBody()
   </main>
 
-  <footer>
-    <div class="max-w-5xl mx-auto px-5 tesetaset sm:px-10">
-      &copy; 2024 Saku Karttunen - <a asp-area="" asp-controller="Home" asp-action="Index">Home</a> - <a asp-area=""
-        asp-controller="Home" asp-action="Privacy">Privacy</a>
+  <footer class="max-w-5xl mx-auto p-5 flex flex-col items-center sm:px-10">
+    <p class="opacity-75">&copy; 2024 Saku Karttunen</p>
+      <div class="flex gap-4">
+        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#skills">Skills</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#experience">Experience</a>
     </div>
   </footer>
   <script src="~/js/site.js" asp-append-version="true"></script>
